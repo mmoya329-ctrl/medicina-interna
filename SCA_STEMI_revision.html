@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCA con Elevación del ST — Revisión Clínica</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;600&family=Libre+Franklin:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #232834;
+    --red: #e84040;
+    --red-dim: #9b1c1c;
+    --red-glow: rgba(232,64,64,0.15);
+    --amber: #f59e0b;
+    --green: #22c55e;
+    --blue: #38bdf8;
+    --purple: #a78bfa;
+    --text: #e8eaf0;
+    --text-dim: #8892a4;
+    --text-faint: #4a5568;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'Libre Franklin', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    position: relative;
+    padding: 60px 40px 50px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    background: radial-gradient(ellipse 80% 60% at 60% 0%, rgba(232,64,64,0.08) 0%, transparent 70%);
+  }
+
+  .hero::before {
+    content: "♥";
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: clamp(120px, 18vw, 220px);
+    color: rgba(232,64,64,0.06);
+    line-height: 1;
+    animation: pulse 2.4s ease-in-out infinite;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 0.4; transform: translateY(-50%) scale(1); }
+    50% { opacity: 0.8; transform: translateY(-50%) scale(1.06); }
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--red);
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.1;
+    color: #fff;
+    max-width: 700px;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em {
+    color: var(--red);
+    font-style: italic;
+  }
+
+  .hero-sub {
+    font-size: 14px;
+    color: var(--text-dim);
+    font-weight: 400;
+    max-width: 560px;
+  }
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .badge-red { background: rgba(232,64,64,0.15); color: var(--red); border: 1px solid rgba(232,64,64,0.3); }
+  .badge-amber { background: rgba(245,158,11,0.12); color: var(--amber); border: 1px solid rgba(245,158,11,0.25); }
+  .badge-blue { background: rgba(56,189,248,0.1); color: var(--blue); border: 1px solid rgba(56,189,248,0.2); }
+  .badge-green { background: rgba(34,197,94,0.1); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+  .badge-purple { background: rgba(167,139,250,0.1); color: var(--purple); border: 1px solid rgba(167,139,250,0.2); }
+
+  /* ---- NAV TABS ---- */
+  .nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    background: var(--surface);
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-tab {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    color: var(--text-dim);
+    border: 1px solid transparent;
+    background: transparent;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .nav-tab:hover { color: var(--text); border-color: var(--border); }
+  .nav-tab.active { color: var(--red); border-color: rgba(232,64,64,0.4); background: var(--red-glow); }
+
+  /* ---- LAYOUT ---- */
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .section { display: none; animation: fadeIn 0.3s ease; }
+  .section.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* ---- TYPOGRAPHY ---- */
+  .sec-title {
+    font-family: var(--serif);
+    font-size: clamp(22px, 3vw, 32px);
+    color: #fff;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .sec-title .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+  }
+
+  .sec-intro {
+    color: var(--text-dim);
+    font-size: 14px;
+    margin-bottom: 30px;
+    max-width: 700px;
+  }
+
+  h3 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin: 28px 0 12px;
+  }
+
+  h4 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--amber);
+    margin: 18px 0 8px;
+    letter-spacing: 0.5px;
+  }
+
+  p { font-size: 14px; color: var(--text); margin-bottom: 12px; line-height: 1.8; }
+
+  strong { color: #fff; font-weight: 600; }
+
+  /* ---- CARDS GRID ---- */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 24px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--red);
+    border-radius: 8px 0 0 8px;
+  }
+
+  .card.amber::before { background: var(--amber); }
+  .card.green::before { background: var(--green); }
+  .card.blue::before { background: var(--blue); }
+  .card.purple::before { background: var(--purple); }
+
+  .card-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+
+  .card.amber .card-title { color: var(--amber); }
+  .card.green .card-title { color: var(--green); }
+  .card.blue .card-title { color: var(--blue); }
+  .card.purple .card-title { color: var(--purple); }
+
+  .card p { font-size: 13px; margin-bottom: 6px; color: var(--text-dim); }
+  .card p:last-child { margin-bottom: 0; }
+
+  /* ---- TABLES ---- */
+  .table-wrap { overflow-x: auto; margin-bottom: 24px; border-radius: 8px; border: 1px solid var(--border); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+  thead tr { background: var(--surface2); }
+  thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--red);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+
+  td { padding: 11px 16px; color: var(--text-dim); vertical-align: top; line-height: 1.6; }
+  td:first-child { color: var(--text); font-weight: 500; }
+  td strong { color: var(--amber); }
+
+  /* ---- ALERT BOXES ---- */
+  .alert {
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 18px;
+    font-size: 13px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    line-height: 1.7;
+  }
+
+  .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+  .alert-red { background: rgba(232,64,64,0.08); border: 1px solid rgba(232,64,64,0.25); color: #fca5a5; }
+  .alert-amber { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); color: #fcd34d; }
+  .alert-green { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.25); color: #86efac; }
+  .alert-blue { background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.25); color: #7dd3fc; }
+
+  /* ---- TIMELINE ---- */
+  .timeline { position: relative; padding-left: 30px; margin-bottom: 24px; }
+  .timeline::before { content: ''; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 2px; background: var(--border); }
+
+  .tl-item { position: relative; margin-bottom: 20px; }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--red);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--red);
+  }
+
+  .tl-item.amber::before { background: var(--amber); box-shadow: 0 0 0 2px var(--amber); }
+  .tl-item.green::before { background: var(--green); box-shadow: 0 0 0 2px var(--green); }
+
+  .tl-label { font-family: var(--mono); font-size: 11px; color: var(--red); letter-spacing: 1px; margin-bottom: 4px; }
+  .tl-item.amber .tl-label { color: var(--amber); }
+  .tl-item.green .tl-label { color: var(--green); }
+  .tl-content { font-size: 13px; color: var(--text-dim); }
+  .tl-content strong { color: var(--text); }
+
+  /* ---- DRUG CARDS ---- */
+  .drug-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-bottom: 24px; }
+
+  .drug-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .drug-header {
+    background: var(--surface2);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .drug-name { font-weight: 600; color: #fff; font-size: 14px; }
+  .drug-class { font-family: var(--mono); font-size: 10px; color: var(--text-faint); letter-spacing: 1px; }
+
+  .drug-body { padding: 14px 16px; }
+
+  .drug-row { display: flex; gap: 8px; margin-bottom: 7px; font-size: 12.5px; }
+  .drug-key { color: var(--text-dim); min-width: 85px; flex-shrink: 0; }
+  .drug-val { color: var(--text); }
+  .drug-val.dose { color: var(--green); font-family: var(--mono); font-size: 12px; }
+  .drug-val.warn { color: var(--amber); }
+  .drug-val.contra { color: var(--red); }
+
+  /* ---- ECG VISUAL ---- */
+  .ecg-strip {
+    background: #071209;
+    border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 8px;
+    padding: 24px 20px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ecg-strip svg { width: 100%; height: auto; display: block; }
+
+  .ecg-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(34,197,94,0.6);
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ---- KILLIP TABLE ---- */
+  .killip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+
+  .killip-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .killip-num { font-family: var(--serif); font-size: 36px; color: var(--red); line-height: 1; margin-bottom: 6px; }
+  .killip-class { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--text-dim); margin-bottom: 8px; }
+  .killip-desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+  .killip-mort { font-family: var(--mono); font-size: 13px; color: var(--amber); margin-top: 8px; }
+
+  /* ---- QUIZ ---- */
+  .quiz-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .quiz-q {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  .quiz-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--red);
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .options { list-style: none; display: grid; gap: 8px; }
+
+  .opt {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-dim);
+    transition: all 0.18s;
+    user-select: none;
+    position: relative;
+    padding-left: 36px;
+  }
+
+  .opt::before {
+    content: attr(data-letter);
+    position: absolute;
+    left: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    font-weight: 600;
+  }
+
+  .opt:hover { border-color: rgba(232,64,64,0.4); color: var(--text); background: var(--red-glow); }
+  .opt.correct { border-color: var(--green); background: rgba(34,197,94,0.08); color: var(--green); }
+  .opt.correct::before { color: var(--green); }
+  .opt.wrong { border-color: var(--red); background: rgba(232,64,64,0.08); color: var(--red); }
+  .opt.wrong::before { color: var(--red); }
+  .opt.reveal-correct { border-color: var(--green); background: rgba(34,197,94,0.05); color: var(--green); opacity: 0.7; }
+  .opt.disabled { pointer-events: none; }
+
+  .explanation {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: var(--surface2);
+    border-radius: 6px;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    border-left: 3px solid var(--green);
+    display: none;
+    line-height: 1.7;
+  }
+
+  .explanation.show { display: block; }
+
+  .quiz-score {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 24px;
+    display: none;
+  }
+
+  .score-num { font-family: var(--serif); font-size: 48px; color: var(--red); }
+  .score-label { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 2px; margin-top: 4px; }
+
+  /* ---- MISC ---- */
+  .divider { height: 1px; background: var(--border); margin: 28px 0; }
+
+  ul.styled { list-style: none; padding: 0; margin-bottom: 14px; }
+  ul.styled li {
+    font-size: 13px;
+    color: var(--text-dim);
+    padding: 5px 0 5px 18px;
+    position: relative;
+    line-height: 1.6;
+  }
+  ul.styled li::before { content: '—'; position: absolute; left: 0; color: var(--red); }
+  ul.styled li strong { color: var(--text); }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 4px;
+  }
+
+  .tag-red { background: rgba(232,64,64,0.15); color: var(--red); }
+  .tag-amber { background: rgba(245,158,11,0.12); color: var(--amber); }
+  .tag-green { background: rgba(34,197,94,0.1); color: var(--green); }
+
+  .score-meter {
+    width: 100%;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    margin: 12px 0;
+    overflow: hidden;
+  }
+
+  .score-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--red), var(--amber));
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .hero { padding: 40px 20px 40px; }
+    .container { padding: 24px 16px 60px; }
+    .nav-tabs { padding: 10px 12px; }
+    .nav-tab { padding: 5px 9px; font-size: 9px; }
+    .drug-row { flex-direction: column; gap: 2px; }
+    .drug-key { min-width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">Medicina Interna · Cardiología · Colombia</div>
+  <h1>Síndrome Coronario Agudo<br><em>con elevación del ST</em></h1>
+  <p class="hero-sub">Revisión clínica completa para rotación de medicina interna — definición, fisiopatología, criterios diagnósticos, escalas de riesgo, tratamiento con dosis y complicaciones.</p>
+  <div class="hero-badges">
+    <span class="badge badge-red">SCACEST / STEMI</span>
+    <span class="badge badge-amber">Emergencia Cardiovascular</span>
+    <span class="badge badge-blue">Guías ACC/AHA + ESC 2023</span>
+    <span class="badge badge-green">Contexto Colombia</span>
+    <span class="badge badge-purple">Quiz incluido</span>
+  </div>
+</div>
+
+<nav class="nav-tabs" id="mainNav">
+  <div class="nav-tab active" data-section="definicion">Definición</div>
+  <div class="nav-tab" data-section="fisio">Fisiopatología</div>
+  <div class="nav-tab" data-section="clinica">Clínica</div>
+  <div class="nav-tab" data-section="diagnostico">Diagnóstico</div>
+  <div class="nav-tab" data-section="escalas">Escalas</div>
+  <div class="nav-tab" data-section="tratamiento">Tratamiento</div>
+  <div class="nav-tab" data-section="diferencial">D. Diferencial</div>
+  <div class="nav-tab" data-section="complicaciones">Complicaciones</div>
+  <div class="nav-tab" data-section="quiz">Quiz</div>
+</nav>
+
+<div class="container">
+
+  <!-- ===== DEFINICIÓN ===== -->
+  <div class="section active" id="definicion">
+    <h2 class="sec-title">Definición y Clasificación <span class="line"></span></h2>
+    <p class="sec-intro">El síndrome coronario agudo (SCA) comprende un espectro de condiciones causadas por isquemia miocárdica aguda. Su clasificación inicial es electrocardiográfica.</p>
+
+    <div class="alert alert-red">
+      <span class="alert-icon">⚡</span>
+      <div><strong>Definición SCACEST (STEMI):</strong> SCA con oclusión coronaria completa (habitualmente trombótica) que produce elevación del ST en el ECG y necrosis transmural confirmada por biomarcadores. Constituye una <strong>emergencia médica absoluta</strong>. El tiempo es miocardio.</div>
+    </div>
+
+    <h3>Espectro del SCA</h3>
+    <div class="grid-3">
+      <div class="card red">
+        <div class="card-title">SCACEST / STEMI</div>
+        <p>Oclusión coronaria total y aguda. Elevación del ST o BRI nuevo. Troponina elevada. Necrosis transmural.</p>
+        <p><strong>→ Reperfusión urgente</strong></p>
+      </div>
+      <div class="card amber">
+        <div class="card-title">SCASEST / NSTEMI</div>
+        <p>Oclusión parcial o temporal. Sin elevación del ST (o depresión, T negativas). Troponina positiva.</p>
+        <p><strong>→ Estratificación de riesgo</strong></p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Angina Inestable</div>
+        <p>Sin elevación de ST. <strong>Troponina negativa</strong>. Síntomas en reposo, de inicio reciente o progresiva.</p>
+        <p><strong>→ Manejo antiisquémico</strong></p>
+      </div>
+    </div>
+
+    <h3>Cuarta Definición Universal de Infarto (2018)</h3>
+    <p>El IAM se define como <strong>necrosis miocárdica en contexto de isquemia aguda</strong>, evidenciada por elevación y/o descenso de troponinas cardíacas (con al menos un valor sobre el percentil 99 del límite superior de referencia) más al menos uno de:</p>
+    <ul class="styled">
+      <li>Síntomas de isquemia miocárdica</li>
+      <li>Nuevos cambios isquémicos en el ECG</li>
+      <li>Desarrollo de ondas Q patológicas</li>
+      <li>Imagen compatible con nueva pérdida de miocardio viable o nueva anormalidad del movimiento de la pared regional</li>
+      <li>Trombo intracoronario en angiografía o autopsia</li>
+    </ul>
+
+    <h3>Clasificación por Tipo de IAM</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tipo</th><th>Mecanismo</th><th>Ejemplo clínico</th></tr></thead>
+        <tbody>
+          <tr><td>Tipo 1</td><td>Rotura/erosión de placa → trombo</td><td>STEMI espontáneo clásico</td></tr>
+          <tr><td>Tipo 2</td><td>Desequilibrio oferta/demanda O₂</td><td>Espasmo coronario, taquiarritmia, hipotensión severa, anemia</td></tr>
+          <tr><td>Tipo 3</td><td>Muerte súbita sin confirmación bioquímica</td><td>Fallecido antes de obtener muestras</td></tr>
+          <tr><td>Tipo 4a</td><td>Relacionado con ICP</td><td>Elevación troponina >5× LSR post-ICP</td></tr>
+          <tr><td>Tipo 4b</td><td>Trombosis del stent</td><td>Confirmado por angiografía/autopsia</td></tr>
+          <tr><td>Tipo 5</td><td>Relacionado con CABG</td><td>Elevación troponina >10× LSR post-CABG</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Epidemiología — Contexto Colombiano</h3>
+    <div class="grid-2">
+      <div class="card blue">
+        <div class="card-title">Colombia / LATAM</div>
+        <p>Las enfermedades cardiovasculares son la <strong>primera causa de mortalidad</strong> en Colombia (~30% de todas las muertes). La enfermedad isquémica del corazón representó aprox. <strong>28.000–30.000 muertes/año</strong> en las últimas cifras del DANE.</p>
+        <p>El Registro Colombiano de Síndrome Coronario Agudo (ReCOSCA) evidencia <strong>demora promedio ≥6 h</strong> desde el inicio de síntomas hasta el primer contacto médico en centros de nivel II–III.</p>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Factores de riesgo prevalentes</div>
+        <p><strong>HTA</strong> (~30% prevalencia), <strong>DM2</strong> (~10%), <strong>dislipidemia</strong>, tabaquismo, obesidad abdominal y sedentarismo son los factores más frecuentes. La <strong>cocaína</strong> es causa relevante en adultos jóvenes urbanos (vasoespasmo + efecto protrombótico).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FISIOPATOLOGÍA ===== -->
+  <div class="section" id="fisio">
+    <h2 class="sec-title">Fisiopatología <span class="line"></span></h2>
+    <p class="sec-intro">El SCACEST es el resultado de una cascada que va desde la disfunción endotelial crónica hasta la oclusión trombótica aguda y la necrosis miocárdica.</p>
+
+    <h3>Cascada Fisiopatológica</h3>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-label">Paso 1 — Aterosclerosis crónica</div>
+        <div class="tl-content">Acumulación subendotelial de LDL oxidado → reclutamiento de macrófagos → formación de células espumosas → placa lipídica con capa fibrosa. La placa <strong>vulnerable</strong> tiene núcleo lipídico grande, cápsula fibrosa delgada (<65 µm) y alta carga inflamatoria (IL-6, TNF-α, MMP).</div>
+      </div>
+      <div class="tl-item amber">
+        <div class="tl-label">Paso 2 — Rotura/erosión de placa</div>
+        <div class="tl-content">Desencadenantes: estrés hemodinámico, activación simpática, inflamación. La <strong>rotura</strong> expone material lipídico y factor tisular → activación de la cascada de coagulación. La <strong>erosión</strong> (más frecuente en mujeres y jóvenes) expone colágeno subendotelial → agregación plaquetaria sin rotura franca.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">Paso 3 — Trombosis coronaria aguda</div>
+        <div class="tl-content">Trombo blanco (plaquetario) → trombo rojo (fibrina + eritrocitos) → <strong>oclusión total</strong> del vaso. El trombo puede embolizar distalmente causando <em>no-reflow</em> post-ICP.</div>
+      </div>
+      <div class="tl-item amber">
+        <div class="tl-label">Paso 4 — Isquemia y zona en riesgo</div>
+        <div class="tl-content">La isquemia transmural inicia en <strong>20 min</strong>. La necrosis sigue el patrón de ola desde el subendocardio (más vulnerable) hasta el epicardio. Zona de necrosis + zona de injuria (elevación ST) + zona de isquemia (T negativas).</div>
+      </div>
+      <div class="tl-item green">
+        <div class="tl-label">Paso 5 — Consecuencias sistémicas</div>
+        <div class="tl-content">Disfunción sistólica regional → ↓ GC → activación neurohumoral (SRAA, catecolaminas) → remodelado ventricular. En lesiones grandes: <strong>choque cardiogénico</strong>, edema agudo pulmonar, arritmias letales.</div>
+      </div>
+    </div>
+
+    <h3>Territorios Coronarios y Consecuencias</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Arteria ocluida</th><th>Territorio afectado</th><th>ECG típico</th><th>Complicaciones específicas</th></tr></thead>
+        <tbody>
+          <tr><td>DA (IVA) proximal</td><td>Ant. ext., SIV ant., ápex</td><td>V1–V4 (± I, aVL)</td><td>BAV, BRIHH, choque cardiogénico, aneurisma</td></tr>
+          <tr><td>DA media/distal</td><td>Ant. apical</td><td>V3–V5</td><td>Disfunción sistólica moderada, FA</td></tr>
+          <tr><td>CD (arteria coronaria derecha)</td><td>Inferior, VD, nodo SA/AV</td><td>II, III, aVF (± V3R–V4R)</td><td>BAV completo, infarto VD, hipotensión</td></tr>
+          <tr><td>CX (circunfleja)</td><td>Lateral, inf-lat, posterior</td><td>I, aVL, V5–V6 (o imagen especular V1–V3)</td><td>Arritmias atriales, disfunción VD si dominante</td></tr>
+          <tr><td>TCE (tronco coronario izquierdo)</td><td>Extenso anterior + lateral</td><td>Elevación aVR + depresión difusa</td><td>Choque inmediato, mortalidad muy alta</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Concepto de Miocardio en Riesgo</h3>
+    <div class="grid-2">
+      <div class="card amber">
+        <div class="card-title">Miocardio Hibernado</div>
+        <p>Tejido viable con disfunción crónica por isquemia persistente. <strong>Recupera función</strong> tras revascularización. Clave para indicar ICP/CABG tardío.</p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Miocardio Aturdido (Stunning)</div>
+        <p>Disfunción postisquémica transitoria tras reperfusión exitosa. Función <strong>recupera espontáneamente</strong> en horas–días. No requiere revascularización adicional.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CLÍNICA ===== -->
+  <div class="section" id="clinica">
+    <h2 class="sec-title">Presentación Clínica <span class="line"></span></h2>
+    <p class="sec-intro">La presentación clásica ocurre en ~60–70% de los casos. El resto presenta síntomas atípicos, especialmente mujeres, diabéticos y adultos mayores.</p>
+
+    <h3>Presentación Típica</h3>
+    <div class="card">
+      <div class="card-title">Dolor anginoso clásico</div>
+      <p><strong>Localización:</strong> Retroesternal, precordial</p>
+      <p><strong>Irradiación:</strong> Brazo izquierdo (>50%), hombro izquierdo, mandíbula, epigastrio, espalda interescapular</p>
+      <p><strong>Calidad:</strong> Opresivo, aplastante, como "piedra en el pecho", quemante</p>
+      <p><strong>Duración:</strong> >20 min (angina inestable <20 min), persistente en STEMI</p>
+      <p><strong>NO mejora:</strong> con nitratos sublinguales (a diferencia de angina estable)</p>
+      <p><strong>Síntomas acompañantes:</strong> Diaforesis profusa (signo de alto riesgo), náuseas/vómito, disnea, síncope, palpitaciones</p>
+    </div>
+
+    <h3>Presentaciones Atípicas — <span style="color:var(--amber)">No subestime</span></h3>
+    <div class="grid-3">
+      <div class="card amber">
+        <div class="card-title">Mujeres</div>
+        <p>Más frecuente: disnea aislada, fatiga extrema, náuseas, dolor mandibular o interescapular. Dolor torácico menos prominente. Mayor mortalidad por diagnóstico tardío.</p>
+      </div>
+      <div class="card amber">
+        <div class="card-title">Diabéticos</div>
+        <p>IAM silente (~25%). Neuropatía autonómica atenúa la percepción del dolor. Presentan disnea, malestar vago, hiperglicemia inexplicada.</p>
+      </div>
+      <div class="card amber">
+        <div class="card-title">Adultos mayores</div>
+        <p>Confusión, síncope, deterioro funcional agudo, disnea sin dolor. El ECG puede ser poco llamativo por bloqueos previos.</p>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Infarto de VD</div>
+        <p>Hipotensión + ingurgitación yugular + pulmones limpios. ECG: elevación en V3R–V4R. <strong>¡No dar nitratos ni diuréticos!</strong></p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Infarto inferior</div>
+        <p>Náuseas/vómito prominentes, bradicardia, bloqueo AV. Puede simular síndrome vasovagal o abdomen agudo.</p>
+      </div>
+      <div class="card green">
+        <div class="card-title">Presentación neurológica</div>
+        <p>Síncope, convulsiones (por FV) o déficit focal por embolismo de trombo mural pueden preceder o acompañar el dolor.</p>
+      </div>
+    </div>
+
+    <h3>Examen Físico</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Hallazgo</th><th>Significado</th></tr></thead>
+        <tbody>
+          <tr><td>Diaforesis fría</td><td>Activación simpática, bajo gasto cardíaco</td></tr>
+          <tr><td>Ingurgitación yugular</td><td>Falla VD, infarto de VD (sin crepitantes)</td></tr>
+          <tr><td>Crepitantes bibasales</td><td>Congestión pulmonar, falla VI (Killip ≥II)</td></tr>
+          <tr><td>S3 galope</td><td>Disfunción sistólica severa del VI, ↑PFD</td></tr>
+          <tr><td>Soplo holosistólico nuevo</td><td>Rotura de músculo papilar (IM aguda) o CIV aguda</td></tr>
+          <tr><td>Pulso alternante</td><td>Disfunción severa, bajo gasto</td></tr>
+          <tr><td>PA diferencial ↓ + shock</td><td>Choque cardiogénico (Killip IV)</td></tr>
+          <tr><td>Roce pericárdico</td><td>Pericarditis post-IAM (Dressler) — días/semanas después</td></tr>
+          <tr><td>Hipotensión + bradicardia</td><td>Reflejo de Bezold-Jarisch (infarto inferior)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-amber">
+      <span class="alert-icon">⚠️</span>
+      <div><strong>Perla colombiana:</strong> El uso de <strong>cocaína/basuco</strong> debe preguntarse activamente en adultos jóvenes con STEMI sin factores de riesgo clásicos. El vasoespasmo + trombosis es el mecanismo. La cocaína también eleva el ST sin infarto (por vasoespasmo). <strong>Evitar betabloqueadores</strong> en contexto de cocaína (riesgo de vasoespasmo paradójico).</div>
+    </div>
+  </div>
+
+  <!-- ===== DIAGNÓSTICO ===== -->
+  <div class="section" id="diagnostico">
+    <h2 class="sec-title">Criterios Diagnósticos <span class="line"></span></h2>
+    <p class="sec-intro">El diagnóstico de SCACEST es fundamentalmente electrocardiográfico. El ECG debe obtenerse e interpretarse en los primeros <strong>10 minutos</strong> del primer contacto médico.</p>
+
+    <h3>Criterios ECG para SCACEST</h3>
+    <div class="alert alert-red">
+      <span class="alert-icon">📋</span>
+      <div>
+        <strong>Criterios ECG de SCACEST (ESC 2023 / ACC-AHA 2022):</strong><br><br>
+        <strong>1.</strong> Elevación del ST en el <em>punto J</em> en ≥2 derivaciones contiguas:<br>
+        &nbsp;&nbsp;• ≥ 2.5 mm en V2–V3 (hombres <40 años)<br>
+        &nbsp;&nbsp;• ≥ 2.0 mm en V2–V3 (hombres ≥40 años)<br>
+        &nbsp;&nbsp;• ≥ 1.5 mm en V2–V3 (mujeres — <strong>umbral menor</strong>)<br>
+        &nbsp;&nbsp;• ≥ 1.0 mm en todas las demás derivaciones<br><br>
+        <strong>2.</strong> Bloqueo de rama izquierda (BRIHH) nuevo o presumiblemente nuevo + clínica compatible<br><br>
+        <strong>3.</strong> Bloqueo de rama derecha (BRDHH) nuevo con elevación concordante del ST<br><br>
+        <strong>4.</strong> Depresión del ST en V1–V3 + elevación en V7–V9 → <strong>IAM posterior</strong> (derivadas derechas y posteriores siempre en infarto inferior)
+      </div>
+    </div>
+
+    <div class="ecg-strip">
+      <div class="ecg-label">ECG esquemático — Cambios evolutivos del STEMI</div>
+      <svg viewBox="0 0 800 180" xmlns="http://www.w3.org/2000/svg">
+        <!-- Grid -->
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(34,197,94,0.1)" stroke-width="0.5"/>
+          </pattern>
+          <pattern id="grid5" width="100" height="100" patternUnits="userSpaceOnUse">
+            <path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(34,197,94,0.2)" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="800" height="180" fill="url(#grid)"/>
+        <rect width="800" height="180" fill="url(#grid5)"/>
+
+        <!-- Stage labels -->
+        <text x="50" y="16" fill="rgba(34,197,94,0.7)" font-family="'IBM Plex Mono',monospace" font-size="10" text-anchor="middle">HORAS 0–2</text>
+        <text x="200" y="16" fill="rgba(34,197,94,0.7)" font-family="'IBM Plex Mono',monospace" font-size="10" text-anchor="middle">HORAS 2–12</text>
+        <text x="400" y="16" fill="rgba(34,197,94,0.7)" font-family="'IBM Plex Mono',monospace" font-size="10" text-anchor="middle">DÍA 1–3</text>
+        <text x="600" y="16" fill="rgba(34,197,94,0.7)" font-family="'IBM Plex Mono',monospace" font-size="10" text-anchor="middle">DÍA 3–14</text>
+        <text x="740" y="16" fill="rgba(34,197,94,0.7)" font-family="'IBM Plex Mono',monospace" font-size="10" text-anchor="middle">SEMANAS</text>
+
+        <!-- Dividers -->
+        <line x1="130" y1="25" x2="130" y2="175" stroke="rgba(34,197,94,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="310" y1="25" x2="310" y2="175" stroke="rgba(34,197,94,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="510" y1="25" x2="510" y2="175" stroke="rgba(34,197,94,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="680" y1="25" x2="680" y2="175" stroke="rgba(34,197,94,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+
+        <!-- Isoelectric line -->
+        <line x1="10" y1="110" x2="790" y2="110" stroke="rgba(34,197,94,0.15)" stroke-width="1"/>
+
+        <!-- Stage 1: Hiperaguda T (tall peaked T) -->
+        <path d="M20,110 L40,110 L45,100 L50,60 L55,100 L60,110 L90,110" stroke="#22c55e" stroke-width="2" fill="none"/>
+        <text x="55" y="52" fill="rgba(245,158,11,0.9)" font-size="9" font-family="'IBM Plex Mono',monospace" text-anchor="middle">T alta</text>
+
+        <!-- Stage 2: STEMI (ST elevation + tall T) -->
+        <path d="M140,110 L155,110 L160,105 L165,75 L170,55 L180,55 L190,75 L195,68 L205,110 L230,110" stroke="#e84040" stroke-width="2.5" fill="none"/>
+        <text x="175" y="46" fill="rgba(232,64,64,0.9)" font-size="9" font-family="'IBM Plex Mono',monospace" text-anchor="middle">↑ST clásico</text>
+        <!-- small q wave -->
+        <path d="M140,110 L148,110 L155,118 L160,110" stroke="#e84040" stroke-width="2" fill="none"/>
+
+        <!-- Stage 3: Q wave + Tombstone ST -->
+        <path d="M320,110 L328,110 L332,130 L336,110 L340,110 L344,50 L352,50 L360,75 L365,68 L375,110 L420,110" stroke="#f59e0b" stroke-width="2.5" fill="none"/>
+        <text x="350" y="42" fill="rgba(245,158,11,0.9)" font-size="9" font-family="'IBM Plex Mono',monospace" text-anchor="middle">Onda Q + ↑ST</text>
+        <!-- T negativa -->
+        <path d="M375,110 L390,110 L395,120 L400,135 L405,120 L410,110 L420,110" stroke="#f59e0b" stroke-width="2" fill="none"/>
+        <text x="400" y="150" fill="rgba(245,158,11,0.7)" font-size="9" font-family="'IBM Plex Mono',monospace" text-anchor="middle">T neg.</text>
+
+        <!-- Stage 4: Q + ST resolved + T negative -->
+        <path d="M520,110 L528,110 L532,130 L536,110 L540,110 L544,92 L548,88 L552,95 L555,100 L560,110 L580,110 L585,120 L590,138 L595,120 L600,110 L640,110" stroke="#38bdf8" stroke-width="2.5" fill="none"/>
+        <text x="560" y="80" fill="rgba(56,189,248,0.9)" font-size="9" font-family="'IBM Plex Mono',monospace" text-anchor="middle">Q + ST resuelve</text>
+
+        <!-- Stage 5: Q permanent -->
+        <path d="M690,110 L698,110 L702,130 L706,110 L710,110 L714,95 L718,100 L722,108 L725,110 L740,110 L742,112 L745,118 L748,112 L750,110 L770,110" stroke="rgba(34,197,94,0.6)" stroke-width="2" fill="none"/>
+        <text x="730" y="88" fill="rgba(34,197,94,0.7)" font-size="9" font-family="'IBM Plex Mono',monospace" text-anchor="middle">Q persistente</text>
+      </svg>
+    </div>
+
+    <h3>Biomarcadores Cardíacos</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Marcador</th><th>Inicio ↑</th><th>Pico</th><th>Normalización</th><th>Uso clínico</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Troponina I/T ultrasensible (hsTn)</strong></td><td>1–3 h</td><td>12–24 h</td><td>5–14 días</td><td><span class="tag tag-red">Gold Standard</span> Diagnóstico y pronóstico. Protocolo 0h/1h (ESC) o 0h/2h</td></tr>
+          <tr><td>CK-MB masa</td><td>3–6 h</td><td>12–24 h</td><td>48–72 h</td><td>Útil para re-infarto (normaliza antes). Segundo orden en era hsTn</td></tr>
+          <tr><td>Mioglobina</td><td>1–2 h</td><td>6–9 h</td><td>24 h</td><td>Valor negativo predictivo. Inespecífica (músculo esquelético). <span class="tag tag-amber">Poco usada</span></td></tr>
+          <tr><td>BNP / NT-proBNP</td><td>Horas</td><td>—</td><td>Días</td><td>No diagnóstico de IAM, pero valor pronóstico en falla cardíaca asociada</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-blue">
+      <span class="alert-icon">💡</span>
+      <div><strong>Protocolo ESC 0h/1h con hsTnI o hsTnT:</strong> Si valor basal &lt;LSR y delta a 1h &lt;5 ng/L → <strong>regla de exclusión</strong> (VPN >99.5%). Si valor basal ≥52 ng/L o delta ≥6 ng/L → <strong>regla de inclusión</strong> (elevación significativa). En muchos centros colombianos se usa el protocolo 0h/3h por disponibilidad de la prueba.</div>
+    </div>
+
+    <h3>Otros estudios en urgencias</h3>
+    <ul class="styled">
+      <li><strong>Radiografía de tórax:</strong> Congestión pulmonar, cardiomegalia, causas de dolor torácico alternas (neumotórax, neumonía)</li>
+      <li><strong>Ecocardiograma bedside:</strong> Anormalidad de motilidad regional (>90% sensibilidad en STEMI), función sistólica global, derrame pericárdico, disfunción VD</li>
+      <li><strong>Hemograma completo:</strong> Anemia (desencadenante tipo 2), leucocitosis (respuesta inflamatoria)</li>
+      <li><strong>BMP/electrolitos:</strong> K⁺ (riesgo arritmias), creatinina (guía dosificación anticoagulantes, contraindicación de fármacos)</li>
+      <li><strong>Glucemia:</strong> Hiperglicemia de estrés (pronóstico), diagnóstico de diabetes no conocida</li>
+      <li><strong>Perfil lipídico urgente:</strong> Idealmente en las primeras 24h (después se altera por respuesta de fase aguda)</li>
+      <li><strong>Coagulación (TP, TTPa):</strong> Basal antes de anticoagulación, necesario para trombolisis</li>
+      <li><strong>Grupo sanguíneo y pruebas cruzadas:</strong> Ante posible intervención urgente</li>
+    </ul>
+
+    <h3>Criterios de Sgarbossa (BRI + STEMI)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Criterio</th><th>Descripción</th><th>Puntos</th></tr></thead>
+        <tbody>
+          <tr><td>1. Elevación ST concordante</td><td>Elevación del ST ≥1 mm en derivadas con QRS positivo</td><td><strong>5 pts</strong></td></tr>
+          <tr><td>2. Depresión ST concordante</td><td>Depresión del ST ≥1 mm en V1–V3</td><td><strong>3 pts</strong></td></tr>
+          <tr><td>3. Elevación ST discordante exagerada</td><td>Elevación ST ≥5 mm en derivadas con QRS negativo</td><td><strong>2 pts</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Puntuación ≥3 → alta especificidad para IAM con BRI. La modificación de Smith usa el ratio ST/S: ratio ≥0.25 (valor absoluto) en discordante es más sensible.</p>
+  </div>
+
+  <!-- ===== ESCALAS ===== -->
+  <div class="section" id="escalas">
+    <h2 class="sec-title">Clasificaciones y Escalas de Riesgo <span class="line"></span></h2>
+
+    <h3>Clasificación de Killip-Kimball — STEMI</h3>
+    <p class="sec-intro">Estratifica la severidad de la falla cardíaca post-IAM y predice mortalidad intrahospitalaria.</p>
+    <div class="killip-grid">
+      <div class="killip-card">
+        <div class="killip-num">I</div>
+        <div class="killip-class">Sin Falla Cardíaca</div>
+        <div class="killip-desc">Sin crepitantes, sin S3, sin ingurgitación yugular</div>
+        <div class="killip-mort">~6% mortalidad</div>
+      </div>
+      <div class="killip-card">
+        <div class="killip-num">II</div>
+        <div class="killip-class">Falla Leve</div>
+        <div class="killip-desc">Crepitantes en &lt;50% campos pulmonares, S3, IY</div>
+        <div class="killip-mort">~17% mortalidad</div>
+      </div>
+      <div class="killip-card">
+        <div class="killip-num" style="color:var(--amber)">III</div>
+        <div class="killip-class">EAP</div>
+        <div class="killip-desc">Crepitantes >50% campos pulmonares, edema agudo de pulmón franco</div>
+        <div class="killip-mort" style="color:var(--red)">~38% mortalidad</div>
+      </div>
+      <div class="killip-card">
+        <div class="killip-num" style="color:var(--red)">IV</div>
+        <div class="killip-class">Choque Cardiogénico</div>
+        <div class="killip-desc">TAS &lt;90 + oliguria + cianosis + alt. conciencia</div>
+        <div class="killip-mort" style="color:var(--red)">~67–81% mortalidad</div>
+      </div>
+    </div>
+
+    <h3>Escala TIMI para STEMI</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Variable</th><th>Puntos</th></tr></thead>
+        <tbody>
+          <tr><td>Edad ≥75 años</td><td>3</td></tr>
+          <tr><td>Edad 65–74 años</td><td>2</td></tr>
+          <tr><td>DM, HTA o angina</td><td>1</td></tr>
+          <tr><td>TAS &lt;100 mmHg</td><td>3</td></tr>
+          <tr><td>FC >100 lpm</td><td>2</td></tr>
+          <tr><td>Killip II–IV</td><td>2</td></tr>
+          <tr><td>Peso &lt;67 kg</td><td>1</td></tr>
+          <tr><td>Elevación ST anterior o BRI</td><td>1</td></tr>
+          <tr><td>Tiempo al tratamiento >4 h</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Riesgo: 0–3 (bajo), 4–6 (intermedio), 7–14 (alto). A mayor puntaje, mayor beneficio de reperfusión agresiva.</p>
+
+    <h3>GRACE Score (para SCA en general)</h3>
+    <p>Variables: edad, FC, TAS, creatinina, Killip, paro cardíaco al ingreso, biomarcadores elevados, cambios ST. Calcula mortalidad intrahospitalaria y a 6 meses. Disponible en calculadoras online (MDCalc). En Colombia se usa especialmente en SCASEST para decisión de estrategia invasiva.</p>
+
+    <div class="grid-2">
+      <div class="card green">
+        <div class="card-title">GRACE < 108</div>
+        <p>Mortalidad intrahospitalaria &lt;1%. Estrategia <strong>conservadora o invasiva selectiva</strong> en SCASEST. En STEMI siempre reperfusión independiente del score.</p>
+      </div>
+      <div class="card red">
+        <div class="card-title">GRACE ≥ 140</div>
+        <p>Mortalidad intrahospitalaria >3%. <strong>Alto riesgo</strong>. En SCASEST: angiografía &lt;24h. En STEMI: reperfusión inmediata.</p>
+      </div>
+    </div>
+
+    <h3>Criterios de Alto Riesgo STEMI en Colombia</h3>
+    <p>Para priorizar traslado a centro con ICP primaria vs trombolisis en sitio:</p>
+    <ul class="styled">
+      <li><strong>ICP primaria disponible &lt;120 min</strong> desde primer contacto médico → preferir siempre ICP</li>
+      <li><strong>Contraindicación para fibrinólisis</strong> (cirugía reciente, ACV hemorrágico, etc.) → traslado urgente</li>
+      <li><strong>Choque cardiogénico o Killip III–IV</strong> → ICP preferida aunque tome más tiempo</li>
+      <li><strong>Diagnóstico dudoso</strong> de STEMI → angiografía clarifica</li>
+      <li><strong>Presentación tardía >12 h con síntomas activos o inestabilidad</strong> → ICP aún indicada</li>
+    </ul>
+  </div>
+
+  <!-- ===== TRATAMIENTO ===== -->
+  <div class="section" id="tratamiento">
+    <h2 class="sec-title">Tratamiento <span class="line"></span></h2>
+    <p class="sec-intro">El manejo del STEMI sigue la lógica de <strong>reperfusión urgente</strong> + antitrombóticos + cuidados generales + prevención secundaria. En Colombia, la estrategia depende del tiempo de traslado al centro con hemodinamia.</p>
+
+    <div class="alert alert-red">
+      <span class="alert-icon">⏱️</span>
+      <div>
+        <strong>Tiempos clave (objetivos mínimos):</strong><br>
+        • ECG en <strong>10 min</strong> desde primer contacto médico<br>
+        • ICP primaria: <strong>Puerta-Balón ≤90 min</strong> (si ingresa por urgencias con cath lab propio) / ≤120 min (si viene de otro centro)<br>
+        • Trombolisis: <strong>Puerta-Aguja ≤30 min</strong><br>
+        • Si fibrinólisis: angiografía entre <strong>3–24 h post-lisis</strong> (estrategia fármaco-invasiva)
+      </div>
+    </div>
+
+    <h3>A — Medidas Generales Inmediatas</h3>
+    <ul class="styled">
+      <li><strong>Monitoreo continuo:</strong> ECG, SpO₂, PA, FC, diuresis</li>
+      <li><strong>Acceso venoso periférico x2</strong> (calibre grueso)</li>
+      <li><strong>Oxígeno:</strong> Solo si SpO₂ &lt;90% (O₂ suplementario rutinario no indicado, puede ser dañino)</li>
+      <li><strong>Reposo absoluto + ayuno</strong> (ante posible cath)</li>
+      <li><strong>Analgesia:</strong> Morfina IV 2–4 mg (titular) — CAUTELA: puede reducir absorción de P2Y12 oral. Alternativa: fentanilo 25–50 µg IV</li>
+      <li><strong>Manejo del pánico/ansiedad:</strong> Lorazepam 1–2 mg IV/IM si es necesario</li>
+      <li><strong>Desfibrilador a la cabecera</strong> listo</li>
+    </ul>
+
+    <h3>B — Antiagregación Plaquetaria (DAPT)</h3>
+    <div class="drug-grid">
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Ácido Acetilsalicílico (ASA)</span>
+          <span class="drug-class">Inhibidor COX-1</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis inicial:</span><span class="drug-val dose">300 mg VO masticado (no cubierta entérica)</span></div>
+          <div class="drug-row"><span class="drug-key">Mantenimiento:</span><span class="drug-val dose">75–100 mg/día indefinido</span></div>
+          <div class="drug-row"><span class="drug-key">Contraindicación:</span><span class="drug-val contra">Alergia confirmada (rara), sangrado activo</span></div>
+          <div class="drug-row"><span class="drug-key">Nota:</span><span class="drug-val">Dar SIEMPRE salvo contraindicación absoluta. Primera línea invariable.</span></div>
+        </div>
+      </div>
+
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Ticagrelor</span>
+          <span class="drug-class">Inhibidor P2Y12 (reversible)</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis inicial:</span><span class="drug-val dose">180 mg VO (dosis de carga)</span></div>
+          <div class="drug-row"><span class="drug-key">Mantenimiento:</span><span class="drug-val dose">90 mg c/12h × 12 meses</span></div>
+          <div class="drug-row"><span class="drug-key">Contraindicación:</span><span class="drug-val contra">ACV hemorrágico previo, sangrado activo, cirrosis avanzada, uso con inhibidores CYP3A4 potentes</span></div>
+          <div class="drug-row"><span class="drug-key">Precaución:</span><span class="drug-val warn">Bradicardia (bloqueos). Disnea (efecto adverso frecuente, generalmente benigno). NO combinar con trombolíticos.</span></div>
+          <div class="drug-row"><span class="drug-key">Preferido:</span><span class="drug-val">Guías ESC 2023 como primera elección sobre Clopidogrel en SCA</span></div>
+        </div>
+      </div>
+
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Clopidogrel</span>
+          <span class="drug-class">Inhibidor P2Y12 (irreversible)</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis inicial:</span><span class="drug-val dose">600 mg VO (ICP) / 300 mg (trombolisis)</span></div>
+          <div class="drug-row"><span class="drug-key">Mantenimiento:</span><span class="drug-val dose">75 mg/día × 12 meses</span></div>
+          <div class="drug-row"><span class="drug-key">Uso:</span><span class="drug-val">Alternativa a Ticagrelor. Uso con fibrinólisis. Contexto colombiano: más disponible y económico. Variabilidad farmacogenética (CYP2C19).</span></div>
+          <div class="drug-row"><span class="drug-key">Nota:</span><span class="drug-val warn">En STEMI con trombolisis: usar Clopidogrel (NO Ticagrelor ni Prasugrel en las primeras 24h post-lisis)</span></div>
+        </div>
+      </div>
+
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Prasugrel</span>
+          <span class="drug-class">Inhibidor P2Y12 (irreversible)</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis inicial:</span><span class="drug-val dose">60 mg VO (post-angiografía)</span></div>
+          <div class="drug-row"><span class="drug-key">Mantenimiento:</span><span class="drug-val dose">10 mg/día (5 mg si peso <60kg o >75 años)</span></div>
+          <div class="drug-row"><span class="drug-key">Contraindicación absoluta:</span><span class="drug-val contra">ACV/AIT previo, edad ≥75 años (relativa), peso <60 kg (relativa)</span></div>
+          <div class="drug-row"><span class="drug-key">Nota:</span><span class="drug-val">Solo post-coronariografía (anatomía conocida). No usar empírico. Menor disponibilidad en Colombia.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h3>C — Anticoagulación</h3>
+    <div class="drug-grid">
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Heparina No Fraccionada (HNF)</span>
+          <span class="drug-class">Anticoagulante parenteral</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis ICP:</span><span class="drug-val dose">60–70 UI/kg IV bolo (máx 5.000 UI) + perfusión 12–15 UI/kg/h</span></div>
+          <div class="drug-row"><span class="drug-key">Control:</span><span class="drug-val">TTPa objetivo 50–75 seg (o ACT intraICP: 250–350 seg)</span></div>
+          <div class="drug-row"><span class="drug-key">Dosis trombolisis:</span><span class="drug-val dose">60 UI/kg bolo (máx 4.000 UI) + 12 UI/kg/h × 24–48h</span></div>
+          <div class="drug-row"><span class="drug-key">Preferida:</span><span class="drug-val">En sala de cath (monitoreo directo, reversible con protamina)</span></div>
+        </div>
+      </div>
+
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Enoxaparina</span>
+          <span class="drug-class">HBPM</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis:</span><span class="drug-val dose">1 mg/kg SC c/12h (o 0.75 mg/kg si >75 años)</span></div>
+          <div class="drug-row"><span class="drug-key">Si ICP con HBPM:</span><span class="drug-val dose">Bolo adicional 0.3 mg/kg IV si última dosis >8h</span></div>
+          <div class="drug-row"><span class="drug-key">Ajuste renal:</span><span class="drug-val warn">1 mg/kg/día (dosis única) si ClCr &lt;30 ml/min</span></div>
+          <div class="drug-row"><span class="drug-key">Alternativa:</span><span class="drug-val">Preferida sobre HNF en SCASEST/trombolisis por menor variabilidad</span></div>
+        </div>
+      </div>
+
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Bivalirudina</span>
+          <span class="drug-class">Inhibidor directo de trombina</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis ICP:</span><span class="drug-val dose">0.75 mg/kg bolo IV + 1.75 mg/kg/h durante procedimiento</span></div>
+          <div class="drug-row"><span class="drug-key">Uso:</span><span class="drug-val">Alternativa en ICP primaria si alto riesgo de sangrado o TIH. Menor disponibilidad en Colombia.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h3>D — Reperfusión</h3>
+    <div class="alert alert-red">
+      <span class="alert-icon">🏥</span>
+      <div><strong>ICP Primaria es la estrategia de elección</strong> si el tiempo puerta-balón puede lograrse &lt;120 min. En Colombia, muchos centros de nivel II no tienen hemodinamia → la fibrinólisis prehospitalaria o en urgencias sigue siendo crítica.</div>
+    </div>
+
+    <h4>Fibrinólisis — Indicaciones y Contraindicaciones</h4>
+    <div class="grid-2">
+      <div class="card green">
+        <div class="card-title">Indicada cuando...</div>
+        <p>• ICP primaria NO disponible &lt;120 min<br>• Síntomas &lt;12 h (idealmente &lt;6h)<br>• Sin contraindicaciones<br>• Preferiblemente en los primeros 30 min (ventana óptima)</p>
+      </div>
+      <div class="card red">
+        <div class="card-title">Contraindicaciones Absolutas</div>
+        <p>• ACV hemorrágico previo en cualquier momento<br>• ACV isquémico &lt;6 meses<br>• Neoplasia o lesión SNC<br>• Cirugía/trauma mayor &lt;3 semanas<br>• Sangrado GI &lt;1 mes<br>• Disección aórtica conocida<br>• Punción no compresible &lt;24h (incluye PL)</p>
+      </div>
+    </div>
+
+    <div class="drug-grid">
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Tenecteplasa (TNK-tPA)</span>
+          <span class="drug-class">Fibrinolítico — t-PA de 3ª gen.</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis:</span><span class="drug-val dose">Bolo IV único según peso:<br>30mg (&lt;60kg) / 35mg (60–70kg) / 40mg (70–80kg) / 45mg (80–90kg) / 50mg (≥90kg)</span></div>
+          <div class="drug-row"><span class="drug-key">Ajuste >75 años:</span><span class="drug-val warn">Reducir 50% la dosis (menor riesgo de sangrado IC)</span></div>
+          <div class="drug-row"><span class="drug-key">Ventaja:</span><span class="drug-val">Bolo único — ideal en urgencias y prehospitalario</span></div>
+          <div class="drug-row"><span class="drug-key">Post-lisis:</span><span class="drug-val">Angiografía entre 3–24h (estrategia fármaco-invasiva)</span></div>
+        </div>
+      </div>
+
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Estreptoquinasa (SK)</span>
+          <span class="drug-class">Fibrinolítico — 1ª generación</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis:</span><span class="drug-val dose">1.500.000 UI IV en 60 min</span></div>
+          <div class="drug-row"><span class="drug-key">Contraindicación extra:</span><span class="drug-val contra">Uso previo de SK (anticuerpos). Reacción alérgica previa.</span></div>
+          <div class="drug-row"><span class="drug-key">Costo:</span><span class="drug-val">Más económica. Disponible en muchos centros colombianos públicos (incluida en PBS).</span></div>
+          <div class="drug-row"><span class="drug-key">Limitación:</span><span class="drug-val warn">No fibrinoespecífica, mayor riesgo de hipotensión, menor tasa de TIMI-3</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-amber">
+      <span class="alert-icon">✅</span>
+      <div><strong>Criterios de reperfusión exitosa post-trombolisis (clínicos):</strong> Resolución del dolor torácico, resolución ≥50% de la elevación del ST a los 60–90 min, aparición de arritmia de reperfusión (RIVA — ritmo idioventricular acelerado, benigno), pico precoz de troponinas o CK-MB (&lt;12h). Si no se cumple → ICP de rescate inmediata.</div>
+    </div>
+
+    <h3>E — Betabloqueadores</h3>
+    <div class="drug-grid">
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Metoprolol</span>
+          <span class="drug-class">β1-selectivo</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Vía oral:</span><span class="drug-val dose">25–50 mg c/6–12h (iniciar en primeras 24h si hemodinámicamente estable)</span></div>
+          <div class="drug-row"><span class="drug-key">IV (en taquicardia/HTA urgente):</span><span class="drug-val dose">5 mg IV lento c/5 min × 3 dosis máx.</span></div>
+          <div class="drug-row"><span class="drug-key">Contraindicación:</span><span class="drug-val contra">Killip III–IV, FC &lt;60, TAS &lt;100, BAV 2°-3°, broncoespasmo severo, cocaína</span></div>
+          <div class="drug-row"><span class="drug-key">Beneficio:</span><span class="drug-val">↓Mortalidad, ↓riesgo de FV, ↓tamaño del infarto, ↓ reinfarto</span></div>
+        </div>
+      </div>
+
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Carvedilol</span>
+          <span class="drug-class">β1/β2/α1 bloqueador</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis:</span><span class="drug-val dose">3.125–6.25 mg c/12h, titular hasta 25 mg c/12h</span></div>
+          <div class="drug-row"><span class="drug-key">Uso:</span><span class="drug-val">Preferido en fase crónica post-IAM, especialmente con FEVI reducida (&lt;40%)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h3>F — IECA / ARA-II</h3>
+    <div class="drug-grid">
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Ramipril</span>
+          <span class="drug-class">IECA</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis inicial:</span><span class="drug-val dose">1.25–2.5 mg VO bid (primeras 24h si TAS ≥100)</span></div>
+          <div class="drug-row"><span class="drug-key">Objetivo:</span><span class="drug-val dose">10 mg/día</span></div>
+          <div class="drug-row"><span class="drug-key">Indicación obligatoria:</span><span class="drug-val">FEVI &lt;40%, HTA, DM, IAM anterior extenso</span></div>
+          <div class="drug-row"><span class="drug-key">Contraindicación:</span><span class="drug-val contra">TAS &lt;100, insuficiencia renal severa (Cr >2.5), hiperpotasemia, angioedema previo</span></div>
+        </div>
+      </div>
+
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Valsartán / Losartán</span>
+          <span class="drug-class">ARA-II</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Uso:</span><span class="drug-val">Alternativa a IECA si tos intolerable</span></div>
+          <div class="drug-row"><span class="drug-key">Valsartán dosis:</span><span class="drug-val dose">40 mg bid → titular hasta 160 mg bid</span></div>
+          <div class="drug-row"><span class="drug-key">Nota:</span><span class="drug-val warn">No combinar IECA + ARA-II (↑ riesgo renal e hipotensión)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h3>G — Estatinas (terapia de alta intensidad)</h3>
+    <div class="drug-grid">
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Atorvastatina</span>
+          <span class="drug-class">Estatina — alta intensidad</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis:</span><span class="drug-val dose">40–80 mg/día VO — iniciar dentro de las primeras 24h</span></div>
+          <div class="drug-row"><span class="drug-key">Objetivo LDL:</span><span class="drug-val">&lt;55 mg/dL (ESC 2019) — muy alto riesgo</span></div>
+          <div class="drug-row"><span class="drug-key">Beneficio:</span><span class="drug-val">Pleiotropía: estabilización de placa, antiinflamatorio, antitrombótico, independiente de LDL basal</span></div>
+        </div>
+      </div>
+
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Rosuvastatina</span>
+          <span class="drug-class">Estatina — alta intensidad</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Dosis:</span><span class="drug-val dose">20–40 mg/día VO</span></div>
+          <div class="drug-row"><span class="drug-key">Ventaja:</span><span class="drug-val">Menos metabolismo hepático por CYP3A4, menos interacciones. Alternativa a atorvastatina.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h3>H — Antagonistas de Aldosterona</h3>
+    <div class="drug-grid">
+      <div class="drug-card">
+        <div class="drug-header">
+          <span class="drug-name">Eplerenona / Espironolactona</span>
+          <span class="drug-class">Antagonista de aldosterona</span>
+        </div>
+        <div class="drug-body">
+          <div class="drug-row"><span class="drug-key">Indicación:</span><span class="drug-val">FEVI &lt;40% + síntomas de IC o DM, ya con IECA y betabloqueador</span></div>
+          <div class="drug-row"><span class="drug-key">Eplerenona dosis:</span><span class="drug-val dose">25 mg/día → 50 mg/día a las 4 semanas</span></div>
+          <div class="drug-row"><span class="drug-key">Contraindicación:</span><span class="drug-val contra">K⁺ >5.0 mEq/L, Cr >2.5 mg/dL (hombres) o >2.0 (mujeres), ClCr &lt;30</span></div>
+          <div class="drug-row"><span class="drug-key">Monitoreo:</span><span class="drug-val warn">K⁺ y función renal a la semana, al mes y cada 3 meses</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h3>I — Nitratos</h3>
+    <div class="alert alert-amber">
+      <span class="alert-icon">⚠️</span>
+      <div>
+        <strong>Nitroglicerina IV:</strong> 5–200 µg/min titular según PA (objetivo TAS ≥90 mmHg). Útil en dolor persistente, HTA, edema pulmonar.<br>
+        <strong>Contraindicados en:</strong> Infarto de VD (precarga-dependiente), TAS &lt;90 mmHg, uso de inhibidores de PDE5 (sildenafil/tadalafil en las últimas 24–48h), bradicardia severa.
+      </div>
+    </div>
+
+    <h3>Resumen del Manejo STEMI — Tabla Rápida</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Momento</th><th>Intervención</th><th>Meta</th></tr></thead>
+        <tbody>
+          <tr><td>0–10 min</td><td>ECG 12 derivadas, monitor, acceso venoso, oxígeno si SpO₂&lt;90%</td><td>Diagnóstico</td></tr>
+          <tr><td>0–30 min</td><td>ASA 300mg + Clopidogrel/Ticagrelor + Anticoagulante + Morfina/fentanilo si dolor + Betabloqueador si estable</td><td>Preparación</td></tr>
+          <tr><td>≤30 min (si no hay ICP)</td><td>Trombolisis: TNK-tPA o SK</td><td>Puerta-Aguja</td></tr>
+          <tr><td>≤90–120 min</td><td>ICP Primaria si disponible</td><td>Puerta-Balón</td></tr>
+          <tr><td>3–24h post-lisis</td><td>Angiografía + ICP si indicada (estrategia fármaco-invasiva)</td><td>Revascularización</td></tr>
+          <tr><td>24–48h</td><td>Ecocardiograma, IECA/ARA-II, estatina alta intensidad, evaluar FEVI</td><td>Pronóstico y prevención</td></tr>
+          <tr><td>Alta</td><td>DAPT × 12 meses, IECA, betabloqueador, estatina, antagonista aldosterona (si FEVI&lt;40%), rehabilitación cardíaca</td><td>Prevención 2ª</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== DIAGNÓSTICOS DIFERENCIALES ===== -->
+  <div class="section" id="diferencial">
+    <h2 class="sec-title">Diagnósticos Diferenciales <span class="line"></span></h2>
+    <p class="sec-intro">Ante dolor torácico agudo, siempre descartar las <strong>"5 grandes catástrofes"</strong> y otros simuladores del STEMI.</p>
+
+    <div class="alert alert-red">
+      <span class="alert-icon">🔴</span>
+      <div><strong>Las "Big 5" del dolor torácico que matan:</strong> 1) STEMI, 2) Disección aórtica aguda, 3) Embolia pulmonar masiva, 4) Neumotórax a tensión, 5) Rotura esofágica (síndrome de Boerhaave)</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Diagnóstico</th><th>Presentación diferenciadora</th><th>ECG/Imágenes</th><th>Trampa / Perla</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Disección aórtica</strong></td>
+            <td>Dolor desgarrante, irradiación a espalda, asimetría de pulsos/PA en brazos, déficit neurológico brusco</td>
+            <td>Rx: ensanchamiento mediastínico. AngioTC urgente. ECG puede mostrar ↑ST (si diseca coronaria)</td>
+            <td><span class="tag tag-red">FATAL</span> Fibrinolizar una disección → muerte. Solicitar AngioTC ANTES si sospecha. D-Dímero alto pero no específico.</td>
+          </tr>
+          <tr>
+            <td><strong>Embolia pulmonar</strong></td>
+            <td>Disnea, pleurítico, hemoptisis, TVP, taquicardia sinusal, hipoxia</td>
+            <td>S1Q3T3 (inespecífico), BRD nuevo, taquicardia. AngioTC pulmonar. Ecocardio: disfunción VD aguda.</td>
+            <td>EP masiva eleva troponinas y BNP → simula SCA. El Wells score y la clínica orientan.</td>
+          </tr>
+          <tr>
+            <td><strong>Pericarditis aguda</strong></td>
+            <td>Dolor pleurítico, mejora sentado inclinado hacia adelante, roce pericárdico, fiebre</td>
+            <td>Elevación ST cóncava (en silla de montar) difusa + depresión PR. Sin Q. Troponinas levemente elevadas en miopericarditis.</td>
+            <td>El ST de pericarditis es difuso (todas derivaciones), no territorial. Ausencia de imagen especular.</td>
+          </tr>
+          <tr>
+            <td><strong>Miocarditis</strong></td>
+            <td>Jóvenes, viral prodromal, dolor torácico ± disnea, troponinas elevadas</td>
+            <td>Cambios ST difusos o focales. Ecocardio: disfunción global ± regional. RMN cardíaca: estándar de oro.</td>
+            <td>Coronarias normales en angiografía. Presentación en hombres jóvenes pos-COVID o post-vacuna.</td>
+          </tr>
+          <tr>
+            <td><strong>Vasoespasmo coronario (Prinzmetal)</strong></td>
+            <td>En reposo, nocturno, responde a nitratos, sin factores de riesgo clásicos, jóvenes</td>
+            <td>Elevación ST transitoria que resuelve. Coronarias normales o mínima aterosclerosis.</td>
+            <td>Asociado a tabaquismo, cocaína, ergotamina. Tratar con nitratos + calcioantagonistas. Evitar BB no selectivos.</td>
+          </tr>
+          <tr>
+            <td><strong>Síndrome de Tako-Tsubo</strong></td>
+            <td>Mujeres posmenopáusicas, estrés emocional/físico intenso previo. "Infarto del corazón roto"</td>
+            <td>Elevación ST transitoria. Ecocardio: balonamiento apical del VI con motilidad basal conservada.</td>
+            <td>Coronarias normales. Troponinas levemente elevadas. Buena recuperación (80% mejora en días–semanas). Puede hacer EAP severo.</td>
+          </tr>
+          <tr>
+            <td><strong>Esofagitis/RGE severo</strong></td>
+            <td>Ardor retroesternal, relación con comidas, mejora con antiácidos</td>
+            <td>ECG normal. Troponinas negativas.</td>
+            <td>El diagnóstico ex juvantibus con antiácidos NO descarta SCA. Siempre hacer ECG + troponinas.</td>
+          </tr>
+          <tr>
+            <td><strong>Síndrome coronario agudo tipo 2</strong></td>
+            <td>En contexto de taquicardia, anemia severa, hipotensión, sepsis</td>
+            <td>Cambios ST isquémicos reversibles con tratamiento de la causa</td>
+            <td>El tratamiento es de la causa subyacente, no necesariamente reperfusión coronaria.</td>
+          </tr>
+          <tr>
+            <td><strong>Neumonía / pleuritis</strong></td>
+            <td>Fiebre, tos, dolor pleurítico, hipoxia, afectación del estado general</td>
+            <td>Rx tórax: infiltrado. ECG normal o taquicardia sinusal.</td>
+            <td>La neumonía puede elevar troponinas por injuria miocárdica. No confundir con SCA tipo 2.</td>
+          </tr>
+          <tr>
+            <td><strong>Costocondritis</strong></td>
+            <td>Dolor reproducible a la palpación paraesternal, sin irradiación, sin disnea</td>
+            <td>ECG y troponinas normales.</td>
+            <td>Diagnóstico de exclusión. La reproducibilidad a la palpación NO descarta SCA (coexisten).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Simuladores ECG del STEMI</h3>
+    <div class="grid-2">
+      <div class="card amber">
+        <div class="card-title">Elevación del ST sin infarto</div>
+        <p>• Pericarditis aguda (cóncava, difusa, depresión PR)<br>
+        • Repolarización precoz (punto J, atletas jóvenes)<br>
+        • BRI (criterios de Sgarbossa)<br>
+        • Hipertrofia VI con cambios secundarios<br>
+        • Hiperpotasemia (pseudoinfarto)<br>
+        • Hipotermia (onda de Osborn)<br>
+        • Síndrome de Brugada (V1–V2)<br>
+        • Post-cardioversión eléctrica</p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Perlas de Distinción</div>
+        <p>• Pericarditis: <strong>depresión PR</strong> y morfología <strong>cóncava</strong> (smile-shaped) del ST<br>
+        • STEMI: morfología <strong>convexa</strong> (frown-shaped) o rectilínea del ST<br>
+        • Repolarización precoz: muesca en la onda J, ↑ST ≤2mm en precordiales, asintomático<br>
+        • Brugada: patrón tipo 1 (coved) en V1–V2, no en infarto clásico</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COMPLICACIONES ===== -->
+  <div class="section" id="complicaciones">
+    <h2 class="sec-title">Complicaciones <span class="line"></span></h2>
+    <p class="sec-intro">Las complicaciones del STEMI pueden presentarse en las primeras horas o semanas. Clasificarlas temporalmente ayuda a anticiparlas.</p>
+
+    <h3>Complicaciones Mecánicas — <span style="color:var(--red)">Alta mortalidad</span></h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Complicación</th><th>Tiempo típico</th><th>Clínica</th><th>Manejo</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Rotura de pared libre del VI</strong></td>
+            <td>1–5 días (pico día 3)</td>
+            <td>Muerte súbita, taponamiento cardíaco, disociación electromecánica</td>
+            <td>Pericardiocentesis de emergencia + cirugía de emergencia. Mortalidad >90% sin cirugía.</td>
+          </tr>
+          <tr>
+            <td><strong>CIV post-IAM</strong></td>
+            <td>3–7 días</td>
+            <td>Nuevo soplo holosistólico + deterioro hemodinámico brusco, shunt izquierda-derecha</td>
+            <td>Soporte con BCIA + reparación quirúrgica/cierre percutáneo. Mortalidad 40–80%.</td>
+          </tr>
+          <tr>
+            <td><strong>Rotura músculo papilar → IM aguda</strong></td>
+            <td>2–7 días</td>
+            <td>Nuevo soplo holosistólico + EAP fulminante. PM posteromedial (CD) > anterolateral (DA+CX)</td>
+            <td>Vasodilatadores + BCIA + cirugía urgente de reemplazo/reparación valvular</td>
+          </tr>
+          <tr>
+            <td><strong>Choque cardiogénico</strong></td>
+            <td>Horas (primeras 24h)</td>
+            <td>TAS &lt;90 mmHg + IC &lt;2.2 L/min/m² + PCP >18 mmHg + hipoperfusión periférica</td>
+            <td>Revascularización urgente (ICP), inotrópicos (dobutamina), vasopresores (NA), BCIA, Impella, ECMO si falla</td>
+          </tr>
+          <tr>
+            <td><strong>Aneurisma del VI</strong></td>
+            <td>Semanas–meses</td>
+            <td>Falla cardíaca progresiva, TV recurrente, trombo mural con embolismo sistémico</td>
+            <td>Anticoagulación (si trombo), antiarrítmicos, considerar aneurismectomía si refractario</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Complicaciones Eléctricas</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Arritmia</th><th>Asociación</th><th>Manejo</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Fibrilación ventricular</strong></td><td>Primeras 48h (infarto anterior). Causa #1 de muerte prehospitalaria</td><td>Desfibrilación inmediata 200J bifásico. Amiodarona IV si recurrente.</td></tr>
+          <tr><td><strong>Taquicardia ventricular sostenida</strong></td><td>Fase aguda y subaguda. Cicatriz como sustrato (tardío)</td><td>Cardioversión eléctrica si inestable. Amiodarona 150 mg IV bolo si estable.</td></tr>
+          <tr><td><strong>RIVA (idioventricular acelerado)</strong></td><td>Señal de reperfusión exitosa. Benigno.</td><td>Observación. NO tratar (aumentar FC con atropina si hay compromiso hemodinámico)</td></tr>
+          <tr><td><strong>Fibrilación auricular</strong></td><td>15–20% de STEMI. Peor pronóstico. Infarto CX.</td><td>Control de FC o cardioversión. Anticoagulación (dilema con DAPT → triple terapia corta).</td></tr>
+          <tr><td><strong>BAV completo</strong></td><td>Infarto inferior (CD) — generalmente transitorio. Infarto anterior → daño His-Purkinje permanente</td><td>Atropina 0.5–1 mg IV. Marcapasos transitivo si BAV completo con compromiso hemodinámico. En inf. anterior: MP profiláctico.</td></tr>
+          <tr><td><strong>Bradicardia sinusal</strong></td><td>Infarto inferior (reflejo vagal / Bezold-Jarisch)</td><td>Atropina 0.5 mg IV. Posición decúbito. Líquidos si hipotensión.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Complicaciones Tardías</h3>
+    <div class="grid-3">
+      <div class="card amber">
+        <div class="card-title">Síndrome de Dressler</div>
+        <p>Pericarditis reactiva post-IAM. Aparece 2–10 semanas después. Fiebre + dolor pleurítico + derrame. Tratar con AINEs/AAS + colchicina. Evitar corticoides en fase aguda.</p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Remodelado Ventricular</div>
+        <p>Dilatación del VI, hipertrofia compensatoria, cambio de forma esférica → IC crónica con FEVI reducida. Prevenido con IECA + betabloqueador desde fase aguda.</p>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Trombo Mural</div>
+        <p>Habitual en infarto anterior apical extenso (FEVI muy baja). Riesgo de embolismo sistémico (ACV). Anticoagulación con VKA o HBPM × 3–6 meses + antiagregación.</p>
+      </div>
+      <div class="card green">
+        <div class="card-title">Muerte Súbita Tardía</div>
+        <p>Por TV/FV en contexto de cicatriz miocárdica. Indicación de CDI si FEVI &lt;35% persistente a las 6 semanas post-IAM, a pesar de terapia médica óptima.</p>
+      </div>
+      <div class="card red">
+        <div class="card-title">Re-infarto / Stent trombosis</div>
+        <p>Trombosis aguda del stent: &lt;30 días. Subaguda: 30 días–1 año. NUNCA suspender DAPT por cuenta propia en los primeros 12 meses.</p>
+      </div>
+      <div class="card amber">
+        <div class="card-title">Depresión post-IAM</div>
+        <p>~20–30% de pacientes. Marcador de peor pronóstico (mortalidad ×2–3). Parte de la rehabilitación cardíaca debe incluir evaluación de salud mental.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== QUIZ ===== -->
+  <div class="section" id="quiz">
+    <h2 class="sec-title">Quiz Evaluativo <span class="line"></span></h2>
+    <p class="sec-intro">10 preguntas tipo examen de posgrado / parcial de medicina interna. Selecciona tu respuesta y revisa la explicación.</p>
+
+    <div id="quiz-container">
+
+      <div class="quiz-item" data-correct="b">
+        <span class="quiz-num">Pregunta 01</span>
+        <div class="quiz-q">Paciente masculino de 62 años, HTA y DM. Llega a urgencias con dolor retroesternal opresivo de 2 horas, diaforesis profusa y náuseas. ECG: elevación del ST de 3 mm en II, III y aVF. ¿Cuál es la primera acción más urgente?</div>
+        <ul class="options">
+          <li class="opt" data-letter="A">Solicitar troponinas séricas y esperar resultado</li>
+          <li class="opt" data-letter="B">Administrar ASA 300 mg masticado e iniciar protocolo de reperfusión inmediatamente</li>
+          <li class="opt" data-letter="C">Iniciar nitroglicerina IV para alivio del dolor</li>
+          <li class="opt" data-letter="D">Realizar ecocardiograma urgente para confirmar diagnóstico</li>
+        </ul>
+        <div class="explanation">
+          <strong>✓ Respuesta correcta: B.</strong> El STEMI es un diagnóstico clínico-electrocardiográfico. NO se debe esperar troponinas para iniciar el tratamiento. La ASA debe administrarse de inmediato (Class I-A), y el protocolo de reperfusión (ICP o trombolisis) iniciarse en paralelo. La nitroglicerina está <strong>contraindicada</strong> en infarto de VD que debe descartarse (derivadas derechas V3R-V4R) ya que el infarto inferior frecuentemente afecta el VD.
+        </div>
+      </div>
+
+      <div class="quiz-item" data-correct="c">
+        <span class="quiz-num">Pregunta 02</span>
+        <div class="quiz-q">En el mismo paciente (infarto inferior), al examen físico: PA 85/60 mmHg, FC 60 lpm, ingurgitación yugular prominente, campos pulmonares limpios. ¿Cuál es el diagnóstico más probable y el manejo inmediato?</div>
+        <ul class="options">
+          <li class="opt" data-letter="A">Choque cardiogénico por falla del VI — dobutamina IV</li>
+          <li class="opt" data-letter="B">Taponamiento cardíaco — pericardiocentesis de urgencia</li>
+          <li class="opt" data-letter="C">Infarto del ventrículo derecho — cristaloides IV en bolo y evitar nitratos/diuréticos</li>
+          <li class="opt" data-letter="D">Reacción vasovagal — atropina 1 mg IV</li>
+        </ul>
+        <div class="explanation">
+          <strong>✓ Respuesta correcta: C.</strong> La tríada de hipotensión + IY + pulmones limpios en infarto inferior es <em>patognomónica</em> del infarto del VD (oclusión proximal de la CD). El VD es precarga-dependiente: el tratamiento es cristaloides (500 mL en bolo). Los nitratos y diuréticos reducen la precarga y pueden desencadenar un colapso hemodinámico catastrófico. Se confirma con elevación del ST ≥1mm en V4R.
+        </div>
+      </div>
+
+      <div class="quiz-item" data-correct="a">
+        <span class="quiz-num">Pregunta 03</span>
+        <div class="quiz-q">Paciente con STEMI anterior llega a urgencias del Hospital San Rafael (Bogotá). El centro tiene sala de hemodinamia disponible. Tiempo estimado para angioplastia: 75 minutos. Tiempo inicio de síntomas: 3 horas. ¿Cuál es la estrategia de reperfusión correcta?</div>
+        <ul class="options">
+          <li class="opt" data-letter="A">ICP primaria — tiempo puerta-balón dentro del objetivo de ≤90 min</li>
+          <li class="opt" data-letter="B">Trombolisis con tenecteplasa + angiografía a las 3–24h</li>
+          <li class="opt" data-letter="C">Trombolisis porque los síntomas tienen solo 3 horas y la fibrinólisis es más eficaz en fase temprana</li>
+          <li class="opt" data-letter="D">Manejo conservador: anticoagulación + DAPT, diferir angiografía a 48h</li>
+        </ul>
+        <div class="explanation">
+          <strong>✓ Respuesta correcta: A.</strong> Si el tiempo puerta-balón es ≤90 min en un centro con ICP disponible, la angioplastia primaria es la estrategia de elección (Class I-A, ESC 2023). La trombolisis se reserva para cuando NO se puede lograr ICP en ≤120 min desde el primer contacto médico. La trombolisis empírica cuando hay ICP disponible a tiempo no ofrece beneficio y sí mayor riesgo hemorrágico.
+        </div>
+      </div>
+
+      <div class="quiz-item" data-correct="d">
+        <span class="quiz-num">Pregunta 04</span>
+        <div class="quiz-q">Paciente con STEMI anterior extenso recibe trombolisis con estreptoquinasa en un hospital de nivel II sin hemodinamia. A los 90 minutos, el dolor persiste sin cambios y la elevación del ST no ha disminuido. ¿Cuál es el manejo?</div>
+        <ul class="options">
+          <li class="opt" data-letter="A">Repetir la dosis de estreptoquinasa</li>
+          <li class="opt" data-letter="B">Iniciar heparina IV en dosis plena y esperar otras 2 horas</li>
+          <li class="opt" data-letter="C">Agregar ticagrelor y esperar resolución espontánea</li>
+          <li class="opt" data-letter="D">Traslado urgente para ICP de rescate (angioplastia de rescate)</li>
+        </ul>
+        <div class="explanation">
+          <strong>✓ Respuesta correcta: D.</strong> Los criterios de fallo de fibrinólisis son: persistencia del dolor Y falta de resolución del ST ≥50% a los 60–90 min. En ese caso, la indicación es <strong>ICP de rescate urgente</strong>, que demuestra mejoría de mortalidad sobre el tratamiento conservador (REACT trial). NUNCA se repite la trombolisis (riesgo de sangrado sin beneficio). El traslado debe organizarse de inmediato.
+        </div>
+      </div>
+
+      <div class="quiz-item" data-correct="b">
+        <span class="quiz-num">Pregunta 05</span>
+        <div class="quiz-q">¿Cuál de los siguientes fármacos está contraindicado en las primeras 24 horas post-trombolisis en un STEMI?</div>
+        <ul class="options">
+          <li class="opt" data-letter="A">Clopidogrel 75 mg/día</li>
+          <li class="opt" data-letter="B">Ticagrelor (como antiagregante post-lisis)</li>
+          <li class="opt" data-letter="C">Enoxaparina a dosis terapéutica</li>
+          <li class="opt" data-letter="D">Atorvastatina 80 mg</li>
+        </ul>
+        <div class="explanation">
+          <strong>✓ Respuesta correcta: B.</strong> Las guías ESC 2023 establecen que en pacientes que reciben fibrinólisis, el P2Y12 de elección es <strong>clopidogrel</strong> (300 mg carga → 75 mg/día). Ni ticagrelor ni prasugrel deben usarse junto con fibrinolíticos dentro de las primeras 24h por riesgo hemorrágico elevado. La estrategia de cambio a ticagrelor puede considerarse después de 48h en el contexto de la estrategia fármaco-invasiva.
+        </div>
+      </div>
+
+      <div class="quiz-item" data-correct="c">
+        <span class="quiz-num">Pregunta 06</span>
+        <div class="quiz-q">Paciente femenina de 55 años, sin factores de riesgo conocidos, consulta por dolor "de quemada" intermitente en epigastrio y mandíbula de 3 horas, con náuseas y diaforesis. El médico de urgencias descarta SCA porque "no es dolor típico". ¿Qué error comete?</div>
+        <ul class="options">
+          <li class="opt" data-letter="A">Ninguno: el dolor atípico descarta SCA</li>
+          <li class="opt" data-letter="B">No solicitó una RMN cardíaca para confirmar</li>
+          <li class="opt" data-letter="C">Sesgo de presentación atípica en mujeres: el dolor epigástrico, mandibular y diaforesis son equivalentes anginosos válidos que requieren ECG + troponinas urgentes</li>
+          <li class="opt" data-letter="D">Debería haber dado nitratos sublinguales y observar respuesta</li>
+        </ul>
+        <div class="explanation">
+          <strong>✓ Respuesta correcta: C.</strong> Las mujeres presentan el IAM con mayor frecuencia con síntomas "atípicos": epigastralgia, dolor mandibular, fatiga extrema, disnea, náuseas. La diaforesis profusa es un signo de alarma independiente del tipo de dolor. El diagnóstico de SCA requiere ECG en 10 min y troponinas. La mejoría con antiácidos NO descarta SCA. Este sesgo de género lleva a mayor mortalidad en mujeres.
+        </div>
+      </div>
+
+      <div class="quiz-item" data-correct="a">
+        <span class="quiz-num">Pregunta 07</span>
+        <div class="quiz-q">En el ECG de un paciente con STEMI inferior, ¿qué derivadas adicionales se deben solicitar SIEMPRE y por qué?</div>
+        <ul class="options">
+          <li class="opt" data-letter="A">V3R y V4R (derivadas derechas) para descartar infarto del VD; y V7–V9 para descartar infarto posterior</li>
+          <li class="opt" data-letter="B">aVR y V1 para evaluar el tronco coronario izquierdo</li>
+          <li class="opt" data-letter="C">Solo repetir el ECG estándar de 12 derivadas a los 30 minutos</li>
+          <li class="opt" data-letter="D">No se necesitan derivadas adicionales si II, III y aVF tienen elevación del ST</li>
+        </ul>
+        <div class="explanation">
+          <strong>✓ Respuesta correcta: A.</strong> El infarto inferior (arteria coronaria derecha) puede extenderse al VD (V3R–V4R: elevación ST ≥1mm diagnóstica) y a la cara posterior (imagen especular en V1–V3 → buscar elevación en V7–V9). El infarto del VD cambia radicalmente el manejo (nitratos contraindicados, cargar líquidos). El infarto posterior se puede subestimar sin derivadas posteriores ya que solo se ve como "depresión en V1–V3".
+        </div>
+      </div>
+
+      <div class="quiz-item" data-correct="d">
+        <span class="quiz-num">Pregunta 08</span>
+        <div class="quiz-q">Paciente post-STEMI anterior con FEVI del 30% al ecocardiograma. Está con metoprolol, ramipril y atorvastatina. A los 7 días presenta K⁺ 4.2 mEq/L y creatinina 1.1 mg/dL. ¿Qué fármaco falta agregar?</div>
+        <ul class="options">
+          <li class="opt" data-letter="A">Digoxina</li>
+          <li class="opt" data-letter="B">Furosemida profiláctica</li>
+          <li class="opt" data-letter="C">Amiodarona profiláctica</li>
+          <li class="opt" data-letter="D">Eplerenona 25 mg/día (antagonista de aldosterona)</li>
+        </ul>
+        <div class="explanation">
+          <strong>✓ Respuesta correcta: D.</strong> Las guías (EPHESUS trial) demuestran que la eplerenona (antagonista de aldosterona) reduce mortalidad en pacientes post-IAM con FEVI ≤40% cuando se agrega a IECA + betabloqueador. El paciente tiene K⁺ y creatinina dentro de parámetros seguros para iniciarla. La contraindicación es K⁺ >5.0 y Cr >2.5 mg/dL en hombres. La digoxina no tiene beneficio de mortalidad, la amiodarona profiláctica no está indicada y la furosemida solo si hay congestión clínica.
+        </div>
+      </div>
+
+      <div class="quiz-item" data-correct="b">
+        <span class="quiz-num">Pregunta 09</span>
+        <div class="quiz-q">Paciente de 70 años con STEMI. Al 3er día post-ICP, desarrolla súbitamente nuevo soplo holosistólico en mesocardio + deterioro hemodinámico severo + congestión pulmonar bilateral. ¿Cuál es el diagnóstico más probable?</div>
+        <ul class="options">
+          <li class="opt" data-letter="A">Pericarditis post-IAM (síndrome de Dressler)</li>
+          <li class="opt" data-letter="B">Comunicación interventricular aguda o rotura de músculo papilar con insuficiencia mitral aguda</li>
+          <li class="opt" data-letter="C">Estenosis aórtica severa descompensada</li>
+          <li class="opt" data-letter="D">Embolia pulmonar masiva</li>
+        </ul>
+        <div class="explanation">
+          <strong>✓ Respuesta correcta: B.</strong> Un nuevo soplo holosistólico en el día 3–7 post-IAM con deterioro hemodinámico es una complicación mecánica hasta demostrar lo contrario. La CIV post-IAM y la rotura del músculo papilar (IM aguda) tienen presentaciones similares pero se diferencian por ecocardiograma (shunt vs regurgitación mitral). Ambas requieren soporte hemodinámico (BCIA) + consulta quirúrgica urgente. El Dressler aparece semanas después, sin soplo nuevo ni EAP. La EP no da soplo sistólico nuevo.
+        </div>
+      </div>
+
+      <div class="quiz-item" data-correct="c">
+        <span class="quiz-num">Pregunta 10</span>
+        <div class="quiz-q">Joven de 28 años, usuario de cocaína, consulta con dolor torácico opresivo y ECG con elevación del ST en V1–V4. ¿Cuál es la consideración farmacológica más importante?</div>
+        <ul class="options">
+          <li class="opt" data-letter="A">Iniciar metoprolol IV inmediatamente para controlar la taquicardia</li>
+          <li class="opt" data-letter="B">La cocaína nunca produce cambios en el ECG y el diagnóstico debe ser otro</li>
+          <li class="opt" data-letter="C">Evitar betabloqueadores (riesgo de vasoespasmo paradójico por bloqueo β sin antagonismo α); usar benzodiazepinas + nitratos + calcioantagonistas</li>
+          <li class="opt" data-letter="D">Iniciar fibrinólisis de emergencia sin más estudios</li>
+        </ul>
+        <div class="explanation">
+          <strong>✓ Respuesta correcta: C.</strong> La cocaína produce vasoespasmo coronario (bloqueo de recaptación de catecolaminas) y efecto protrombótico. Los betabloqueadores (especialmente no selectivos) están contraindicados porque al bloquear β2 (vasodilatación) sin bloquear α1 (vasoconstricción), producen vasoespasmo paradójico. El manejo inicial incluye: BZD IV (reducen activación adrenérgica), nitratos y calcioantagonistas (vasodilatación). Se deben realizar troponinas y ECG seriados; si hay trombosis coronaria confirmada, ASA + ICP es la estrategia de elección.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="quiz-score" id="quizScore">
+      <div class="score-num" id="scoreNum">0/10</div>
+      <div class="score-label">PUNTAJE FINAL</div>
+      <div class="score-meter"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
+      <p id="scoreMsg" style="color:var(--text-dim);font-size:13px;margin-top:8px;"></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Tab navigation
+const tabs = document.querySelectorAll('.nav-tab');
+const sections = document.querySelectorAll('.section');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    sections.forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.section).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// Quiz logic
+let answered = 0;
+let correct = 0;
+const total = 10;
+
+document.querySelectorAll('.quiz-item').forEach(item => {
+  const correctKey = item.dataset.correct.toUpperCase();
+  const opts = item.querySelectorAll('.opt');
+  const exp = item.querySelector('.explanation');
+  let done = false;
+
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (done) return;
+      done = true;
+      answered++;
+
+      const chosen = opt.dataset.letter.toUpperCase();
+      opts.forEach(o => {
+        o.classList.add('disabled');
+        if (o.dataset.letter.toUpperCase() === correctKey) {
+          o.classList.add(chosen === correctKey ? 'correct' : 'reveal-correct');
+        }
+      });
+
+      if (chosen === correctKey) {
+        opt.classList.add('correct');
+        correct++;
+      } else {
+        opt.classList.add('wrong');
+      }
+
+      exp.classList.add('show');
+
+      if (answered === total) {
+        const scoreEl = document.getElementById('quizScore');
+        scoreEl.style.display = 'block';
+        document.getElementById('scoreNum').textContent = correct + '/' + total;
+        document.getElementById('scoreFill').style.width = (correct / total * 100) + '%';
+        const msgs = [
+          [0, 4, '📚 Necesitas repasar. Vuelve a leer las secciones de tratamiento y diagnóstico.'],
+          [5, 7, '💪 Buen avance. Refuerza las complicaciones mecánicas y las contraindicaciones farmacológicas.'],
+          [8, 9, '⭐ Muy bien. Conoces el tema. Repasa los detalles de las presentaciones atípicas.'],
+          [10, 10, '🏆 ¡Perfecto! Dominas el SCACEST. Estás listo para el parcial.']
+        ];
+        const msg = msgs.find(([lo, hi]) => correct >= lo && correct <= hi);
+        document.getElementById('scoreMsg').textContent = msg[2];
+        scoreEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
