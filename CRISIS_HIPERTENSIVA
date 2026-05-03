@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crisis Hipertensiva — Medicina Interna</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crimson: #C0293A;
+    --crimson-dark: #8B1A25;
+    --crimson-light: #E84A5F;
+    --ink: #1A1118;
+    --parchment: #FAF7F2;
+    --warm-white: #FFF9F5;
+    --gold: #C9963A;
+    --gold-light: #F0C96B;
+    --slate: #2C3E50;
+    --slate-mid: #4A6278;
+    --slate-light: #8DA8BE;
+    --sage: #3D6B5E;
+    --sage-light: #6BA896;
+    --amber: #D4721A;
+    --text-body: #2D1F2B;
+    --text-muted: #6B5A69;
+    --border: #DDD5D8;
+    --shadow: rgba(26,17,24,0.12);
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+font-family: ‘Source Serif 4’, Georgia, serif;
+background: var(–parchment);
+color: var(–text-body);
+line-height: 1.75;
+font-size: 15.5px;
+}
+
+/* ─── HEADER ─── */
+header {
+background: var(–ink);
+color: white;
+padding: 3rem 2rem 2.5rem;
+position: relative;
+overflow: hidden;
+}
+header::before {
+content: ‘’;
+position: absolute; inset: 0;
+background: repeating-linear-gradient(
+45deg,
+transparent,
+transparent 40px,
+rgba(192,41,58,0.07) 40px,
+rgba(192,41,58,0.07) 41px
+);
+}
+header::after {
+content: ‘’;
+position: absolute;
+bottom: 0; left: 0; right: 0;
+height: 4px;
+background: linear-gradient(90deg, var(–crimson), var(–gold), var(–crimson));
+}
+.header-inner {
+max-width: 900px;
+margin: 0 auto;
+position: relative;
+z-index: 1;
+}
+.header-tag {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 0.72rem;
+letter-spacing: 0.18em;
+color: var(–crimson-light);
+text-transform: uppercase;
+margin-bottom: 0.8rem;
+}
+header h1 {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(2rem, 5vw, 3.2rem);
+font-weight: 900;
+line-height: 1.1;
+margin-bottom: 0.6rem;
+}
+header h1 span { color: var(–crimson-light); }
+.header-sub {
+font-size: 0.92rem;
+color: rgba(255,255,255,0.55);
+font-style: italic;
+letter-spacing: 0.04em;
+}
+
+/* ─── LAYOUT ─── */
+main {
+max-width: 900px;
+margin: 0 auto;
+padding: 2.5rem 1.5rem 4rem;
+}
+
+/* ─── NAVIGATION PILLS ─── */
+.nav-pills {
+display: flex;
+flex-wrap: wrap;
+gap: 0.5rem;
+margin-bottom: 2.5rem;
+padding: 1.2rem;
+background: white;
+border-radius: 12px;
+border: 1px solid var(–border);
+box-shadow: 0 2px 12px var(–shadow);
+}
+.nav-pill {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 0.72rem;
+letter-spacing: 0.06em;
+padding: 0.35rem 0.85rem;
+border-radius: 20px;
+border: 1.5px solid var(–crimson);
+color: var(–crimson-dark);
+text-decoration: none;
+background: transparent;
+cursor: pointer;
+transition: all 0.2s;
+white-space: nowrap;
+}
+.nav-pill:hover {
+background: var(–crimson);
+color: white;
+}
+
+/* ─── SECTIONS ─── */
+section {
+margin-bottom: 2.8rem;
+scroll-margin-top: 1.5rem;
+}
+.section-header {
+display: flex;
+align-items: center;
+gap: 1rem;
+margin-bottom: 1.2rem;
+padding-bottom: 0.6rem;
+border-bottom: 2px solid var(–crimson);
+}
+.section-number {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 0.75rem;
+color: var(–crimson);
+background: rgba(192,41,58,0.08);
+padding: 0.15rem 0.5rem;
+border-radius: 4px;
+letter-spacing: 0.08em;
+white-space: nowrap;
+}
+.section-header h2 {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.35rem;
+font-weight: 700;
+color: var(–ink);
+}
+
+/* ─── COMPARISON TABLE (urgencia vs emergencia) ─── */
+.compare-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1.2rem;
+margin: 1.2rem 0;
+}
+.compare-card {
+border-radius: 10px;
+overflow: hidden;
+border: 1.5px solid;
+box-shadow: 0 4px 16px var(–shadow);
+}
+.compare-card.urgencia { border-color: var(–amber); }
+.compare-card.emergencia { border-color: var(–crimson); }
+.compare-card-head {
+padding: 0.8rem 1.2rem;
+display: flex;
+align-items: center;
+gap: 0.6rem;
+}
+.urgencia .compare-card-head { background: var(–amber); }
+.emergencia .compare-card-head { background: var(–crimson); }
+.compare-card-head h3 {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.05rem;
+color: white;
+font-weight: 700;
+}
+.compare-card-body {
+padding: 1rem 1.2rem;
+background: white;
+}
+.compare-card-body p { font-size: 0.93rem; margin-bottom: 0.5rem; }
+.compare-card-body strong { color: var(–ink); }
+
+/* ─── REGULAR TABLE ─── */
+.data-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+box-shadow: 0 2px 12px var(–shadow);
+border-radius: 10px;
+overflow: hidden;
+}
+.data-table th {
+background: var(–ink);
+color: white;
+padding: 0.7rem 1rem;
+text-align: left;
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 0.75rem;
+letter-spacing: 0.07em;
+font-weight: 600;
+}
+.data-table td {
+padding: 0.65rem 1rem;
+border-bottom: 1px solid var(–border);
+vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:nth-child(even) td { background: rgba(250,247,242,0.6); }
+.data-table tr:hover td { background: rgba(192,41,58,0.04); }
+
+/* ─── DRUG CARD ─── */
+.drug-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+gap: 1rem;
+margin-top: 1rem;
+}
+.drug-card {
+background: white;
+border-radius: 10px;
+border: 1.5px solid var(–border);
+overflow: hidden;
+box-shadow: 0 2px 10px var(–shadow);
+transition: transform 0.2s, box-shadow 0.2s;
+}
+.drug-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px var(–shadow); }
+.drug-card-head {
+padding: 0.65rem 1rem;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+.drug-card-head h4 {
+font-family: ‘Playfair Display’, serif;
+font-size: 0.98rem;
+font-weight: 700;
+color: white;
+}
+.drug-class-badge {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 0.65rem;
+background: rgba(255,255,255,0.2);
+color: white;
+padding: 0.15rem 0.45rem;
+border-radius: 10px;
+letter-spacing: 0.06em;
+}
+.iv { background: var(–crimson-dark); }
+.oral-sublingual { background: var(–sage); }
+.iv-mixed { background: var(–slate); }
+.drug-card-body {
+padding: 0.9rem 1rem;
+font-size: 0.85rem;
+}
+.drug-row {
+display: flex;
+gap: 0.4rem;
+margin-bottom: 0.35rem;
+align-items: flex-start;
+}
+.drug-label {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 0.7rem;
+color: var(–text-muted);
+min-width: 68px;
+letter-spacing: 0.04em;
+padding-top: 0.12rem;
+flex-shrink: 0;
+}
+.drug-value { color: var(–text-body); line-height: 1.5; }
+.drug-alert {
+margin-top: 0.6rem;
+padding: 0.45rem 0.7rem;
+border-radius: 6px;
+font-size: 0.8rem;
+display: flex;
+gap: 0.4rem;
+align-items: flex-start;
+}
+.drug-alert.warn { background: #FFF3CD; border-left: 3px solid var(–gold); color: #7A5500; }
+.drug-alert.danger { background: #FDECEA; border-left: 3px solid var(–crimson); color: #8B1A25; }
+.drug-alert.info { background: #E8F4FD; border-left: 3px solid #2980B9; color: #1A5276; }
+
+/* ─── INFO BOXES ─── */
+.info-box {
+border-radius: 8px;
+padding: 1rem 1.2rem;
+margin: 1rem 0;
+display: flex;
+gap: 0.75rem;
+font-size: 0.9rem;
+line-height: 1.6;
+}
+.info-box .icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
+.info-box.key { background: rgba(192,41,58,0.07); border-left: 4px solid var(–crimson); }
+.info-box.tip { background: rgba(61,107,94,0.08); border-left: 4px solid var(–sage); }
+.info-box.warn { background: rgba(212,114,26,0.08); border-left: 4px solid var(–amber); }
+.info-box.colombia { background: rgba(201,150,58,0.1); border-left: 4px solid var(–gold); }
+
+/* ─── FISIOPATOLOGIA ─── */
+.fisio-flow {
+display: flex;
+flex-direction: column;
+gap: 0;
+margin: 1rem 0;
+}
+.fisio-step {
+display: flex;
+gap: 1rem;
+align-items: flex-start;
+}
+.fisio-line {
+display: flex;
+flex-direction: column;
+align-items: center;
+flex-shrink: 0;
+}
+.fisio-dot {
+width: 36px; height: 36px;
+border-radius: 50%;
+background: var(–crimson);
+color: white;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 0.8rem;
+font-weight: 600;
+flex-shrink: 0;
+box-shadow: 0 2px 8px rgba(192,41,58,0.35);
+}
+.fisio-connector {
+width: 2px;
+height: 28px;
+background: linear-gradient(to bottom, var(–crimson), var(–crimson-light));
+opacity: 0.3;
+}
+.fisio-content {
+flex: 1;
+padding: 0.4rem 0 1rem;
+}
+.fisio-content h4 {
+font-family: ‘Playfair Display’, serif;
+font-size: 0.95rem;
+font-weight: 700;
+color: var(–ink);
+margin-bottom: 0.25rem;
+}
+.fisio-content p { font-size: 0.88rem; color: var(–text-muted); }
+
+/* ─── CLINICAL PRESENTATION LIST ─── */
+.clinical-cols {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1.2rem;
+margin: 1rem 0;
+}
+.clinical-organ {
+background: white;
+border-radius: 8px;
+border: 1px solid var(–border);
+padding: 0.9rem 1rem;
+box-shadow: 0 1px 6px var(–shadow);
+}
+.clinical-organ h4 {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 0.75rem;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+color: var(–crimson);
+margin-bottom: 0.55rem;
+padding-bottom: 0.35rem;
+border-bottom: 1px solid rgba(192,41,58,0.15);
+}
+.clinical-organ ul { list-style: none; }
+.clinical-organ li {
+font-size: 0.87rem;
+padding: 0.18rem 0;
+color: var(–text-body);
+display: flex;
+gap: 0.5rem;
+align-items: flex-start;
+}
+.clinical-organ li::before {
+content: ‘·’;
+color: var(–crimson);
+font-weight: 900;
+flex-shrink: 0;
+}
+
+/* ─── QUIZ ─── */
+.quiz-section {
+background: var(–ink);
+border-radius: 14px;
+padding: 2rem;
+margin-top: 2rem;
+color: white;
+}
+.quiz-section h2 {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.5rem;
+color: var(–gold-light);
+margin-bottom: 0.3rem;
+}
+.quiz-intro {
+font-size: 0.85rem;
+color: rgba(255,255,255,0.55);
+margin-bottom: 1.8rem;
+font-style: italic;
+}
+.quiz-item {
+margin-bottom: 1.6rem;
+background: rgba(255,255,255,0.05);
+border-radius: 10px;
+border: 1px solid rgba(255,255,255,0.08);
+overflow: hidden;
+}
+.quiz-q {
+padding: 1rem 1.2rem;
+font-size: 0.93rem;
+line-height: 1.65;
+border-left: 3px solid var(–gold);
+}
+.quiz-q strong {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 0.7rem;
+color: var(–gold-light);
+letter-spacing: 0.1em;
+display: block;
+margin-bottom: 0.4rem;
+}
+.quiz-options {
+padding: 0.6rem 1.2rem 0.8rem;
+display: flex;
+flex-direction: column;
+gap: 0.3rem;
+}
+.quiz-opt {
+font-size: 0.88rem;
+padding: 0.5rem 0.85rem;
+border-radius: 6px;
+border: 1px solid rgba(255,255,255,0.1);
+cursor: pointer;
+transition: all 0.2s;
+color: rgba(255,255,255,0.85);
+background: transparent;
+text-align: left;
+font-family: inherit;
+}
+.quiz-opt:hover { background: rgba(255,255,255,0.08); border-color: var(–gold); }
+.quiz-opt.correct { background: rgba(107,168,150,0.2); border-color: var(–sage-light); color: #A8DACC; }
+.quiz-opt.wrong { background: rgba(192,41,58,0.2); border-color: var(–crimson-light); color: #F09BA6; }
+.quiz-feedback {
+display: none;
+padding: 0.7rem 1.2rem;
+background: rgba(201,150,58,0.12);
+border-top: 1px solid rgba(201,150,58,0.2);
+font-size: 0.84rem;
+color: var(–gold-light);
+line-height: 1.6;
+}
+.quiz-feedback.visible { display: block; }
+.quiz-score {
+margin-top: 1.5rem;
+padding: 1.2rem;
+background: rgba(201,150,58,0.1);
+border-radius: 10px;
+border: 1px solid rgba(201,150,58,0.25);
+text-align: center;
+font-family: ‘JetBrains Mono’, monospace;
+color: var(–gold-light);
+font-size: 0.9rem;
+letter-spacing: 0.05em;
+}
+.score-num { font-size: 2.5rem; font-weight: 600; display: block; margin: 0.3rem 0; }
+.btn-reset {
+margin-top: 1rem;
+padding: 0.6rem 2rem;
+background: var(–crimson);
+color: white;
+border: none;
+border-radius: 8px;
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 0.8rem;
+letter-spacing: 0.08em;
+cursor: pointer;
+transition: background 0.2s;
+}
+.btn-reset:hover { background: var(–crimson-dark); }
+
+/* ─── MISC ─── */
+p { margin-bottom: 0.6rem; }
+ul, ol { padding-left: 1.4rem; margin-bottom: 0.6rem; }
+li { margin-bottom: 0.3rem; font-size: 0.93rem; }
+strong { font-weight: 600; }
+em { font-style: italic; color: var(–text-muted); }
+.tag {
+display: inline-block;
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 0.7rem;
+padding: 0.15rem 0.55rem;
+border-radius: 12px;
+letter-spacing: 0.06em;
+font-weight: 600;
+}
+.tag-red { background: rgba(192,41,58,0.12); color: var(–crimson-dark); }
+.tag-amber { background: rgba(212,114,26,0.12); color: var(–amber); }
+.tag-green { background: rgba(61,107,94,0.12); color: var(–sage); }
+.tag-blue { background: rgba(44,62,80,0.12); color: var(–slate); }
+
+.divider {
+height: 1px;
+background: linear-gradient(to right, var(–crimson), transparent);
+margin: 2rem 0;
+opacity: 0.3;
+}
+
+@media (max-width: 620px) {
+.compare-grid, .clinical-cols { grid-template-columns: 1fr; }
+.drug-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-tag">Medicina Interna · Rotación Clínica · Colombia</div>
+    <h1>Crisis <span>Hipertensiva</span></h1>
+    <p class="header-sub">Urgencia vs. Emergencia — Guía clínica completa con criterios colombianos · 2024</p>
+  </div>
+</header>
+
+<main>
+
+  <!-- NAVEGACIÓN -->
+
+  <nav class="nav-pills">
+    <a class="nav-pill" href="#definicion">Definición</a>
+    <a class="nav-pill" href="#clasificacion">Clasificación</a>
+    <a class="nav-pill" href="#criterios">Criterios Dx</a>
+    <a class="nav-pill" href="#presentacion">Clínica</a>
+    <a class="nav-pill" href="#causas">Etiología</a>
+    <a class="nav-pill" href="#fisiopatologia">Fisiopatología</a>
+    <a class="nav-pill" href="#tratamiento">Tratamiento</a>
+    <a class="nav-pill" href="#diferenciales">Diferenciales</a>
+    <a class="nav-pill" href="#complicaciones">Complicaciones</a>
+    <a class="nav-pill" href="#paraclínicos">Paraclínicos</a>
+    <a class="nav-pill" href="#quiz">Quiz</a>
+  </nav>
+
+  <!-- 1. DEFINICIÓN -->
+
+  <section id="definicion">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Definición</h2>
+    </div>
+
+```
+<p>La <strong>crisis hipertensiva</strong> se define como una elevación severa de la presión arterial (PA) con valores de presión arterial sistólica (PAS) <strong>≥ 180 mmHg</strong> y/o presión arterial diastólica (PAD) <strong>≥ 120 mmHg</strong>.</p>
+
+<div class="info-box key">
+  <span class="icon">🔑</span>
+  <div>Es el estado hipertensivo agudo que requiere evaluación inmediata para determinar si existe <strong>daño agudo de órgano blanco (DOB)</strong>, lo que definirá si se trata de urgencia o emergencia hipertensiva.
+  </div>
+</div>
+
+<div class="info-box colombia">
+  <span class="icon">🇨🇴</span>
+  <div><strong>Contexto colombiano:</strong> Según el Ministerio de Salud y la Resolución 3280/2018 (RIA de riesgo cardiovascular), la hipertensión arterial afecta ~30% de los adultos en Colombia. La crisis hipertensiva es una causa frecuente de consulta a urgencias (aprox. 25% de las emergencias médicas).
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- 2. CLASIFICACIÓN -->
+
+  <section id="clasificacion">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>Clasificación: Urgencia vs. Emergencia</h2>
+    </div>
+
+```
+<div class="compare-grid">
+  <div class="compare-card urgencia">
+    <div class="compare-card-head">
+      <h3>⚠️ Urgencia Hipertensiva</h3>
+    </div>
+    <div class="compare-card-body">
+      <p><strong>PA:</strong> ≥ 180/120 mmHg</p>
+      <p><strong>DOB:</strong> <em>Ausente</em> — sin evidencia de daño agudo de órgano blanco</p>
+      <p><strong>Síntomas:</strong> Cefalea, ansiedad, epistaxis, disnea leve (síntomas inespecíficos)</p>
+      <p><strong>Riesgo inmediato:</strong> Bajo — no hay falla orgánica activa</p>
+      <p><strong>Objetivo PA:</strong> Reducción gradual en <strong>24–48 horas</strong></p>
+      <p><strong>Vía de tratamiento:</strong> <span class="tag tag-amber">ORAL</span> — No se requiere admisión UCI</p>
+      <p><strong>Lugar de manejo:</strong> Urgencias o consulta externa programada</p>
+    </div>
+  </div>
+
+  <div class="compare-card emergencia">
+    <div class="compare-card-head">
+      <h3>🚨 Emergencia Hipertensiva</h3>
+    </div>
+    <div class="compare-card-body">
+      <p><strong>PA:</strong> ≥ 180/120 mmHg (puede ser menor con DOB)</p>
+      <p><strong>DOB:</strong> <em>Presente</em> — lesión activa de órganos vitales</p>
+      <p><strong>Síntomas:</strong> Neurológicos, cardiovasculares, renales, oftalmológicos, obstétricos</p>
+      <p><strong>Riesgo inmediato:</strong> Alto — amenaza la vida</p>
+      <p><strong>Objetivo PA:</strong> Reducción controlada en <strong>minutos a 1 hora</strong></p>
+      <p><strong>Vía de tratamiento:</strong> <span class="tag tag-red">IV</span> — Requiere hospitalización (UCIM/UCI)</p>
+      <p><strong>Lugar de manejo:</strong> Urgencias → UCI/UCIM con monitoreo continuo</p>
+    </div>
+  </div>
+</div>
+
+<div class="info-box warn">
+  <span class="icon">⚠️</span>
+  <div><strong>Punto clave:</strong> La distinción NO es solo el nivel de PA, sino la presencia o ausencia de DOB agudo. Un paciente con PA 200/130 mmHg sin síntomas y sin alteración de órganos es una <em>urgencia</em>. Un paciente con PA 170/110 mmHg y encefalopatía es una <em>emergencia</em>.
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- 3. CRITERIOS DIAGNÓSTICOS -->
+
+  <section id="criterios">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Criterios Diagnósticos</h2>
+    </div>
+
+```
+<p>El diagnóstico se basa en la integración de la medición de PA, la historia clínica, el examen físico dirigido y los paraclínicos que buscan DOB:</p>
+
+<table class="data-table" style="margin-top:1rem;">
+  <thead>
+    <tr>
+      <th>Componente</th>
+      <th>Urgencia Hipertensiva</th>
+      <th>Emergencia Hipertensiva</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>PA medida</strong></td>
+      <td>≥ 180/120 mmHg en ≥ 2 tomas</td>
+      <td>≥ 180/120 mmHg (puede ser menor)</td>
+    </tr>
+    <tr>
+      <td><strong>Síntomas</strong></td>
+      <td>Inespecíficos o ausentes</td>
+      <td>Específicos de órgano blanco afectado</td>
+    </tr>
+    <tr>
+      <td><strong>Fondo de ojo</strong></td>
+      <td>Normal o cambios crónicos (Keith-Wagener I–II)</td>
+      <td>Papiledema, hemorragias, exudados (KW III–IV)</td>
+    </tr>
+    <tr>
+      <td><strong>Neurológico</strong></td>
+      <td>Cefalea inespecífica, sin focalización</td>
+      <td>Encefalopatía, ACV, déficit focal, confusión</td>
+    </tr>
+    <tr>
+      <td><strong>Cardíaco</strong></td>
+      <td>Sin cambios agudos</td>
+      <td>SCA, EAP, disección aórtica, ICC descompensada</td>
+    </tr>
+    <tr>
+      <td><strong>Renal</strong></td>
+      <td>Creatinina basal estable</td>
+      <td>Creatinina ↑ aguda, hematuria, proteinuria nueva</td>
+    </tr>
+    <tr>
+      <td><strong>EKG</strong></td>
+      <td>Sin cambios agudos</td>
+      <td>Isquemia, sobrecarga ventricular aguda</td>
+    </tr>
+    <tr>
+      <td><strong>Laboratorios</strong></td>
+      <td>Normales o alteraciones crónicas</td>
+      <td>Troponinas ↑, BUN/Cr ↑, anemia hemolítica microangiopática</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="info-box tip">
+  <span class="icon">💡</span>
+  <div><strong>Técnica de medición correcta (importante en el parcial):</strong> Paciente sentado en reposo ≥ 5 min, brazo a nivel cardíaco, manguito adecuado al grosor del brazo, dos mediciones con 1–2 min de diferencia. Si hay discordancia entre brazos ≥ 20 mmHg, sospechar disección aórtica.
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- 4. PRESENTACIÓN CLÍNICA -->
+
+  <section id="presentacion">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>Presentación Clínica</h2>
+    </div>
+
+```
+<p>Los síntomas dependen del órgano blanco afectado. En la urgencia hipertensiva suelen ser inespecíficos; en la emergencia, son el reflejo del daño orgánico activo:</p>
+
+<div class="clinical-cols">
+  <div class="clinical-organ">
+    <h4>🧠 SNC / Neurológico</h4>
+    <ul>
+      <li>Cefalea occipital intensa ("en trueno" → sospechar HSA)</li>
+      <li>Encefalopatía hipertensiva: confusión, somnolencia, convulsiones</li>
+      <li>Déficit neurológico focal (ACV isquémico o hemorrágico)</li>
+      <li>Náuseas, vómito de origen central</li>
+      <li>Visión borrosa, diplopía, amaurosis</li>
+      <li>Agitación psicomotora</li>
+    </ul>
+  </div>
+  <div class="clinical-organ">
+    <h4>❤️ Cardiovascular</h4>
+    <ul>
+      <li>Dolor torácico anginoso o desgarrante (disección)</li>
+      <li>Disnea paroxística nocturna / ortopnea</li>
+      <li>Edema agudo de pulmón: crepitantes bilaterales, disnea severa</li>
+      <li>Palpitaciones, taquicardia</li>
+      <li>Pulsos asimétricos (disección aórtica)</li>
+      <li>Tercer ruido (S3), ingurgitación yugular</li>
+    </ul>
+  </div>
+  <div class="clinical-organ">
+    <h4>🫘 Renal</h4>
+    <ul>
+      <li>Oliguria o anuria</li>
+      <li>Hematuria macroscópica</li>
+      <li>Edema periférico</li>
+      <li>Síntomas urémicos (en crisis severas)</li>
+    </ul>
+  </div>
+  <div class="clinical-organ">
+    <h4>👁️ Oftalmológico</h4>
+    <ul>
+      <li>Visión borrosa súbita</li>
+      <li>Fotofobia</li>
+      <li>Escotomas</li>
+      <li>Pérdida visual (oclusión arteria central de retina)</li>
+      <li>Papiledema al fondo de ojo (KW III–IV)</li>
+    </ul>
+  </div>
+  <div class="clinical-organ">
+    <h4>🤰 Obstétrico</h4>
+    <ul>
+      <li>Cefalea, visión borrosa, epigastralgia en gestante</li>
+      <li>Hiperreflexia, clonus → inminencia de eclampsia</li>
+      <li>Convulsiones tónico-clónicas (eclampsia)</li>
+      <li>Síndrome HELLP: dolor hipocondrio derecho, hemólisis</li>
+    </ul>
+  </div>
+  <div class="clinical-organ">
+    <h4>⚡ Urgencia (sin DOB)</h4>
+    <ul>
+      <li>Cefalea leve-moderada inespecífica</li>
+      <li>Epistaxis (no es DOB)</li>
+      <li>Ansiedad, palpitaciones inespecíficas</li>
+      <li>Mareo, acúfenos</li>
+      <li>Rubicundez facial</li>
+      <li>Examen físico y paraclínicos sin alteración aguda</li>
+    </ul>
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- 5. ETIOLOGÍA / CAUSAS -->
+
+  <section id="causas">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>Etiología y Causas Desencadenantes</h2>
+    </div>
+
+```
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Categoría</th>
+      <th>Causas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Adherencia / Abandono</strong></td>
+      <td>Suspensión brusca de antihipertensivos (especialmente clonidina, betabloqueadores) — <strong>causa #1</strong></td>
+    </tr>
+    <tr>
+      <td><strong>HTA esencial mal controlada</strong></td>
+      <td>HTA crónica sin seguimiento adecuado, dieta hipersdóica, estrés agudo</td>
+    </tr>
+    <tr>
+      <td><strong>Nefrogénicas</strong></td>
+      <td>ERC, nefropatía parenquimatosa, glomerulonefritis aguda, nefropatía renovascular (estenosis arterial renal), nefropatía diabética</td>
+    </tr>
+    <tr>
+      <td><strong>Endocrinológicas</strong></td>
+      <td>Feocromocitoma (<em>crisis adrenérgicas</em>), hiperaldosteronismo primario (Conn), síndrome de Cushing, hipertiroidismo</td>
+    </tr>
+    <tr>
+      <td><strong>Fármacos / Tóxicos</strong></td>
+      <td>Cocaína, anfetaminas, simpaticomiméticos (pseudoefedrina), AINE, anticonceptivos orales, eritropoyetina, ciclosporina, tacrolimus</td>
+    </tr>
+    <tr>
+      <td><strong>Obstétricas</strong></td>
+      <td>Preeclampsia severa, eclampsia, síndrome HELLP</td>
+    </tr>
+    <tr>
+      <td><strong>Neurológicas</strong></td>
+      <td>Hipertensión intracraneal, ACV agudo (fenómeno de Cushing), disreflexia autonómica (lesión medular)</td>
+    </tr>
+    <tr>
+      <td><strong>Miscelánea</strong></td>
+      <td>Síndrome de apnea obstructiva del sueño, dolor agudo severo, quemaduras extensas</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="info-box tip">
+  <span class="icon">💡</span>
+  <div><strong>Regla mnemotécnica colombiana:</strong> <em>"Nunca Olvides Evaluar Fenotipo Obstétrico y Neurológico"</em> → <strong>N</strong>efrológico, <strong>O</strong>misión medicamentosa, <strong>E</strong>ndocrino, <strong>F</strong>ármacos/Tóxicos, <strong>O</strong>bstétrico, <strong>N</strong>eurológico.
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- 6. FISIOPATOLOGÍA -->
+
+  <section id="fisiopatologia">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>Fisiopatología</h2>
+    </div>
+
+```
+<div class="fisio-flow">
+
+  <div class="fisio-step">
+    <div class="fisio-line">
+      <div class="fisio-dot">1</div>
+      <div class="fisio-connector"></div>
+    </div>
+    <div class="fisio-content">
+      <h4>Desencadenante → Aumento abrupto de RVP</h4>
+      <p>Estrés, abandono de medicación, tóxicos o enfermedad subyacente activan el sistema nervioso simpático y el eje RAAS, generando vasoconstricción periférica intensa con elevación súbita de la resistencia vascular periférica (RVP).</p>
+    </div>
+  </div>
+
+  <div class="fisio-step">
+    <div class="fisio-line">
+      <div class="fisio-dot">2</div>
+      <div class="fisio-connector"></div>
+    </div>
+    <div class="fisio-content">
+      <h4>Pérdida de autorregulación vascular</h4>
+      <p>Normalmente, los órganos (cerebro, riñón, corazón) mantienen flujo constante mediante autorregulación. En crisis hipertensiva, la PA supera el umbral superior de autorregulación, generando hiperperfusión y daño endotelial directo.</p>
+    </div>
+  </div>
+
+  <div class="fisio-step">
+    <div class="fisio-line">
+      <div class="fisio-dot">3</div>
+      <div class="fisio-connector"></div>
+    </div>
+    <div class="fisio-content">
+      <h4>Daño endotelial → Necrosis fibrinoide</h4>
+      <p>El estrés mecánico sobre la pared vascular produce necrosis fibrinoide arteriolar. Se activa la cascada inflamatoria local con depósito de fibrina, activación plaquetaria y microtrombosis — base de la microangiopatía trombótica.</p>
+    </div>
+  </div>
+
+  <div class="fisio-step">
+    <div class="fisio-line">
+      <div class="fisio-dot">4</div>
+      <div class="fisio-connector"></div>
+    </div>
+    <div class="fisio-content">
+      <h4>Activación RAAS → Ciclo vicioso</h4>
+      <p>La isquemia renal por hipoperfusión o vasoconstricción activa el RAAS → mayor producción de angiotensina II → vasoconstricción adicional + retención de sodio/agua → mayor PA. Este ciclo perpetúa y amplifica la crisis.</p>
+    </div>
+  </div>
+
+  <div class="fisio-step">
+    <div class="fisio-line">
+      <div class="fisio-dot">5</div>
+    </div>
+    <div class="fisio-content">
+      <h4>DOB: Expresión clínica del daño orgánico</h4>
+      <p>El daño endotelial sistémico se manifiesta según el órgano: <em>cerebro</em> → encefalopatía/ACV; <em>corazón</em> → isquemia/EAP; <em>riñón</em> → nefroesclerosis acelerada; <em>retina</em> → hemorragias/papiledema; <em>grandes vasos</em> → disección aórtica.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="info-box key">
+  <span class="icon">🧬</span>
+  <div><strong>Concepto clave — Autorregulación cerebral:</strong> El cerebro sano mantiene flujo constante entre PA media 60–150 mmHg. Los pacientes con HTA crónica tienen el umbral superior desplazado hacia la derecha (toleran más PA basal). Por esto, en un hipertenso crónico NO se debe bajar la PA abruptamente — se induciría isquemia cerebral a cifras que serían "normales" en un normotenso.
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- 7. TRATAMIENTO -->
+
+  <section id="tratamiento">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>Tratamiento</h2>
+    </div>
+
+```
+<!-- METAS -->
+<h3 style="font-family:'Playfair Display',serif; font-size:1.05rem; margin-bottom:0.8rem; color:var(--ink);">Metas de reducción de PA</h3>
+
+<table class="data-table" style="margin-bottom:1.5rem;">
+  <thead>
+    <tr><th>Escenario</th><th>Meta PA en la 1ª hora</th><th>Meta 2–6 horas</th><th>Meta 24–48 horas</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Urgencia hipertensiva</strong></td>
+      <td>No urgente</td>
+      <td>No urgente</td>
+      <td>≤ 160/100 mmHg con medicación oral</td>
+    </tr>
+    <tr>
+      <td><strong>Emergencia hipertensiva (general)</strong></td>
+      <td>↓ ≤ 25% de la PAM inicial</td>
+      <td>PA ~160/100 mmHg</td>
+      <td>Normalización gradual</td>
+    </tr>
+    <tr>
+      <td><strong>ACV isquémico agudo (sin trombolisis)</strong></td>
+      <td colspan="3">NO tratar a menos que PA > 220/120 mmHg. Meta: ↓ 15% en 24h</td>
+    </tr>
+    <tr>
+      <td><strong>ACV isquémico + candidato a trombolisis</strong></td>
+      <td>PA < 185/110 mmHg antes de rtPA</td>
+      <td>< 180/105 mmHg durante 24h post-rtPA</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>Disección aórtica tipo A/B</strong></td>
+      <td>PAS < 120 mmHg en <strong>10–20 min</strong></td>
+      <td>FC < 60 lpm + PAS 100–120</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>Eclampsia / Preeclampsia severa</strong></td>
+      <td>PAS < 160 mmHg, PAD < 110 mmHg</td>
+      <td>Mantenimiento + sulfato de magnesio</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- URGENCIA -->
+<h3 style="font-family:'Playfair Display',serif; font-size:1.05rem; margin:1.2rem 0 0.8rem; color:var(--amber);">Urgencia Hipertensiva — Tratamiento Oral</h3>
+<div class="drug-grid">
+
+  <div class="drug-card">
+    <div class="drug-card-head oral-sublingual">
+      <h4>Captopril</h4>
+      <span class="drug-class-badge">IECA</span>
+    </div>
+    <div class="drug-card-body">
+      <div class="drug-row"><span class="drug-label">Dosis</span><span class="drug-value">25–50 mg VO cada 8 h. Inicio: 25 mg, repetir en 30–60 min si necesario</span></div>
+      <div class="drug-row"><span class="drug-label">Inicio</span><span class="drug-value">15–30 min (VO); 10–15 min (sublingual)</span></div>
+      <div class="drug-row"><span class="drug-label">Uso</span><span class="drug-value">Primera línea en urgencia. Muy disponible en Colombia</span></div>
+      <div class="drug-alert warn">⚠️ Contraindicado en embarazo (teratogénico), estenosis bilateral de arteria renal, angioedema previo por IECA, hiperpotasemia.</div>
+    </div>
+  </div>
+
+  <div class="drug-card">
+    <div class="drug-card-head oral-sublingual">
+      <h4>Labetalol</h4>
+      <span class="drug-class-badge">α+β bloq.</span>
+    </div>
+    <div class="drug-card-body">
+      <div class="drug-row"><span class="drug-label">Dosis oral</span><span class="drug-value">200 mg VO cada 12 h. Útil en urgencia como segunda línea</span></div>
+      <div class="drug-row"><span class="drug-label">Inicio</span><span class="drug-value">30–120 min (VO)</span></div>
+      <div class="drug-row"><span class="drug-label">Uso</span><span class="drug-value">Útil en embarazo, disección, síndrome adrenérgico</span></div>
+      <div class="drug-alert warn">⚠️ Contraindicado en asma, bradicardia, bloqueo AV 2°–3°, ICC descompensada.</div>
+    </div>
+  </div>
+
+  <div class="drug-card">
+    <div class="drug-card-head oral-sublingual">
+      <h4>Amlodipino</h4>
+      <span class="drug-class-badge">BCC</span>
+    </div>
+    <div class="drug-card-body">
+      <div class="drug-row"><span class="drug-label">Dosis</span><span class="drug-value">5–10 mg VO dosis única</span></div>
+      <div class="drug-row"><span class="drug-label">Inicio</span><span class="drug-value">1–2 horas (acción prolongada)</span></div>
+      <div class="drug-row"><span class="drug-label">Uso</span><span class="drug-value">Útil para mantenimiento a largo plazo post-urgencia</span></div>
+      <div class="drug-alert info">ℹ️ No ideal para reducción rápida. No usar nifedipino sublingual (caída brusca y riesgo de isquemia).</div>
+    </div>
+  </div>
+
+  <div class="drug-card">
+    <div class="drug-card-head oral-sublingual">
+      <h4>Clonidina</h4>
+      <span class="drug-class-badge">α-2 central</span>
+    </div>
+    <div class="drug-card-body">
+      <div class="drug-row"><span class="drug-label">Dosis</span><span class="drug-value">0.1–0.2 mg VO, puede repetirse cada hora (máx 0.6 mg)</span></div>
+      <div class="drug-row"><span class="drug-label">Inicio</span><span class="drug-value">30–60 min</span></div>
+      <div class="drug-row"><span class="drug-label">Uso</span><span class="drug-value">Segunda línea. Útil si no tolera IECA</span></div>
+      <div class="drug-alert warn">⚠️ Sedación, boca seca. Rebote hipertensivo si se suspende bruscamente. No usar en ACV agudo.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- EMERGENCIA -->
+<h3 style="font-family:'Playfair Display',serif; font-size:1.05rem; margin:1.8rem 0 0.8rem; color:var(--crimson);">Emergencia Hipertensiva — Tratamiento IV (UCI/UCIM)</h3>
+<div class="drug-grid">
+
+  <div class="drug-card">
+    <div class="drug-card-head iv">
+      <h4>Labetalol IV</h4>
+      <span class="drug-class-badge">α+β bloq.</span>
+    </div>
+    <div class="drug-card-body">
+      <div class="drug-row"><span class="drug-label">Dosis</span><span class="drug-value">Bolos: 20 mg IV en 2 min, repetir 40–80 mg cada 10 min (máx 300 mg). Infusión: 0.5–2 mg/min</span></div>
+      <div class="drug-row"><span class="drug-label">Inicio</span><span class="drug-value">2–5 min</span></div>
+      <div class="drug-row"><span class="drug-label">Indicaciones</span><span class="drug-value">Mayoría de emergencias, embarazo (preeclampsia severa), disección aórtica, síndrome adrenérgico</span></div>
+      <div class="drug-alert warn">⚠️ Contraindicado en asma severa, bloqueo AV, bradicardia, ICC aguda descompensada.</div>
+    </div>
+  </div>
+
+  <div class="drug-card">
+    <div class="drug-card-head iv">
+      <h4>Nicardipino IV</h4>
+      <span class="drug-class-badge">BCC-DHP</span>
+    </div>
+    <div class="drug-card-body">
+      <div class="drug-row"><span class="drug-label">Dosis</span><span class="drug-value">Inicio: 5 mg/h IV. Titular 2.5 mg/h cada 5–15 min. Máx: 15 mg/h</span></div>
+      <div class="drug-row"><span class="drug-label">Inicio</span><span class="drug-value">5–10 min. Duración 1–4 h</span></div>
+      <div class="drug-row"><span class="drug-label">Indicaciones</span><span class="drug-value">Encefalopatía, ACV (cuando se requiere tratar), embarazo, síndrome coronario agudo</span></div>
+      <div class="drug-alert info">ℹ️ Muy titulable. Elección en neurocríticos. Puede no estar disponible en todos los centros colombianos.</div>
+    </div>
+  </div>
+
+  <div class="drug-card">
+    <div class="drug-card-head iv">
+      <h4>Nitroprusiato</h4>
+      <span class="drug-class-badge">Vasodilatador</span>
+    </div>
+    <div class="drug-card-body">
+      <div class="drug-row"><span class="drug-label">Dosis</span><span class="drug-value">0.25–10 mcg/kg/min IV en infusión continua. Iniciar dosis mínima</span></div>
+      <div class="drug-row"><span class="drug-label">Inicio</span><span class="drug-value">Segundos. Duración 2–3 min</span></div>
+      <div class="drug-row"><span class="drug-label">Indicaciones</span><span class="drug-value">Crisis severas refractarias, disección aórtica (con betabloqueador), EAP hipertensivo</span></div>
+      <div class="drug-alert danger">🚨 Riesgo de toxicidad por tiocianato/cianuro (infusión > 48h o dosis alta). Contraindicado en insuficiencia renal/hepática severa, embarazo, ACV agudo (vasculatura cerebral: efecto "robo"). Requiere UCI + monitoreo invasivo.</div>
+    </div>
+  </div>
+
+  <div class="drug-card">
+    <div class="drug-card-head iv">
+      <h4>Nitroglicerina IV</h4>
+      <span class="drug-class-badge">Nitrato</span>
+    </div>
+    <div class="drug-card-body">
+      <div class="drug-row"><span class="drug-label">Dosis</span><span class="drug-value">5–100 mcg/min IV en infusión. Iniciar 5 mcg/min, titular cada 3–5 min</span></div>
+      <div class="drug-row"><span class="drug-label">Inicio</span><span class="drug-value">2–5 min</span></div>
+      <div class="drug-row"><span class="drug-label">Indicaciones</span><span class="drug-value"><strong>SCA + HTA, EAP hipertensivo</strong> — reduce precarga y postcarga</span></div>
+      <div class="drug-alert warn">⚠️ Taquifilaxia con uso prolongado. Hipotensión. Contraindicado con sildenafil. No ideal como único agente antihipertensivo.</div>
+    </div>
+  </div>
+
+  <div class="drug-card">
+    <div class="drug-card-head iv">
+      <h4>Esmolol IV</h4>
+      <span class="drug-class-badge">β1 sel.</span>
+    </div>
+    <div class="drug-card-body">
+      <div class="drug-row"><span class="drug-label">Dosis</span><span class="drug-value">Carga: 500 mcg/kg en 1 min. Mantenimiento: 50–200 mcg/kg/min</span></div>
+      <div class="drug-row"><span class="drug-label">Inicio</span><span class="drug-value">60 seg. T½ muy corto (~9 min)</span></div>
+      <div class="drug-row"><span class="drug-label">Indicaciones</span><span class="drug-value"><strong>Disección aórtica</strong> (agente de elección para FC), perioperatorio</span></div>
+      <div class="drug-alert info">ℹ️ Vida media ultra-corta: muy controlable. Se usa combinado con nitroprusiato en disección.</div>
+    </div>
+  </div>
+
+  <div class="drug-card">
+    <div class="drug-card-head iv">
+      <h4>Hidralazina IV</h4>
+      <span class="drug-class-badge">Vasodilatador</span>
+    </div>
+    <div class="drug-card-body">
+      <div class="drug-row"><span class="drug-label">Dosis</span><span class="drug-value">5–10 mg IV cada 20–30 min. IM: 10–20 mg</span></div>
+      <div class="drug-row"><span class="drug-label">Inicio</span><span class="drug-value">10–20 min IV; 20–40 min IM</span></div>
+      <div class="drug-row"><span class="drug-label">Indicaciones</span><span class="drug-value"><strong>Embarazo/eclampsia</strong> (muy usado en Colombia por disponibilidad)</span></div>
+      <div class="drug-alert warn">⚠️ Respuesta impredecible, refuerzo simpático reflejo (taquicardia). No recomendado en SCA ni disección. Puede causar caída brusca de PA.</div>
+    </div>
+  </div>
+
+  <div class="drug-card">
+    <div class="drug-card-head iv">
+      <h4>Furosemida IV</h4>
+      <span class="drug-class-badge">Diurético</span>
+    </div>
+    <div class="drug-card-body">
+      <div class="drug-row"><span class="drug-label">Dosis</span><span class="drug-value">20–80 mg IV según función renal y estado de volumen</span></div>
+      <div class="drug-row"><span class="drug-label">Inicio</span><span class="drug-value">5–10 min (efecto vasodilatador venoso), diuresis en 30–60 min</span></div>
+      <div class="drug-row"><span class="drug-label">Indicaciones</span><span class="drug-value">EAP hipertensivo (sobrecarga de volumen), como coadyuvante</span></div>
+      <div class="drug-alert info">ℹ️ No es antihipertensivo de primera línea en emergencia. Útil si hay volumen aumentado. Monitorear electrolitos.</div>
+    </div>
+  </div>
+
+  <div class="drug-card">
+    <div class="drug-card-head iv">
+      <h4>Sulfato de Mg</h4>
+      <span class="drug-class-badge">Anticonvulsivante</span>
+    </div>
+    <div class="drug-card-body">
+      <div class="drug-row"><span class="drug-label">Dosis</span><span class="drug-value">Carga: 4–6 g IV en 15–20 min. Mantenimiento: 1–2 g/h</span></div>
+      <div class="drug-row"><span class="drug-label">Inicio</span><span class="drug-value">~1 min</span></div>
+      <div class="drug-row"><span class="drug-label">Indicaciones</span><span class="drug-value"><strong>Eclampsia y preeclampsia severa</strong> — prevención y tratamiento de convulsiones</span></div>
+      <div class="drug-alert danger">🚨 Monitorear: FR ≥ 12/min, reflejo patelar presente, diuresis ≥ 25 mL/h. Antídoto: gluconato de calcio 1 g IV.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="info-box warn">
+  <span class="icon">🚫</span>
+  <div><strong>Nifedipino sublingual — NO USAR:</strong> Causa caída brusca e impredecible de PA → isquemia coronaria, cerebral y muerte. Está formalmente contraindicado en crisis hipertensiva según guías internacionales (ESC/JNC). En Colombia sigue usándose de forma inapropiada — importante conocer esta contraindicación.
+  </div>
+</div>
+
+<!-- TABLA POR ESCENARIO -->
+<h3 style="font-family:'Playfair Display',serif; font-size:1.05rem; margin:1.8rem 0 0.8rem; color:var(--ink);">Medicamento de elección según escenario clínico</h3>
+<table class="data-table">
+  <thead>
+    <tr><th>Escenario</th><th>1ª elección</th><th>Alternativa</th><th>Evitar</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Encefalopatía hipertensiva</td>
+      <td>Nicardipino IV / Labetalol IV</td>
+      <td>Nitroprusiato (solo UCI)</td>
+      <td>Nitroprusiato en ACV agudo</td>
+    </tr>
+    <tr>
+      <td>ACV isquémico agudo</td>
+      <td>Labetalol IV / Nicardipino IV</td>
+      <td>Esmolol IV</td>
+      <td>Nitroprusiato, nifedipino SL</td>
+    </tr>
+    <tr>
+      <td>ACV hemorrágico</td>
+      <td>Nicardipino IV / Labetalol IV (meta PAS &lt;140)</td>
+      <td>Esmolol IV</td>
+      <td>Nitroprusiato</td>
+    </tr>
+    <tr>
+      <td>SCA + HTA</td>
+      <td>Nitroglicerina IV + betabloqueador IV</td>
+      <td>Nicardipino IV</td>
+      <td>Hidralazina, nitroprusiato, nifedipino</td>
+    </tr>
+    <tr>
+      <td>EAP hipertensivo</td>
+      <td>Nitroglicerina IV + furosemida IV</td>
+      <td>Nitroprusiato IV</td>
+      <td>Betabloqueadores (si hay broncoespasmo)</td>
+    </tr>
+    <tr>
+      <td>Disección aórtica</td>
+      <td>Esmolol IV (FC) + Nitroprusiato (PA)</td>
+      <td>Labetalol IV solo</td>
+      <td>Vasodilatadores sin betabloqueador previo</td>
+    </tr>
+    <tr>
+      <td>Preeclampsia severa / Eclampsia</td>
+      <td>Labetalol IV / Hidralazina IV + MgSO4</td>
+      <td>Nicardipino IV</td>
+      <td>IECA, ARA-II, nitroprusiato</td>
+    </tr>
+    <tr>
+      <td>Feocromocitoma</td>
+      <td>Fentolamina IV (α-bloq. primero)</td>
+      <td>Nicardipino IV</td>
+      <td>Betabloqueador SIN alfa-bloqueo previo (crisis paradójica)</td>
+    </tr>
+    <tr>
+      <td>Insuficiencia renal aguda hipertensiva</td>
+      <td>Nicardipino IV / Labetalol IV</td>
+      <td>Furosemida si sobrecarga de volumen</td>
+      <td>IECA/ARA-II en estenosis bilateral renal</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+  </section>
+
+  <!-- 8. DIAGNÓSTICOS DIFERENCIALES -->
+
+  <section id="diferenciales">
+    <div class="section-header">
+      <span class="section-number">08</span>
+      <h2>Diagnósticos Diferenciales</h2>
+    </div>
+
+```
+<table class="data-table">
+  <thead>
+    <tr><th>Condición</th><th>Similitud con crisis HTA</th><th>Clave diferencial</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Feocromocitoma</strong></td>
+      <td>Crisis de PA muy severas, cefalea, diaforesis</td>
+      <td>Episódico, tríada: cefalea + sudoración + palpitaciones. Catecolaminas urinarias ↑. Masa suprarrenal en imagen</td>
+    </tr>
+    <tr>
+      <td><strong>Disección aórtica</strong></td>
+      <td>HTA severa + dolor torácico</td>
+      <td>Dolor desgarrante irradiado a espalda, pulsos asimétricos, ensanchamiento mediastino en Rx, TC con contraste confirma</td>
+    </tr>
+    <tr>
+      <td><strong>ACV hemorrágico / HSA</strong></td>
+      <td>Cefalea intensa + HTA severa</td>
+      <td>HTA puede ser consecuencia del ACV (reflejo de Cushing). TC cráneo sin contraste. En HSA: cefalea "en trueno" + rigidez nucal</td>
+    </tr>
+    <tr>
+      <td><strong>Hipertensión de bata blanca</strong></td>
+      <td>PA ≥ 180 mmHg en consulta</td>
+      <td>MAPA normal (< 135/85 mmHg promedio diurno). Sin DOB. Sin síntomas. Muy común en urgencias</td>
+    </tr>
+    <tr>
+      <td><strong>Síndrome de abstinencia (alcohol/opioides)</strong></td>
+      <td>HTA, taquicardia, diaforesis, agitación</td>
+      <td>Historia de consumo. Temblor, alucinaciones (delirium tremens). Glucosa normal. Respuesta a benzodiacepinas</td>
+    </tr>
+    <tr>
+      <td><strong>Preeclampsia severa</strong></td>
+      <td>HTA + proteinuria en gestante</td>
+      <td>PA ≥ 160/110 mmHg en embarazo ≥ 20 sem. Proteinuria ≥ 300 mg/24h. + síntomas de severidad</td>
+    </tr>
+    <tr>
+      <td><strong>Síndrome serotoninérgico</strong></td>
+      <td>HTA + agitación + diaforesis</td>
+      <td>Exposición a serotoninérgicos. Tríada: alteración estado mental + hiperactividad autonómica + clonus/hiperreflexia</td>
+    </tr>
+    <tr>
+      <td><strong>Glomerulonefritis aguda</strong></td>
+      <td>HTA severa + hematuria + proteinuria</td>
+      <td>Síndrome nefrítico. Complemento bajo (C3, C4). Antecedente infeccioso reciente. Biopsia renal confirma</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+  </section>
+
+  <!-- 9. COMPLICACIONES -->
+
+  <section id="complicaciones">
+    <div class="section-header">
+      <span class="section-number">09</span>
+      <h2>Complicaciones</h2>
+    </div>
+
+```
+<div class="clinical-cols">
+  <div class="clinical-organ">
+    <h4>🧠 Neurológicas</h4>
+    <ul>
+      <li>ACV isquémico o hemorrágico</li>
+      <li>Hemorragia subaracnoidea</li>
+      <li>Encefalopatía hipertensiva</li>
+      <li>PRES (Encefalopatía posterior reversible)</li>
+      <li>Ceguera cortical transitoria</li>
+      <li>Estado epiléptico</li>
+    </ul>
+  </div>
+  <div class="clinical-organ">
+    <h4>❤️ Cardiovasculares</h4>
+    <ul>
+      <li>Síndrome coronario agudo (IAMCEST/IAMSEST)</li>
+      <li>Edema agudo de pulmón</li>
+      <li>Disección aórtica tipo A o B</li>
+      <li>ICC descompensada aguda</li>
+      <li>Arritmias ventriculares graves</li>
+      <li>Muerte cardíaca súbita</li>
+    </ul>
+  </div>
+  <div class="clinical-organ">
+    <h4>🫘 Renales</h4>
+    <ul>
+      <li>Lesión renal aguda (LRA)</li>
+      <li>Nefroesclerosis acelerada maligna</li>
+      <li>Microangiopatía trombótica renal</li>
+      <li>Progresión a ERC estadio 5</li>
+    </ul>
+  </div>
+  <div class="clinical-organ">
+    <h4>👁️ Oftalmológicas</h4>
+    <ul>
+      <li>Retinopatía hipertensiva grado III–IV (KW)</li>
+      <li>Oclusión arteria/vena central de retina</li>
+      <li>Neuropatía óptica isquémica</li>
+      <li>Pérdida visual permanente</li>
+    </ul>
+  </div>
+  <div class="clinical-organ">
+    <h4>🤰 Obstétricas</h4>
+    <ul>
+      <li>Eclampsia</li>
+      <li>Síndrome HELLP</li>
+      <li>Desprendimiento de placenta</li>
+      <li>Muerte fetal y materna</li>
+    </ul>
+  </div>
+  <div class="clinical-organ">
+    <h4>⚡ Del tratamiento</h4>
+    <ul>
+      <li>Hipotensión iatrogénica → isquemia cerebral/coronaria</li>
+      <li>Toxicidad por tiocianato (nitroprusiato)</li>
+      <li>Broncoespasmo (betabloqueadores)</li>
+      <li>Hipopotasemia (furosemida)</li>
+      <li>Taquicardia refleja (hidralazina)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-box key">
+  <span class="icon">📌</span>
+  <div><strong>PRES (Posterior Reversible Encephalopathy Syndrome):</strong> Complicación de la emergencia hipertensiva y otros estados (eclampsia, inmunosupresores). Se caracteriza por edema vasogénico predominante en lóbulos parietooccipitales. Clínica: cefalea, convulsiones, alteración visual, confusión. Diagnóstico: RM cerebral (FLAIR). Tratamiento: control de PA + suspender agente causal. Es <em>reversible</em> si se trata a tiempo.
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- 10. PARACLÍNICOS -->
+
+  <section id="paraclínicos">
+    <div class="section-header">
+      <span class="section-number">10</span>
+      <h2>Paraclínicos en la evaluación inicial</h2>
+    </div>
+
+```
+<table class="data-table">
+  <thead>
+    <tr><th>Examen</th><th>Qué busca</th><th>Alteración esperada en emergencia</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>BUN / Creatinina</td><td>Función renal, DOB renal</td><td>↑ aguda respecto a basal</td></tr>
+    <tr><td>Uroanálisis con sedimento</td><td>Hematuria, proteinuria, cilindros</td><td>Hematuria, cilindruria, proteinuria ≥ 2+</td></tr>
+    <tr><td>Electrolitos (Na, K)</td><td>Hiperaldosteronismo, estado ácido-base</td><td>Hipopotasemia en Conn; hiponatremia dilucional</td></tr>
+    <tr><td>Hemograma + frotis periférico</td><td>Microangiopatía trombótica</td><td>Anemia hemolítica, esquistocitos, trombocitopenia</td></tr>
+    <tr><td>Troponinas I/T (hs)</td><td>Daño miocárdico agudo</td><td>↑ en SCA o ICC severa</td></tr>
+    <tr><td>BNP / NT-proBNP</td><td>Congestión cardíaca</td><td>↑↑ en EAP o ICC</td></tr>
+    <tr><td>EKG 12 derivaciones</td><td>Isquemia, hipertrofia, arritmias</td><td>Cambios ST-T, HVI con strain, BRIHH nuevo</td></tr>
+    <tr><td>Rx tórax PA</td><td>Congestión pulmonar, mediastino</td><td>Derrame pleural, redistribución vascular, ensanchamiento mediastinal (disección)</td></tr>
+    <tr><td>Glucemia</td><td>Descartar hipoglucemia como causa de síntomas</td><td>Normal en crisis HTA pura</td></tr>
+    <tr><td>TC cráneo sin contraste</td><td>ACV hemorrágico, HSA, LOE</td><td>Hiperdensidad (hemorragia), hipodensidad (isquemia &gt;6h)</td></tr>
+    <tr><td>Fondo de ojo</td><td>Retinopatía hipertensiva</td><td>Grado III (hemorragias/exudados) o IV (papiledema) = emergencia</td></tr>
+    <tr><td>TC tórax con contraste</td><td>Disección aórtica</td><td>Flap intimal, hematoma intramural, doble luz</td></tr>
+    <tr><td>Prueba de embarazo (βhCG)</td><td>Preeclampsia</td><td>Positiva en mujer en edad fértil → nuevo escenario clínico</td></tr>
+  </tbody>
+</table>
+
+<div class="info-box tip">
+  <span class="icon">💡</span>
+  <div><strong>Enfoque sistemático en urgencias:</strong> Siempre ordenar el mínimo básico en toda crisis hipertensiva: BUN/Cr, uroanálisis, EKG y Rx tórax. Los demás exámenes se solicitan según sospecha clínica de órgano blanco afectado. No retrasar tratamiento mientras se esperan resultados en emergencias.
+  </div>
+</div>
+```
+
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 11. QUIZ -->
+
+  <section id="quiz">
+    <div class="quiz-section">
+      <h2>Quiz — Evaluación de conocimientos</h2>
+      <p class="quiz-intro">10 preguntas tipo parcial / USMLE Step 2 / Residencias Colombia. Haz clic en la opción que consideres correcta.</p>
+
+```
+  <!-- Q1 -->
+  <div class="quiz-item" data-answer="b">
+    <div class="quiz-q">
+      <strong>PREGUNTA 01</strong>
+      Paciente de 58 años, HTA conocida en tratamiento irregular, consulta por cefalea occipital leve. PA: 192/118 mmHg. Examen neurológico normal. EKG sin cambios agudos. BUN/Cr normales. ¿Cuál es el diagnóstico y manejo inicial más apropiado?
+    </div>
+    <div class="quiz-options">
+      <button class="quiz-opt" data-opt="a">A) Emergencia hipertensiva — iniciar labetalol IV urgente</button>
+      <button class="quiz-opt" data-opt="b">B) Urgencia hipertensiva — captopril 25 mg VO, reducción gradual en 24–48 horas</button>
+      <button class="quiz-opt" data-opt="c">C) Urgencia hipertensiva — nifedipino 10 mg sublingual para bajar PA rápidamente</button>
+      <button class="quiz-opt" data-opt="d">D) Emergencia hipertensiva — hospitalizar en UCI e iniciar nitroprusiato</button>
+    </div>
+    <div class="quiz-feedback">✅ <strong>Correcta: B.</strong> Sin DOB activo (neurológico normal, EKG y paraclínicos normales) = urgencia hipertensiva. El manejo es oral con captopril o labetalol VO, con reducción gradual en 24–48h. El nifedipino sublingual está formalmente contraindicado por caída brusca de PA.</div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-item" data-answer="c">
+    <div class="quiz-q">
+      <strong>PREGUNTA 02</strong>
+      Mujer de 34 semanas de gestación. PA 168/112 mmHg. Refiere cefalea frontal intensa, epigastralgia y visión borrosa. Al examen: hiperreflexia 3+, clonus en tobillos, proteinuria 3+ en uroanálisis. Plaquetas 85.000/mm³, AST/ALT elevadas. ¿Cuál es el diagnóstico y el tratamiento anticonvulsivante de elección?
+    </div>
+    <div class="quiz-options">
+      <button class="quiz-opt" data-opt="a">A) Preeclampsia sin criterios de severidad — manejo ambulatorio con metildopa</button>
+      <button class="quiz-opt" data-opt="b">B) Eclampsia — fenitoína IV como anticonvulsivante de elección</button>
+      <button class="quiz-opt" data-opt="c">C) Síndrome HELLP + preeclampsia severa — sulfato de magnesio IV + labetalol IV o hidralazina IV</button>
+      <button class="quiz-opt" data-opt="d">D) Preeclampsia severa — captopril oral + reposo domiciliario</button>
+    </div>
+    <div class="quiz-feedback">✅ <strong>Correcta: C.</strong> Plaquetopenia + elevación de transaminasas + hemólisis = síndrome HELLP. El sulfato de magnesio es el anticonvulsivante de elección (no fenitoína). Para el control de PA: labetalol IV o hidralazina IV. IECA/ARA-II están contraindicados en el embarazo.</div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="quiz-item" data-answer="a">
+    <div class="quiz-q">
+      <strong>PREGUNTA 03</strong>
+      Hombre de 45 años con HTA llega a urgencias con PA 210/130 mmHg, dolor torácico "desgarrante" que irradia a la espalda, iniciado súbitamente. PA en brazo derecho 210/130 vs brazo izquierdo 145/90 mmHg. Rx tórax muestra ensanchamiento mediastinal. ¿Cuál es el manejo farmacológico inicial correcto?
+    </div>
+    <div class="quiz-options">
+      <button class="quiz-opt" data-opt="a">A) Esmolol IV (controlar FC) + Nitroprusiato IV (reducir PA) — meta PAS &lt; 120 mmHg en 10–20 min</button>
+      <button class="quiz-opt" data-opt="b">B) Iniciar vasodilatador (hidralazina IV) como primer agente</button>
+      <button class="quiz-opt" data-opt="c">C) Nitroglicerina IV sola — manejo del dolor y la PA</button>
+      <button class="quiz-opt" data-opt="d">D) Captopril VO y observación en urgencias mientras se espera TC</button>
+    </div>
+    <div class="quiz-feedback">✅ <strong>Correcta: A.</strong> Cuadro de disección aórtica. Requiere reducción urgente de PAS &lt; 120 mmHg y FC &lt; 60 lpm. El betabloqueador (esmolol) debe ir PRIMERO para evitar taquicardia refleja al vasodilatador. NUNCA iniciar vasodilatador solo en disección.</div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="quiz-item" data-answer="d">
+    <div class="quiz-q">
+      <strong>PREGUNTA 04</strong>
+      Hombre de 62 años con ACV isquémico agudo (hemiparesia izquierda de 2 horas). PA actual: 195/105 mmHg. Es candidato a trombolisis (r-tPA). ¿Cuál es la meta de PA antes de administrar el trombolítico?
+    </div>
+    <div class="quiz-options">
+      <button class="quiz-opt" data-opt="a">A) No tratar la PA — la hipertensión protege el tejido isquémico</button>
+      <button class="quiz-opt" data-opt="b">B) Reducir PA &lt; 120/80 mmHg antes de iniciar rtPA</button>
+      <button class="quiz-opt" data-opt="c">C) Reducir PA solo si &gt; 220/120 mmHg</button>
+      <button class="quiz-opt" data-opt="d">D) Reducir PA a &lt; 185/110 mmHg antes del rtPA, luego mantener &lt; 180/105 mmHg por 24 horas</button>
+    </div>
+    <div class="quiz-feedback">✅ <strong>Correcta: D.</strong> En ACV isquémico candidato a trombolisis, la meta es &lt; 185/110 mmHg ANTES de administrar rtPA, y &lt; 180/105 mmHg durante las siguientes 24h para reducir riesgo de hemorragia cerebral por transformación hemorrágica. Fármacos: labetalol IV o nicardipino IV.</div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="quiz-item" data-answer="b">
+    <div class="quiz-q">
+      <strong>PREGUNTA 05</strong>
+      Paciente con PA 185/115 mmHg y tríada clásica de cefalea pulsátil + sudoración profusa + palpitaciones episódicas. Se sospecha feocromocitoma. ¿Cuál es el error más peligroso en su manejo inicial?
+    </div>
+    <div class="quiz-options">
+      <button class="quiz-opt" data-opt="a">A) Iniciar fentolamina IV como primer agente</button>
+      <button class="quiz-opt" data-opt="b">B) Administrar propranolol IV sin alfa-bloqueo previo</button>
+      <button class="quiz-opt" data-opt="c">C) Solicitar catecolaminas urinarias y metanefrinas plasmáticas</button>
+      <button class="quiz-opt" data-opt="d">D) Realizar TC de abdomen para localizar la masa</button>
+    </div>
+    <div class="quiz-feedback">✅ <strong>Correcta: B.</strong> En feocromocitoma, un betabloqueador SIN alfa-bloqueo previo produce vasoconstricción paradójica severa (se bloquea la vasodilatación β2 periférica, dejando libre la vasoconstricción α). Esto puede causar crisis hipertensiva fatal. Siempre alfa-bloqueo primero (fentolamina, prazosina).</div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="quiz-item" data-answer="c">
+    <div class="quiz-q">
+      <strong>PREGUNTA 06</strong>
+      Hombre de 55 años hipertenso en tratamiento con metoprolol y amlodipino. Acude por cefalea y PA 200/120 mmHg. Interrogatorio revela que suspendió la clonidina (que tomaba adicionalmente) hace 2 días de forma brusca. ¿Cuál es el fenómeno fisiopatológico que explica este cuadro y el manejo?
+    </div>
+    <div class="quiz-options">
+      <button class="quiz-opt" data-opt="a">A) Hipertensión de bata blanca — tranquilizar y remitir a casa</button>
+      <button class="quiz-opt" data-opt="b">B) Crisis hipertensiva por estenosis de arteria renal — solicitar arteriografía urgente</button>
+      <button class="quiz-opt" data-opt="c">C) Síndrome de rebote por suspensión de clonidina — reinstaurar clonidina VO o labetalol IV</button>
+      <button class="quiz-opt" data-opt="d">D) Emergencia hipertensiva — hospitalizar en UCI con nitroprusiato</button>
+    </div>
+    <div class="quiz-feedback">✅ <strong>Correcta: C.</strong> La suspensión brusca de clonidina (agonista α2 central) produce hiperactividad adrenérgica de rebote con elevación severa de PA. El tratamiento es reinstaurar la clonidina VO si el paciente puede tomarla, o labetalol IV si la crisis es severa. Si no hay DOB, es urgencia hipertensiva.</div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="quiz-item" data-answer="d">
+    <div class="quiz-q">
+      <strong>PREGUNTA 07</strong>
+      Según la fisiopatología de la crisis hipertensiva, ¿por qué está contraindicado reducir la PA de forma agresiva (>25% de la PAM en la primera hora) en la mayoría de los pacientes?
+    </div>
+    <div class="quiz-options">
+      <button class="quiz-opt" data-opt="a">A) Porque el corazón necesita PA alta para mantener gasto cardíaco adecuado</button>
+      <button class="quiz-opt" data-opt="b">B) Porque la reducción rápida puede precipitar edema pulmonar cardiogénico</button>
+      <button class="quiz-opt" data-opt="c">C) Porque los antihipertensivos IV tienen riesgo de anafilaxis en el 30% de los pacientes</button>
+      <button class="quiz-opt" data-opt="d">D) Porque en HTA crónica la curva de autorregulación cerebral está desplazada hacia la derecha, y una reducción brusca puede generar isquemia cerebral a cifras que serían normales en un normotenso</button>
+    </div>
+    <div class="quiz-feedback">✅ <strong>Correcta: D.</strong> En hipertensos crónicos, los vasos cerebrales se adaptan a PA más altas y la curva de autorregulación se desplaza a la derecha. Una reducción brusca puede reducir el flujo cerebral a pesar de PA "normal", generando isquemia cerebral iatrogénica. Por eso la reducción debe ser gradual (≤25% en 1h).</div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="quiz-item" data-answer="a">
+    <div class="quiz-q">
+      <strong>PREGUNTA 08</strong>
+      ¿Cuál de los siguientes hallazgos en el fondo de ojo indica que estamos ante una EMERGENCIA hipertensiva (Keith-Wagener grado IV)?
+    </div>
+    <div class="quiz-options">
+      <button class="quiz-opt" data-opt="a">A) Papiledema bilateral con hemorragias en llama y exudados algodonosos</button>
+      <button class="quiz-opt" data-opt="b">B) Arterias en hilo de plata y cruces arteriovenosos (signo de Gunn)</button>
+      <button class="quiz-opt" data-opt="c">C) Leve aumento del reflejo arteriolar (hilum arteriolar)</button>
+      <button class="quiz-opt" data-opt="d">D) Vasos de calibre irregular sin hemorragias ni exudados</button>
+    </div>
+    <div class="quiz-feedback">✅ <strong>Correcta: A.</strong> Clasificación de Keith-Wagener: I = leve aumento del reflejo arteriolar; II = cruces AV (signo de Gunn), arterias en hilo de cobre/plata; III = hemorragias en llama y exudados algodonosos; IV = papiledema. Los grados III y IV indican retinopatía hipertensiva como signo de emergencia (DOB oftalmológico).</div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="quiz-item" data-answer="b">
+    <div class="quiz-q">
+      <strong>PREGUNTA 09</strong>
+      Hombre de 48 años con PA 195/125 mmHg, disnea severa, ortopnea y crepitantes bibasales bilaterales. EKG muestra taquicardia sinusal con ondas T invertidas laterales. BNP 1.200 pg/mL. ¿Cuál es el manejo más apropiado?
+    </div>
+    <div class="quiz-options">
+      <button class="quiz-opt" data-opt="a">A) Esmolol IV + nitroprusiato IV — manejo de la PA primero</button>
+      <button class="quiz-opt" data-opt="b">B) Nitroglicerina IV + furosemida IV — reducir pre y postcarga + eliminar sobrecarga de volumen</button>
+      <button class="quiz-opt" data-opt="c">C) Captopril VO + reposo en posición semisentada — manejo como urgencia hipertensiva</button>
+      <button class="quiz-opt" data-opt="d">D) Metoprolol IV como primera línea para frenar la taquicardia y la PA</button>
+    </div>
+    <div class="quiz-feedback">✅ <strong>Correcta: B.</strong> Edema agudo de pulmón (EAP) hipertensivo. La nitroglicerina IV reduce la precarga (vasodilatación venosa) y postcarga, aliviando rápidamente la congestión. La furosemida IV añade efecto diurético. El esmolol/betabloqueador puede empeorar la función ventricular en ICC aguda. El nitroprusiato es alternativa en UCI.</div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="quiz-item" data-answer="c">
+    <div class="quiz-q">
+      <strong>PREGUNTA 10</strong>
+      Una paciente de 30 años presenta confusión, PA 230/140 mmHg, convulsiones focales y visión borrosa. La RM cerebral muestra edema vasogénico bilateral en lóbulos parietooccipitales (FLAIR hiperintenso). ¿Cuál es el diagnóstico y el tratamiento definitivo?
+    </div>
+    <div class="quiz-options">
+      <button class="quiz-opt" data-opt="a">A) ACV isquémico posterior — trombólisis sistémica urgente con rtPA</button>
+      <button class="quiz-opt" data-opt="b">B) Meningitis bacteriana — antibióticos IV + dexametasona</button>
+      <button class="quiz-opt" data-opt="c">C) PRES (Encefalopatía Posterior Reversible) — control gradual de PA con labetalol/nicardipino IV; es reversible con tratamiento</button>
+      <button class="quiz-opt" data-opt="d">D) Tumor cerebral hemorrágico — consulta a neurocirugía de urgencia</button>
+    </div>
+    <div class="quiz-feedback">✅ <strong>Correcta: C.</strong> El PRES (Posterior Reversible Encephalopathy Syndrome) es una complicación de la crisis hipertensiva severa (y eclampsia, inmunosupresores). La RM muestra edema vasogénico predominante en regiones parietooccipitales. El tratamiento es control gradual de PA. Es completamente reversible si se trata a tiempo — importante para el pronóstico.</div>
+  </div>
+
+  <!-- SCORE -->
+  <div class="quiz-score" id="score-display" style="display:none;">
+    <div>Puntaje final</div>
+    <span class="score-num" id="score-num">0/10</span>
+    <div id="score-msg" style="font-size:0.8rem; opacity:0.8;"></div>
+    <button class="btn-reset" onclick="resetQuiz()">↺ Reintentar</button>
+  </div>
+</div>
+```
+
+  </section>
+
+  <p style="text-align:center; font-size:0.78rem; color:var(--text-muted); margin-top:2rem; font-style:italic;">
+    Basado en: ESC/ESH 2023 · JNC 8 · Guías colombianas de HTA 2021 · Resolución 3280/2018 · UpToDate 2024<br>
+    Material de estudio — No reemplaza el juicio clínico ni las guías institucionales locales.
+  </p>
+
+</main>
+
+<script>
+  let score = 0;
+  let answered = 0;
+  const total = 10;
+
+  document.querySelectorAll('.quiz-item').forEach(item => {
+    const correct = item.dataset.answer;
+    const buttons = item.querySelectorAll('.quiz-opt');
+    const feedback = item.querySelector('.quiz-feedback');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (item.dataset.done) return;
+        item.dataset.done = true;
+
+        buttons.forEach(b => {
+          b.disabled = true;
+          if (b.dataset.opt === correct) b.classList.add('correct');
+        });
+
+        if (btn.dataset.opt !== correct) {
+          btn.classList.add('wrong');
+        } else {
+          score++;
+        }
+
+        feedback.classList.add('visible');
+        answered++;
+
+        if (answered === total) {
+          const display = document.getElementById('score-display');
+          const num = document.getElementById('score-num');
+          const msg = document.getElementById('score-msg');
+          num.textContent = score + '/' + total;
+          const pct = (score / total) * 100;
+          msg.textContent = pct >= 80 ? '¡Excelente dominio del tema! 🎯' :
+                            pct >= 60 ? 'Buen resultado — repasa los temas fallados 📚' :
+                            'Revisa la teoría y vuelve a intentarlo 💪';
+          display.style.display = 'block';
+          display.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
+  });
+
+  function resetQuiz() {
+    score = 0;
+    answered = 0;
+    document.querySelectorAll('.quiz-item').forEach(item => {
+      delete item.dataset.done;
+      item.querySelectorAll('.quiz-opt').forEach(b => {
+        b.disabled = false;
+        b.classList.remove('correct', 'wrong');
+      });
+      item.querySelector('.quiz-feedback').classList.remove('visible');
+    });
+    document.getElementById('score-display').style.display = 'none';
+    document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Smooth scroll for nav pills
+  document.querySelectorAll('.nav-pill').forEach(pill => {
+    pill.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(pill.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+</body>
+</html>
