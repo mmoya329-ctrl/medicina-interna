@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insuficiencia Cardíaca Descompensada – Revisión Clínica</title>
+<style>
+  :root {
+    --brand: #1a5fa8;
+    --brand-light: #e6f1fb;
+    --brand-mid: #378add;
+    --danger-bg: #fcebeb; --danger-border: #f09595; --danger-text: #791f1f;
+    --warn-bg: #faeeda; --warn-border: #ef9f27; --warn-text: #633806;
+    --info-bg: #e6f1fb; --info-border: #85b7eb; --info-text: #042c53;
+    --success-bg: #eaf3de; --success-border: #97c459; --success-text: #173404;
+    --purple-bg: #eeedfe; --purple-border: #afa9ec; --purple-text: #26215c;
+    --teal-bg: #e1f5ee; --teal-border: #5dcaa5; --teal-text: #04342c;
+    --coral-bg: #faece7; --coral-border: #f0997b; --coral-text: #4a1b0c;
+    --gray-bg: #f1efe8; --gray-border: #b4b2a9; --gray-text: #2c2c2a;
+    --text: #1a1a1a; --text2: #555; --text3: #888;
+    --border: #ddd; --surface: #fff; --page: #f5f6f8;
+    --radius: 8px; --radius-lg: 12px;
+    --font: 'Georgia', serif;
+    --font-ui: system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-ui); background: var(--page); color: var(--text); font-size: 14px; line-height: 1.6; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: #1a3a5c; padding: 0; overflow-x: auto; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  nav a { display: inline-block; color: #b5d4f4; text-decoration: none; padding: 10px 14px; font-size: 12px; font-weight: 500; transition: background 0.15s, color 0.15s; }
+  nav a:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+  /* HEADER */
+  .header { background: linear-gradient(135deg, #1a3a5c 0%, #185fa5 100%); color: #fff; padding: 2rem 2rem 1.5rem; }
+  .header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 4px; }
+  .header p { font-size: 13px; color: #b5d4f4; }
+  .header-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .htag { background: rgba(255,255,255,0.15); color: #e6f1fb; font-size: 11px; padding: 3px 10px; border-radius: 20px; font-family: var(--font-ui); }
+
+  /* LAYOUT */
+  .page { max-width: 900px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+  section { margin-bottom: 2rem; }
+  h2 { font-size: 16px; font-weight: 700; color: #1a3a5c; padding: 10px 14px; background: var(--info-bg); border-left: 4px solid var(--brand); border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  h2 .num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: var(--brand); color: #fff; border-radius: 50%; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+  h3 { font-size: 13px; font-weight: 700; color: #1a3a5c; margin: 14px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* CARDS */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; margin-bottom: 12px; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 12px; }
+  .mini-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; }
+  .mini-card .label { font-size: 11px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .mini-card .value { font-size: 16px; font-weight: 700; color: var(--text); }
+  .mini-card .sub { font-size: 11px; color: var(--text2); }
+
+  /* ALERTS */
+  .alert { border-radius: var(--radius); padding: 10px 14px; margin-bottom: 10px; border-left: 4px solid; font-size: 13px; }
+  .alert-danger { background: var(--danger-bg); border-color: var(--danger-border); color: var(--danger-text); }
+  .alert-warn { background: var(--warn-bg); border-color: var(--warn-border); color: var(--warn-text); }
+  .alert-info { background: var(--info-bg); border-color: var(--info-border); color: var(--info-text); }
+  .alert-success { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+  .alert-purple { background: var(--purple-bg); border-color: var(--purple-border); color: var(--purple-text); }
+  .alert b { font-weight: 700; }
+
+  /* TABLES */
+  .tbl-wrap { overflow-x: auto; margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: #1a3a5c; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; }
+  tbody tr:nth-child(even) { background: #f8f9fb; }
+  tbody td { padding: 7px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+  tbody tr:hover { background: var(--brand-light); }
+  .td-drug { font-weight: 700; color: #1a3a5c; }
+  .td-dose { font-family: monospace; font-size: 12px; color: #185fa5; }
+  .td-note { font-size: 12px; color: var(--text2); }
+
+  /* BADGES */
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .b-danger { background: var(--danger-bg); color: var(--danger-text); border: 1px solid var(--danger-border); }
+  .b-warn { background: var(--warn-bg); color: var(--warn-text); border: 1px solid var(--warn-border); }
+  .b-info { background: var(--info-bg); color: var(--info-text); border: 1px solid var(--info-border); }
+  .b-success { background: var(--success-bg); color: var(--success-text); border: 1px solid var(--success-border); }
+  .b-purple { background: var(--purple-bg); color: var(--purple-text); border: 1px solid var(--purple-border); }
+  .b-teal { background: var(--teal-bg); color: var(--teal-text); border: 1px solid var(--teal-border); }
+
+  /* HEMODYNAMIC PROFILES */
+  .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; border: 2px solid #1a3a5c; border-radius: var(--radius); overflow: hidden; margin-bottom: 12px; }
+  .profile-cell { padding: 14px; position: relative; }
+  .pc-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .pc-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .pc-freq { font-size: 11px; margin-bottom: 8px; }
+  .pc-items { font-size: 12px; line-height: 1.7; }
+  .cell-wc { background: #fcebeb; border-right: 1px solid #e2a8a8; border-bottom: 1px solid #e2a8a8; }
+  .cell-ww { background: #fff3e0; border-bottom: 1px solid #e2c090; }
+  .cell-dc { background: #e8f4fd; border-right: 1px solid #a0c8e8; }
+  .cell-dw { background: #eaf3de; }
+  .axis-label { position: absolute; font-size: 10px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
+  .axis-x { top: 4px; right: 8px; }
+  .axis-y { bottom: 4px; left: 8px; }
+  .grid-axis-row { display: flex; align-items: center; justify-content: space-between; padding: 2px 10px; font-size: 10px; font-weight: 700; color: #555; background: #e8ecf0; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* TWO COLS */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } .profile-grid { grid-template-columns: 1fr; } }
+
+  /* LIST */
+  ul.clin { list-style: none; padding: 0; }
+  ul.clin li { padding: 4px 0 4px 18px; position: relative; font-size: 13px; line-height: 1.6; border-bottom: 1px solid #f0f0f0; }
+  ul.clin li::before { content: '▸'; position: absolute; left: 0; color: var(--brand); font-size: 10px; top: 6px; }
+  ul.clin li:last-child { border-bottom: none; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+
+  /* DRUG BLOCK */
+  .drug-section { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 14px; }
+  .drug-header { background: #1a3a5c; color: #fff; padding: 8px 14px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .drug-body { padding: 12px 14px; }
+
+  /* CONTRAINDICATIONS */
+  .contra-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; }
+  .contra-item { background: var(--danger-bg); border: 1px solid var(--danger-border); border-radius: var(--radius); padding: 8px 10px; font-size: 12px; }
+  .contra-item .ci-title { font-weight: 700; color: var(--danger-text); margin-bottom: 2px; }
+  .contra-item .ci-body { color: #5a2020; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+  .footnote { font-size: 11px; color: var(--text3); font-style: italic; margin-top: 6px; }
+
+  /* SCORE */
+  .criteria-box { background: #fff; border: 2px solid var(--brand); border-radius: var(--radius-lg); padding: 14px 16px; margin-bottom: 12px; }
+  .criteria-box h4 { font-size: 12px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .criteria-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 500px) { .criteria-cols { grid-template-columns: 1fr; } }
+
+  .step-list { counter-reset: steps; list-style: none; padding: 0; }
+  .step-list li { counter-increment: steps; padding: 6px 6px 6px 36px; position: relative; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  .step-list li::before { content: counter(steps); position: absolute; left: 6px; width: 22px; height: 22px; background: var(--brand); color: #fff; border-radius: 50%; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; top: 5px; }
+
+  /* PRINT */
+  @media print { nav { display: none; } body { font-size: 12px; } .page { padding: 0; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#def">Definición</a>
+  <a href="#epi">Epidemiología</a>
+  <a href="#clasif">Clasificación</a>
+  <a href="#fisio">Fisiopatología</a>
+  <a href="#etio">Etiología</a>
+  <a href="#clinica">Clínica</a>
+  <a href="#dx">Diagnóstico</a>
+  <a href="#paraclin">Paraclínicos</a>
+  <a href="#dd">Diag. Diferencial</a>
+  <a href="#tto">Tratamiento</a>
+  <a href="#compl">Complicaciones</a>
+  <a href="#hosp">Hospitalización/Egreso</a>
+  <a href="#pronostico">Pronóstico</a>
+</nav>
+
+<div class="header">
+  <h1>Insuficiencia Cardíaca Aguda Descompensada</h1>
+  <p>Revisión clínica completa · Medicina Interna · Contexto colombiano</p>
+  <div class="header-tags">
+    <span class="htag">ESC 2021</span>
+    <span class="htag">GPC MinSalud Colombia</span>
+    <span class="htag">RECALCAR Registry</span>
+    <span class="htag">ACC/AHA 2022</span>
+    <span class="htag">GPC IC 2016 Colombia</span>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- 1. DEFINICIÓN -->
+<section id="def">
+  <h2><span class="num">1</span> Definición y Conceptos Clave</h2>
+  <div class="card">
+    <p style="font-size:14px; line-height:1.8;"><b>Insuficiencia cardíaca aguda descompensada (ICAD)</b> es la aparición rápida o el empeoramiento progresivo de síntomas y signos de insuficiencia cardíaca (IC) que requiere evaluación urgente y cambio terapéutico inmediato, generalmente hospitalización.</p>
+    <hr class="divider">
+    <div class="two-col">
+      <div>
+        <h3>IC de novo vs. descompensada</h3>
+        <ul class="clin">
+          <li><b>De novo:</b> primera presentación de IC sin diagnóstico previo</li>
+          <li><b>Descompensada aguda:</b> deterioro de IC crónica conocida (más frecuente)</li>
+          <li><b>"Aguda"</b> no implica instalación súbita; puede evolucionar en días-semanas</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Fenotipos de presentación ESC 2021</h3>
+        <ul class="clin">
+          <li>IC descompensada (congestión ± leve hipoperfusión)</li>
+          <li>Edema agudo de pulmón (EAP)</li>
+          <li>Shock cardiogénico</li>
+          <li>IC hipertensiva (PA muy elevada)</li>
+          <li>IC derecha aislada</li>
+          <li>SCA + IC aguda</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. EPIDEMIOLOGÍA -->
+<section id="epi">
+  <h2><span class="num">2</span> Epidemiología – Contexto Colombiano</h2>
+  <div class="card-grid">
+    <div class="mini-card"><div class="label">Prevalencia general</div><div class="value">1–2%</div><div class="sub">Adultos colombianos</div></div>
+    <div class="mini-card"><div class="label">Mortalidad intrahospitalaria</div><div class="value">4–7%</div><div class="sub">Varía según perfil hemodinámico</div></div>
+    <div class="mini-card"><div class="label">Mortalidad a 1 año</div><div class="value">25–30%</div><div class="sub">Post-egreso hospitalario</div></div>
+    <div class="mini-card"><div class="label">Reingreso a 30 días</div><div class="value">~25%</div><div class="sub">Causa principal: falta adherencia</div></div>
+  </div>
+  <div class="alert alert-info">
+    <b>RECALCAR (Registro Colombiano de Cardiología):</b> La cardiopatía isquémica y la hipertensión arterial son las principales etiologías en Colombia. La enfermedad de Chagas tiene prevalencia significativa en regiones endémicas (Boyacá, Santander, Arauca, Llanos). La IC es la <b>primera causa de hospitalización en mayores de 65 años</b>.
+  </div>
+  <div class="alert alert-warn">
+    <b>Contexto socioeconómico:</b> La baja adherencia al tratamiento y las barreras de acceso al sistema de salud (especialmente en zonas rurales y estrato bajo) son determinantes frecuentes de descompensación en Colombia.
+  </div>
+</section>
+
+<!-- 3. CLASIFICACIÓN -->
+<section id="clasif">
+  <h2><span class="num">3</span> Clasificación</h2>
+
+  <h3>Por fracción de eyección (FEVI)</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Tipo</th><th>FEVI</th><th>Denominación</th><th>Tratamiento con evidencia</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge b-danger">ICFEr</span></td><td class="td-dose">< 40%</td><td>IC con FE reducida</td><td>IECA/ARNI + BB + ARM + iSGLT2</td></tr>
+        <tr><td><span class="badge b-warn">ICFElr</span></td><td class="td-dose">40–49%</td><td>IC con FE levemente reducida</td><td>Consideración de IECA/ARNI, BB, ARM, iSGLT2</td></tr>
+        <tr><td><span class="badge b-info">ICFEc</span></td><td class="td-dose">≥ 50%</td><td>IC con FE conservada</td><td>Principalmente control de síntomas; iSGLT2 (dapagliflozina)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Clasificación funcional NYHA</h3>
+  <div class="card-grid" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="mini-card"><div class="label">Clase I</div><div class="value" style="font-size:13px;">Sin limitación</div><div class="sub">Actividad habitual sin síntomas</div></div>
+    <div class="mini-card"><div class="label">Clase II</div><div class="value" style="font-size:13px;">Leve</div><div class="sub">Síntomas con actividad moderada</div></div>
+    <div class="mini-card" style="background: var(--warn-bg)"><div class="label">Clase III</div><div class="value" style="font-size:13px;">Moderada</div><div class="sub">Síntomas con actividad mínima</div></div>
+    <div class="mini-card" style="background: var(--danger-bg)"><div class="label">Clase IV</div><div class="value" style="font-size:13px;">Severa</div><div class="sub">Síntomas en reposo</div></div>
+  </div>
+
+  <h3>Perfiles hemodinámicos de Stevenson (eje HÚMEDO/SECO – FRÍO/CALIENTE)</h3>
+  <div style="font-size:12px; color:var(--text2); margin-bottom:6px;">La congestión ("húmedo") se refiere a signos de congestión pulmonar/sistémica. La hipoperfusión ("frío") implica bajo gasto cardíaco.</div>
+  <div class="grid-axis-row"><span>← FRÍO (hipoperfusión)</span><span>CALIENTE (perfusión adecuada) →</span></div>
+  <div class="profile-grid">
+    <div class="profile-cell cell-wc">
+      <div class="pc-header" style="color:#8b1a1a;">⬛ HÚMEDO–FRÍO</div>
+      <div class="pc-name" style="color:#8b1a1a;">Perfil C</div>
+      <div class="pc-freq"><span class="badge b-danger">~20% casos</span></div>
+      <div class="pc-items">Congestión + hipoperfusión<br>Shock cardiogénico<br>Pronóstico MÁS grave<br><b>Tx:</b> inotrópicos ± vasopresores, diuréticos con cautela</div>
+      <span class="axis-label axis-x" style="color:#888;">húmedo ↕</span>
+    </div>
+    <div class="profile-cell cell-ww">
+      <div class="pc-header" style="color:#7a4000;">⬜ HÚMEDO–CALIENTE</div>
+      <div class="pc-name" style="color:#7a4000;">Perfil B</div>
+      <div class="pc-freq"><span class="badge b-warn">~50–60% casos (más frecuente)</span></div>
+      <div class="pc-items">Congestión sin hipoperfusión<br>Extremidades calientes<br><b>Tx:</b> Diuréticos IV ± vasodilatadores</div>
+    </div>
+    <div class="profile-cell cell-dc">
+      <div class="pc-header" style="color:#1a4a7a;">▪ SECO–FRÍO</div>
+      <div class="pc-name" style="color:#1a4a7a;">Perfil L</div>
+      <div class="pc-freq"><span class="badge b-info">~5% casos</span></div>
+      <div class="pc-items">Sin congestión + hipoperfusión<br>Bajo gasto crónico<br><b>Tx:</b> Carga cautelosa de volumen, inotrópicos</div>
+      <span class="axis-label axis-y" style="color:#888;">seco ↕</span>
+    </div>
+    <div class="profile-cell cell-dw">
+      <div class="pc-header" style="color:#1a5f1a;">▫ SECO–CALIENTE</div>
+      <div class="pc-name" style="color:#1a5f1a;">Perfil A</div>
+      <div class="pc-freq"><span class="badge b-success">Compensado</span></div>
+      <div class="pc-items">Sin congestión, perfusión adecuada<br>IC compensada / outpatient<br><b>Tx:</b> Optimización crónica</div>
+    </div>
+  </div>
+
+  <h3>Killip-Kimball (en contexto de SCA)</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Clase</th><th>Hallazgos</th><th>Mortalidad aprox.</th></tr></thead>
+      <tbody>
+        <tr><td>I</td><td>Sin estertores, sin S3</td><td>~6%</td></tr>
+        <tr><td>II</td><td>Estertores < 50% campos, S3 o ingurgitación yugular</td><td>~17%</td></tr>
+        <tr><td>III</td><td>Estertores > 50% campos (EAP)</td><td>~38%</td></tr>
+        <tr><td>IV</td><td>Shock cardiogénico</td><td>~81%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 4. FISIOPATOLOGÍA -->
+<section id="fisio">
+  <h2><span class="num">4</span> Fisiopatología</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Mecanismos centrales</h3>
+      <ul class="clin">
+        <li><b>Disfunción sistólica:</b> reducción del volumen sistólico → ↓ gasto cardíaco → activación compensatoria</li>
+        <li><b>Disfunción diastólica:</b> ↑ presiones de llenado → congestión retrógrada sin caída obligatoria de FEVI</li>
+        <li><b>Remodelado cardíaco:</b> hipertrofia, fibrosis, dilatación → pérdida de forma elíptica → disfunción progresiva</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Activación neurohumoral (clave en descompensación)</h3>
+      <ul class="clin">
+        <li><b>SRAA:</b> AngII → vasoconstricción, retención hidrosalina, fibrosis miocárdica</li>
+        <li><b>SNS:</b> catecolaminas → taquicardia, vasoconstricción, toxicidad miocárdica crónica</li>
+        <li><b>ADH/vasopresina:</b> retención de agua libre → hiponatremia dilucional</li>
+        <li><b>Péptidos natriuréticos (BNP/ANP):</b> respuesta compensadora → natriuresis, vasodilatación</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Cascada de descompensación</h3>
+    <div style="display:flex; align-items:center; flex-wrap:wrap; gap:4px; font-size:12px;">
+      <span class="badge b-danger">Desencadenante</span>
+      <span>→</span>
+      <span class="badge b-warn">↑ presión de llenado</span>
+      <span>→</span>
+      <span class="badge b-warn">Congestión pulmonar/sistémica</span>
+      <span>→</span>
+      <span class="badge b-danger">↓ GC (si disfunción severa)</span>
+      <span>→</span>
+      <span class="badge b-danger">Hipoperfusión periférica + renal</span>
+      <span>→</span>
+      <span class="badge b-info">Activación SRAA/SNS</span>
+      <span>→</span>
+      <span class="badge b-danger">Retención H₂O/Na⁺ → ↑ congestión</span>
+    </div>
+    <hr class="divider">
+    <h3>Síndrome cardiorrenal tipo 1</h3>
+    <p style="font-size:13px;">↓ GC → ↓ flujo renal → activación SRAA → mayor retención Na⁺/H₂O → agravamiento de IC. Además, la congestión venosa renal (↑ PVC) contribuye directamente a la disfunción renal en IC descompensada.</p>
+  </div>
+</section>
+
+<!-- 5. ETIOLOGÍA Y PRECIPITANTES -->
+<section id="etio">
+  <h2><span class="num">5</span> Etiología y Factores Precipitantes</h2>
+  <div class="two-col">
+    <div>
+      <h3>Etiologías de IC (causas base)</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Causa</th><th>Notas Colombia</th></tr></thead>
+          <tbody>
+            <tr><td class="td-drug">Cardiopatía isquémica</td><td class="td-note">Principal etiología (~40–50%)</td></tr>
+            <tr><td class="td-drug">Hipertensión arterial</td><td class="td-note">Causa y factor agravante; alta prevalencia</td></tr>
+            <tr><td class="td-drug">Miocardiopatía dilatada idiopática</td><td class="td-note">~15–20%</td></tr>
+            <tr><td class="td-drug">Enfermedad de Chagas</td><td class="td-note"><b>Importante en Colombia</b>; regiones endémicas (Santander, Boyacá, Arauca)</td></tr>
+            <tr><td class="td-drug">Valvulopatías</td><td class="td-note">Estenosis/insuficiencia aórtica o mitral</td></tr>
+            <tr><td class="td-drug">Miocarditis</td><td class="td-note">Viral (Coxsackie, SARS-CoV-2), autoinmune</td></tr>
+            <tr><td class="td-drug">Cardiotoxicidad</td><td class="td-note">Quimioterapia (antraciclinas, trastuzumab), alcohol, cocaína</td></tr>
+            <tr><td class="td-drug">Arritmias crónicas</td><td class="td-note">Taquicardiomiopatía por FA persistente</td></tr>
+            <tr><td class="td-drug">Cardiopatía congénita</td><td class="td-note">En adultos jóvenes</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <h3>Factores precipitantes de descompensación</h3>
+      <div class="alert alert-info"><b>Mnemotecnia CHAMPIT (ESC)</b></div>
+      <ul class="clin">
+        <li><b>C</b>oronario agudo (SCA): buscar siempre</li>
+        <li><b>H</b>ipertensión no controlada (crisis HTA)</li>
+        <li><b>A</b>rritmia (FA de novo / flutter / TV): causa más frecuente ~30%</li>
+        <li><b>M</b>ecánico agudo (ruptura cuerdas, EI)</li>
+        <li><b>P</b>ulmonar (TEP, neumonía, EPOC exacerbado)</li>
+        <li><b>I</b>nfección sistémica (sepsis, ITU, NAC): muy frecuente en Colombia</li>
+        <li><b>T</b>amponade cardíaco</li>
+      </ul>
+      <div class="alert alert-warn" style="margin-top:10px;">
+        <b>Causa más frecuente en Colombia:</b> Transgresión dietética (exceso de sodio) y falta de adherencia farmacológica (~35-40% de descompensaciones)
+      </div>
+      <h3 style="margin-top:10px;">Fármacos precipitantes</h3>
+      <div class="pill-row">
+        <span class="badge b-danger">AINEs</span>
+        <span class="badge b-danger">Corticoides</span>
+        <span class="badge b-danger">Calcioantagonistas (no DHP en ICFEr)</span>
+        <span class="badge b-danger">Tiazolidinedionas</span>
+        <span class="badge b-warn">Contraste yodado (gran volumen)</span>
+        <span class="badge b-warn">Antiarrítmicos clase I</span>
+        <span class="badge b-warn">Cocaína / metanfetaminas</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. PRESENTACIÓN CLÍNICA -->
+<section id="clinica">
+  <h2><span class="num">6</span> Presentación Clínica</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Síntomas de congestión</h3>
+      <ul class="clin">
+        <li><b>Disnea de esfuerzo</b> (más temprana y frecuente)</li>
+        <li><b>Ortopnea:</b> disnea al acostarse (2+ almohadas)</li>
+        <li><b>Disnea paroxística nocturna:</b> despierta al paciente</li>
+        <li>Tos seca/húmeda nocturna</li>
+        <li><b>Edema periférico</b> bilateral, declive, deja fóvea</li>
+        <li>Ganancia de peso reciente (&gt;2 kg en 3 días)</li>
+        <li>Distensión abdominal, náuseas, saciedad precoz</li>
+        <li>Nicturia</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Síntomas de bajo gasto / hipoperfusión</h3>
+      <ul class="clin">
+        <li>Fatiga intensa, debilidad muscular</li>
+        <li>Intolerancia marcada al ejercicio</li>
+        <li>Confusión, somnolencia (hipoperfusión cerebral)</li>
+        <li>Oliguria / anuria</li>
+        <li>Síncope o presíncope</li>
+        <li>Frialdad de extremidades</li>
+      </ul>
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>Signos de congestión (examen físico)</h3>
+      <ul class="clin">
+        <li><b>Ingurgitación yugular (IY):</b> PVY &gt;3 cm por encima del ángulo esternal a 45°</li>
+        <li><b>Reflujo hepatoyugular (RHY) positivo</b></li>
+        <li>Estertores pulmonares bilaterales (crepitantes basales)</li>
+        <li>Matidez en bases (derrame pleural, más frecuente derecho)</li>
+        <li>Edema periférico con fóvea</li>
+        <li>Ascitis (IC derecha avanzada)</li>
+        <li>Hepatomegalia dolorosa (hepatomegalia congestiva)</li>
+        <li>Anasarca en casos severos</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Signos de hipoperfusión / examen cardíaco</h3>
+      <ul class="clin">
+        <li>Taquicardia sinusal (respuesta compensadora)</li>
+        <li>Pulso de baja amplitud / filiforme en shock</li>
+        <li>PA: puede ser normal, baja (&lt;90 mmHg en shock) o alta (IC hipertensiva)</li>
+        <li>Frialdad distal, cianosis periférica, piel marmórea</li>
+        <li><b>3er ruido (S3):</b> galope ventricular; específico de IC descompensada</li>
+        <li><b>4to ruido (S4):</b> en ICFEc / disfunción diastólica</li>
+        <li>Soplos (valvulopatías subyacentes)</li>
+        <li>Choque de punta desplazado a la izquierda (cardiomegalia)</li>
+        <li>Taquipnea, tiraje, uso de músculos accesorios (EAP)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="alert alert-danger">
+    <b>Señales de alarma – Requieren manejo urgente:</b> SpO₂ &lt;90%, PAS &lt;90 mmHg, FC &gt;120 lpm, FR &gt;30 rpm, confusión aguda, cianosis central, disnea en reposo severa, oligoanuria.
+  </div>
+</section>
+
+<!-- 7. CRITERIOS DIAGNÓSTICOS -->
+<section id="dx">
+  <h2><span class="num">7</span> Criterios Diagnósticos</h2>
+
+  <div class="criteria-box">
+    <h4>Criterios de Framingham (modificados) – Para diagnóstico de IC</h4>
+    <p style="font-size:12px; color:var(--text2); margin-bottom:10px;">Se requieren ≥2 criterios mayores, o 1 mayor + 2 menores</p>
+    <div class="criteria-cols">
+      <div>
+        <b style="font-size:12px; color:#1a3a5c;">CRITERIOS MAYORES</b>
+        <ul class="clin" style="margin-top:6px;">
+          <li>Disnea paroxística nocturna u ortopnea</li>
+          <li>Ingurgitación yugular</li>
+          <li>Estertores pulmonares</li>
+          <li>Cardiomegalia en Rx de tórax</li>
+          <li>Edema pulmonar agudo</li>
+          <li>Galope por S3</li>
+          <li>Reflujo hepatoyugular positivo</li>
+          <li>PVC &gt;16 cmH₂O</li>
+          <li>Pérdida de peso &gt;4.5 kg en 5 días con tratamiento</li>
+        </ul>
+      </div>
+      <div>
+        <b style="font-size:12px; color:#1a3a5c;">CRITERIOS MENORES</b>
+        <ul class="clin" style="margin-top:6px;">
+          <li>Edema maleolar bilateral</li>
+          <li>Tos nocturna</li>
+          <li>Disnea con ejercicio ordinario</li>
+          <li>Hepatomegalia</li>
+          <li>Derrame pleural</li>
+          <li>Taquicardia (FC &gt;120 lpm)</li>
+          <li>Capacidad vital reducida en 1/3</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <b>En la práctica actual:</b> El diagnóstico es clínico + ecocardiografía + BNP/NT-proBNP. Los criterios de Framingham son útiles como guía, pero la ecocardiografía es el gold standard para confirmar disfunción cardíaca y clasificar el tipo de IC.
+  </div>
+
+  <h3>Evaluación diagnóstica inicial (abordaje en urgencias)</h3>
+  <ol class="step-list">
+    <li><b>Historia clínica:</b> síntomas actuales, IC previa, adherencia, cambios en medicamentos, desencadenantes</li>
+    <li><b>Examen físico completo:</b> signos vitales, PA en ambos brazos, saturación, yugulares, pulmones, corazón, abdomen, extremidades</li>
+    <li><b>ECG de 12 derivaciones:</b> buscar SCA, arritmias, BRIHH nuevo, signos de sobrecarga</li>
+    <li><b>Radiografía de tórax:</b> cardiomegalia, redistribución vascular, edema intersticial/alveolar, líneas B de Kerley, derrames pleurales</li>
+    <li><b>Ecocardiografía transtorácica urgente:</b> FEVI, función diastólica, valvulopatías, derrame pericárdico, función VD</li>
+    <li><b>Paraclínicos de urgencia</b> (ver sección siguiente)</li>
+    <li><b>Valorar perfil hemodinámico</b> según examen clínico (húmedo/seco, frío/caliente)</li>
+  </ol>
+</section>
+
+<!-- 8. PARACLÍNICOS -->
+<section id="paraclin">
+  <h2><span class="num">8</span> Paraclínicos</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Examen</th><th>Hallazgos relevantes / Puntos de corte</th><th>Prioridad</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="td-drug">BNP / NT-proBNP</td>
+          <td>
+            BNP: <b>&gt;100 pg/mL</b> sugiere IC aguda | &lt;100 excluye IC (VPN 90%)<br>
+            NT-proBNP: <b>&gt;300 pg/mL</b> agudo / &gt;125 pg/mL crónico<br>
+            Ajustar por obesidad (↓ valores) y FA/TEP/SCA (↑ valores falsamente)
+          </td>
+          <td><span class="badge b-danger">Esencial</span></td>
+        </tr>
+        <tr>
+          <td class="td-drug">Troponina (I o T ultrasensible)</td>
+          <td>Elevada hasta en 70% de ICAD. Si elevación significativa → descartar SCA. Elevación leve en IC por injuria miocárdica</td>
+          <td><span class="badge b-danger">Esencial</span></td>
+        </tr>
+        <tr>
+          <td class="td-drug">Hemograma</td>
+          <td>Anemia (agravante), leucocitosis (infección como precipitante)</td>
+          <td><span class="badge b-danger">Esencial</span></td>
+        </tr>
+        <tr>
+          <td class="td-drug">Creatinina / BUN / TFG</td>
+          <td>Síndrome cardiorrenal. Guía dosis de diuréticos y fármacos. Monitorizar c/24-48h</td>
+          <td><span class="badge b-danger">Esencial</span></td>
+        </tr>
+        <tr>
+          <td class="td-drug">Electrolitos (Na⁺, K⁺, Mg²⁺)</td>
+          <td>Hiponatremia (pronóstico adverso). Hipopotasemia/hiperpotasemia (riesgo arritmias). Monitorizar c/12-24h durante diuresis</td>
+          <td><span class="badge b-danger">Esencial</span></td>
+        </tr>
+        <tr>
+          <td class="td-drug">Glucemia / HbA1c</td>
+          <td>Diabetes como comorbilidad. Hiperglicemia de estrés</td>
+          <td><span class="badge b-danger">Esencial</span></td>
+        </tr>
+        <tr>
+          <td class="td-drug">Gasometría arterial</td>
+          <td>Acidosis metabólica (hipoperfusión), hipoxemia, hipercapnia (EPOC sobreimpuesto). Esencial en EAP y shock</td>
+          <td><span class="badge b-danger">Esencial en EAP/shock</span></td>
+        </tr>
+        <tr>
+          <td class="td-drug">Pruebas hepáticas (AST, ALT, Bil, TP)</td>
+          <td>Hepatopatía congestiva. TP prolongado = disfunción hepática grave</td>
+          <td><span class="badge b-warn">Importante</span></td>
+        </tr>
+        <tr>
+          <td class="td-drug">TSH</td>
+          <td>Hipo/hipertiroidismo como causa o factor precipitante</td>
+          <td><span class="badge b-warn">Importante</span></td>
+        </tr>
+        <tr>
+          <td class="td-drug">Lactato sérico</td>
+          <td>Hiperlactatemia (&gt;2 mmol/L) en shock cardiogénico → hipoperfusión tisular</td>
+          <td><span class="badge b-warn">En shock</span></td>
+        </tr>
+        <tr>
+          <td class="td-drug">PCR / procalcitonina</td>
+          <td>Infección como precipitante (neumonía, ITU, sepsis)</td>
+          <td><span class="badge b-info">Según clínica</span></td>
+        </tr>
+        <tr>
+          <td class="td-drug">Ecografía pulmonar POCUS</td>
+          <td>Líneas B (congestión). Derrame pleural. Evaluación rápida al lado del paciente</td>
+          <td><span class="badge b-info">Disponible</span></td>
+        </tr>
+        <tr>
+          <td class="td-drug">Monitoreo hemodinámico invasivo (catéter Swan-Ganz)</td>
+          <td>Casos refractarios / shock: mide GC, PCWP, RVS. Cada vez menos usado (reemplazado por ecocardiograma)</td>
+          <td><span class="badge b-info">Casos seleccionados</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert alert-purple">
+    <b>Hallazgos Rx de tórax en IC descompensada:</b> Índice cardiotorácico &gt;0.5 (cardiomegalia) · Redistribución vascular a lóbulos superiores (patrón en "alas de murciélago" o cefalización) · Líneas B de Kerley (edema intersticial) · Infiltrado perihiliar ("alas de mariposa") en EAP · Derrame pleural (más frecuente derecho)
+  </div>
+</section>
+
+<!-- 9. DIAGNÓSTICOS DIFERENCIALES -->
+<section id="dd">
+  <h2><span class="num">9</span> Diagnósticos Diferenciales</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Diagnóstico</th><th>Diferencias clave con IC</th><th>Pistas diagnósticas</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="td-drug">Exacerbación de EPOC / Asma</td>
+          <td>Sibilancias espiratorias, tabaquismo, sin ingurgitación yugular, sin S3</td>
+          <td>Espirometría previa, respuesta a broncodilatadores, BNP normal/bajo</td>
+        </tr>
+        <tr>
+          <td class="td-drug">TEP (Tromboembolismo Pulmonar)</td>
+          <td>Disnea súbita sin congestión clara, taquicardia, hipoxemia desproporcional, soplo P2</td>
+          <td>Score Wells/PERC, D-dímero, angioTAC, ecocardio con disfunción VD aguda</td>
+        </tr>
+        <tr>
+          <td class="td-drug">Neumonía / SDRA</td>
+          <td>Fiebre, consolidación localizada, síndrome de respuesta inflamatoria</td>
+          <td>Rx tórax asimétrica, PCT elevada, BNP bajo/normal</td>
+        </tr>
+        <tr>
+          <td class="td-drug">Síndrome nefrótico</td>
+          <td>Edema, pero sin ingurgitación yugular, sin S3, sin congestión pulmonar</td>
+          <td>Proteinuria masiva, hipoalbuminemia, BNP normal</td>
+        </tr>
+        <tr>
+          <td class="td-drug">Cirrosis hepática con ascitis</td>
+          <td>Edema/ascitis pero sin congestión pulmonar (a menos que haya hipertensión portopulmonar)</td>
+          <td>Estigmas de hepatopatía crónica, albumina baja, pruebas hepáticas alteradas</td>
+        </tr>
+        <tr>
+          <td class="td-drug">Taponamiento cardíaco</td>
+          <td>IY elevada + hipotensión + ruidos cardíacos apagados (tríada de Beck). Sin congestión pulmonar significativa</td>
+          <td>Pulso paradójico, ecocardio (derrame pericárdico + colapso VD)</td>
+        </tr>
+        <tr>
+          <td class="td-drug">Pericarditis constrictiva</td>
+          <td>Signo de Kussmaul, pericardio calcificado en Rx/TAC, llenado diastólico brusco</td>
+          <td>Ecocardio: movimiento septal abrupto, rebote; TAC/RMC: engrosamiento pericárdico</td>
+        </tr>
+        <tr>
+          <td class="td-drug">Hipertensión pulmonar primaria</td>
+          <td>Disnea, IC derecha, sin disfunción VI, ecocardiograma diferenciador</td>
+          <td>Presión sistólica VD elevada en ecocardio, cateterismo derecho</td>
+        </tr>
+        <tr>
+          <td class="td-drug">Anemia severa (&lt;7 g/dL)</td>
+          <td>Disnea, taquicardia, edema leve por IC de alto gasto; puede coexistir con IC</td>
+          <td>Hemograma, reticulocitos; IC de alto gasto (GC elevado)</td>
+        </tr>
+        <tr>
+          <td class="td-drug">Miocarditis aguda</td>
+          <td>Puede presentarse como IC aguda en paciente joven sin factores de riesgo</td>
+          <td>Troponinas muy elevadas, RMC con realce tardío de gadolinio, biopsia (casos seleccionados)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 10. TRATAMIENTO -->
+<section id="tto">
+  <h2><span class="num">10</span> Tratamiento</h2>
+
+  <div class="alert alert-info">
+    <b>Principio fundamental:</b> El tratamiento se guía por el <b>perfil hemodinámico</b>. Antes de iniciar cualquier fármaco, identificar si el paciente está <b>húmedo/seco</b> (congestión) y <b>frío/caliente</b> (perfusión).
+  </div>
+
+  <!-- MEDIDAS GENERALES -->
+  <div class="drug-section">
+    <div class="drug-header">⚙ Medidas Generales (todos los perfiles)</div>
+    <div class="drug-body">
+      <div class="two-col">
+        <ul class="clin">
+          <li>Monitoreo continuo: FC, FR, PA, SpO₂, diuresis horaria (sonda vesical si shock u oliguria)</li>
+          <li>Acceso venoso periférico o central (según severidad)</li>
+          <li>Posición semisentada (45°) o sentada para reducir trabajo respiratorio</li>
+          <li>O₂ suplementario si SpO₂ &lt;90% (evitar hiperoxia en EPOC)</li>
+          <li>Restricción hídrica: <b>1.5–2 L/día</b> (si hiponatremia &lt;130 mEq/L o congestión severa)</li>
+        </ul>
+        <ul class="clin">
+          <li>Restricción de sodio: <b>&lt;2–3 g de NaCl/día</b></li>
+          <li>Balance hídrico estricto cada 6–8h; meta balance negativo 500–1000 mL/día</li>
+          <li>Peso diario en ayunas</li>
+          <li>Tromboprofilaxis: HBPM (enoxaparina 40 mg SC/día) si no contraindicada</li>
+          <li>Suspender AINEs, calcioantagonistas no DHP (diltiazem, verapamilo) en ICFEr</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOPORTE VENTILATORIO -->
+  <div class="drug-section">
+    <div class="drug-header" style="background:#2e7d32;">🫁 Soporte Ventilatorio</div>
+    <div class="drug-body">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Modalidad</th><th>Indicación</th><th>Parámetros iniciales</th><th>Contraindicaciones</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="td-drug">VMNI – CPAP</td>
+              <td>EAP cardiogénico, SpO₂ &lt;90% con O₂, FR &gt;25 rpm. <b>Reduce necesidad de IOT ~50%</b></td>
+              <td class="td-dose">PEEP 5–10 cmH₂O; FiO₂ para SpO₂ ≥92%</td>
+              <td class="td-note">Deterioro de conciencia, vómito, inestabilidad hemodinámica severa, trauma facial</td>
+            </tr>
+            <tr>
+              <td class="td-drug">VMNI – BiPAP</td>
+              <td>EAP + hipercapnia, EPOC sobreimpuesto, si CPAP falla</td>
+              <td class="td-dose">IPAP 10–16, EPAP 4–8 cmH₂O</td>
+              <td class="td-note">Igual a CPAP</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Ventilación mecánica invasiva (VMI)</td>
+              <td>Falla de VMNI, GSG &lt;10, inestabilidad hemodinámica refractaria, paro respiratorio inminente</td>
+              <td class="td-dose">VT 6–8 mL/kg PPI; PEEP según oxigenación; FR 12–16 rpm</td>
+              <td class="td-note">Última línea; ↑ mortalidad en shock cardiogénico</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIURÉTICOS -->
+  <div class="drug-section">
+    <div class="drug-header" style="background:#1565c0;">💊 Diuréticos (perfil húmedo – descongestión)</div>
+    <div class="drug-body">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Fármaco</th><th>Dosis</th><th>Notas clínicas</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="td-drug">Furosemida IV</td>
+              <td class="td-dose">
+                <b>Sin diurético previo:</b> 40–80 mg IV bolo<br>
+                <b>Con diurético previo:</b> 1–2.5× la dosis oral diaria total en 24h<br>
+                <b>Infusión continua:</b> 5–10 mg/h (si bolo insuficiente)<br>
+                <b>Meta:</b> diuresis ≥200 mL/h las primeras 2h o &gt;3–5 mL/kg/h
+              </td>
+              <td class="td-note">Monitorizar K⁺, Mg²⁺, creatinina c/12-24h. Vigilar ototoxicidad con dosis altas. El incremento de creatinina &lt;0.3 mg/dL es tolerable si hay descongestión</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Furosemida oral</td>
+              <td class="td-dose">20–240 mg/día (en 1-2 dosis)<br>Transición a VO una vez estable</td>
+              <td class="td-note">Biodisponibilidad variable (10–90%). Preferir IV en fase aguda</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Hidroclorotiazida (potenciador)</td>
+              <td class="td-dose">25–50 mg/día VO</td>
+              <td class="td-note">Bloqueo secuencial de nefróna en resistencia a furosemida. Evitar si TFG &lt;30</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Espironolactona (potenciador)</td>
+              <td class="td-dose">25–100 mg/día VO</td>
+              <td class="td-note">También con efecto neurohumoral. Riesgo de hiperpotasemia. Monitorizar K⁺ y creatinina</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-warn">
+        <b>Resistencia a diuréticos:</b> Considerar cuando diuresis &lt;150 mL en 2h tras bolo IV. Causas: depleción de volumen efectivo, hiponatremia, ↓ perfusión renal, uso de AINEs, hipoalbuminemia. Estrategia: aumentar dosis, cambiar a infusión continua, asociar tiazida, o ultrafiltración.
+      </div>
+    </div>
+  </div>
+
+  <!-- VASODILATADORES -->
+  <div class="drug-section">
+    <div class="drug-header" style="background:#6a1b9a;">💉 Vasodilatadores (PAS > 90–100 mmHg, perfil húmedo-caliente o IC hipertensiva)</div>
+    <div class="drug-body">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Fármaco</th><th>Dosis IV</th><th>Indicación principal</th><th>Precauciones</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="td-drug">Nitroglicerina (NTG)</td>
+              <td class="td-dose">Inicio: 5–10 mcg/min<br>Titular c/5 min hasta 200 mcg/min<br>Meta: ↓ PAS 10–15 mmHg o alivio de síntomas</td>
+              <td>EAP, IC hipertensiva, congestión con PA elevada. <b>Vasodilatador de primera línea en EAP</b></td>
+              <td class="td-note">Taquifilaxia a las 24–48h. Contraindicada con sildenafil (hipotensión severa). Cefalea frecuente</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Nitroprusiato de sodio</td>
+              <td class="td-dose">0.3–5 mcg/kg/min IV<br>Titular cada 2–5 min</td>
+              <td>IC hipertensiva severa, regurgitación mitral/aórtica aguda, EAP refractario a NTG</td>
+              <td class="td-note">Toxicidad por tiocianato con uso prolongado (&gt;72h) o IR. Fotosensible. Requiere monitorización continua de PA. <b>No de primera elección por complejidad</b></td>
+            </tr>
+            <tr>
+              <td class="td-drug">Isosorbida dinitrato VO/SL</td>
+              <td class="td-dose">5 mg SL c/5 min (máx 3 dosis)<br>VO: 20–40 mg c/6-8h</td>
+              <td>IC hipertensiva moderada, transición de NTG IV</td>
+              <td class="td-note">Intervalo libre de nitratos de 8–12h para evitar taquifilaxia</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- INOTRÓPICOS Y VASOPRESORES -->
+  <div class="drug-section">
+    <div class="drug-header" style="background:#b71c1c;">⚡ Inotrópicos y Vasopresores (perfil frío – shock cardiogénico)</div>
+    <div class="drug-body">
+      <div class="alert alert-danger">
+        <b>Indicación:</b> Hipoperfusión tisular con hipotensión (PAS &lt;90 mmHg o PAM &lt;65 mmHg) refractaria a optimización de volumen. <b>Usar la dosis mínima necesaria y por el menor tiempo posible</b> (incrementan mortalidad a largo plazo en IC).
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Fármaco</th><th>Dosis IV (mcg/kg/min)</th><th>Efecto principal</th><th>Indicación / Notas</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="td-drug">Dobutamina</td>
+              <td class="td-dose">2.5–10 mcg/kg/min<br>(máx 20 mcg/kg/min)</td>
+              <td>Inotrópico (+), cronotrópico (+), vasodilatador leve</td>
+              <td class="td-note"><b>Inotrópico de primera línea en shock cardiogénico.</b> Evitar si PAS &lt;70 mmHg sin vasopresor. Proarrítmico. Taquifilaxia a &gt;48h. No usar en estenosis aórtica severa sin corrección</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Norepinefrina</td>
+              <td class="td-dose">0.01–0.5 mcg/kg/min</td>
+              <td>Vasopresor potente (α1), inotrópico leve (β1)</td>
+              <td class="td-note"><b>Vasopresor de elección en shock cardiogénico</b> (superior a dopamina en mortalidad y arritmias). Siempre por acceso central</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Milrinona</td>
+              <td class="td-dose">0.375–0.75 mcg/kg/min<br>(sin carga de rutina)</td>
+              <td>Inodilatador (inhibidor PDE-3). No depende de betarreceptores</td>
+              <td class="td-note">Útil en pacientes con betabloqueadores o receptor β desensibilizado. <b>Evitar si hipotensión.</b> Ajustar en IRC. Proarrítmico</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Levosimendán</td>
+              <td class="td-dose">0.1–0.2 mcg/kg/min por 24h<br>(carga: 12 mcg/kg en 10 min, opcional)</td>
+              <td>Sensibilizador de calcio + inodilatador. Efecto prolongado (5–9 días por metabolito activo)</td>
+              <td class="td-note"><b>Disponible en Colombia.</b> Útil en IC refractaria a dobutamina, cardiomiopatía isquémica. No aumentar si PAS &lt;85. Puede usarse con betabloqueadores</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Dopamina</td>
+              <td class="td-dose">
+                &lt;3 mcg/kg/min: dopaminérgico (↑ flujo renal – discutido)<br>
+                3–5 mcg/kg/min: β (inotrópico)<br>
+                &gt;5–10 mcg/kg/min: α (vasopresor)
+              </td>
+              <td>Inotrópico/vasopresor dependiente de dosis</td>
+              <td class="td-note"><b>No preferida sobre norepinefrina</b> (más arritmias según SOAP II trial). Uso decreciente. Puede usarse si no hay acceso central</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOPORTE MECÁNICO -->
+  <div class="drug-section">
+    <div class="drug-header" style="background:#37474f;">🔧 Soporte Mecánico Circulatorio (shock refractario)</div>
+    <div class="drug-body">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Dispositivo</th><th>Mecanismo</th><th>Indicación</th></tr></thead>
+          <tbody>
+            <tr><td class="td-drug">Balón intraaórtico de contrapulsación (BIAC)</td><td>↓ poscarga VI, ↑ perfusión coronaria diastólica</td><td>Shock cardiogénico post-IAM. Evidencia limitada en no-IAM (IABP-SHOCK II)</td></tr>
+            <tr><td class="td-drug">Impella (LVAD percutáneo)</td><td>Bombeo activo VI→aorta (hasta 5.5 L/min)</td><td>Shock cardiogénico refractario, alto riesgo en ICP</td></tr>
+            <tr><td class="td-drug">ECMO venoarterial (VA-ECMO)</td><td>Bypass cardiopulmonar parcial</td><td>Shock cardiogénico refractario, puente a recuperación/trasplante/dispositivo</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="footnote">* Disponibilidad limitada en Colombia; principalmente en centros de alta complejidad (III y IV nivel).</div>
+    </div>
+  </div>
+
+  <!-- TRATAMIENTO CRÓNICO -->
+  <div class="drug-section">
+    <div class="drug-header" style="background:#1b5e20;">🌿 Tratamiento Médico Crónico de ICFEr (los "4 pilares" – iniciar/optimizar una vez estable)</div>
+    <div class="drug-body">
+      <div class="alert alert-success">
+        <b>Los 4 pilares del tratamiento modificador de mortalidad en ICFEr (FEVI &lt;40%):</b> IECA/ARNI + Betabloqueador + ARM + iSGLT2. Cada uno reduce mortalidad de forma independiente; la combinación tiene efecto sinérgico.
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Clase</th><th>Fármaco</th><th>Dosis inicial → Objetivo</th><th>Precauciones</th></tr></thead>
+          <tbody>
+            <tr>
+              <td rowspan="2"><b>IECA</b></td>
+              <td class="td-drug">Enalapril</td>
+              <td class="td-dose">2.5 mg c/12h → 10 mg c/12h</td>
+              <td rowspan="2" class="td-note">Contraindicados en angioedema, embarazo, hiperpotasemia &gt;5.5, TFG &lt;30. Monitorizar K⁺ y creatinina. No combinar IECA + ARA-II</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Ramipril</td>
+              <td class="td-dose">1.25–2.5 mg/día → 5–10 mg/día</td>
+            </tr>
+            <tr>
+              <td rowspan="2"><b>ARA-II</b> (si intolerancia IECA por tos)</td>
+              <td class="td-drug">Valsartán</td>
+              <td class="td-dose">40 mg c/12h → 160 mg c/12h</td>
+              <td rowspan="2" class="td-note">Mismas contraindicaciones que IECA (excepto tos). No combinar con IECA ni con ARNI</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Losartán</td>
+              <td class="td-dose">25–50 mg/día → 150 mg/día</td>
+            </tr>
+            <tr>
+              <td><b>ARNI</b> (preferido sobre IECA si tolera)</td>
+              <td class="td-drug">Sacubitril/Valsartán</td>
+              <td class="td-dose">24/26 mg c/12h → 97/103 mg c/12h</td>
+              <td class="td-note"><b>Superior a enalapril en mortalidad (PARADIGM-HF).</b> Washout de 36h si viene de IECA. No combinar con IECA. Contraindicado en angioedema. Disponible en Colombia (alto costo, gestión MIPRES)</td>
+            </tr>
+            <tr>
+              <td rowspan="3"><b>Betabloqueadores</b></td>
+              <td class="td-drug">Carvedilol</td>
+              <td class="td-dose">3.125 mg c/12h → 25 mg c/12h (≤85 kg) / 50 mg c/12h (&gt;85 kg)</td>
+              <td rowspan="3" class="td-note">Iniciar solo cuando el paciente está <b>euvolémico y estable</b> (no en fase aguda con hipotensión o congestión activa). Titular cada 2 semanas. Contraindicado en BAV 2°-3° sin marcapaso, broncoespasmo severo</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Bisoprolol</td>
+              <td class="td-dose">1.25 mg/día → 10 mg/día</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Metoprolol succinato</td>
+              <td class="td-dose">12.5–25 mg/día → 200 mg/día</td>
+            </tr>
+            <tr>
+              <td rowspan="2"><b>ARM</b> (antagonistas aldosterona)</td>
+              <td class="td-drug">Espironolactona</td>
+              <td class="td-dose">25 mg/día → 25–50 mg/día</td>
+              <td rowspan="2" class="td-note">Contraindicados si K⁺ &gt;5.0 mEq/L, TFG &lt;30, creatinina &gt;2.5 (♂) o &gt;2.0 (♀). Ginecomastia con espironolactona (eplerenona más selectiva)</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Eplerenona</td>
+              <td class="td-dose">25 mg/día → 50 mg/día</td>
+            </tr>
+            <tr>
+              <td rowspan="2"><b>iSGLT2</b></td>
+              <td class="td-drug">Dapagliflozina</td>
+              <td class="td-dose">10 mg/día (dosis fija)</td>
+              <td rowspan="2" class="td-note">Indicados en ICFEr (DAPA-HF, EMPEROR-Reduced) e ICFEc (DELIVER, EMPEROR-Preserved). Evitar si TFG &lt;20–25. Riesgo de cetoacidosis euglucémica (raro). Infecciones genitourinarias</td>
+            </tr>
+            <tr>
+              <td class="td-drug">Empagliflozina</td>
+              <td class="td-dose">10 mg/día (dosis fija)</td>
+            </tr>
+            <tr>
+              <td><b>Diuréticos de asa VO</b> (control de síntomas)</td>
+              <td class="td-drug">Furosemida oral</td>
+              <td class="td-dose">20–240 mg/día</td>
+              <td class="td-note">Titular según síntomas y peso. No son modificadores de mortalidad, pero controlan la congestión</td>
+            </tr>
+            <tr>
+              <td><b>Ivabradina</b></td>
+              <td class="td-drug">Ivabradina</td>
+              <td class="td-dose">2.5–5 mg c/12h → 7.5 mg c/12h</td>
+              <td class="td-note">Si RS + FC ≥70 lpm + FEVI ≤35% bajo BB máximo tolerado. No en FA/flutter</td>
+            </tr>
+            <tr>
+              <td><b>Digoxina</b></td>
+              <td class="td-drug">Digoxina</td>
+              <td class="td-dose">0.125–0.25 mg/día (dosis reducida en anciano/IR)</td>
+              <td class="td-note">En FA con respuesta ventricular no controlada, o síntomas persistentes en RS. Rango terapéutico 0.5–0.9 ng/mL. Interacciones y toxicidad frecuente</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTRAINDICACIONES IMPORTANTES -->
+  <h3 style="margin-top:16px;">Fármacos contraindicados o a evitar en IC</h3>
+  <div class="contra-grid">
+    <div class="contra-item"><div class="ci-title">AINEs (naproxeno, ibuprofeno, diclofenaco)</div><div class="ci-body">Retención de Na⁺/H₂O, antagonizan diuréticos, ↑ presión arterial, nefrotoxicidad</div></div>
+    <div class="contra-item"><div class="ci-title">Diltiazem / Verapamilo</div><div class="ci-body">Inotrópicos negativos en ICFEr. Sólo usar en ICFEc si necesario</div></div>
+    <div class="contra-item"><div class="ci-title">Calcioantagonistas dihidropiridinas corta acción (nifedipino)</div><div class="ci-body">Activación simpática refleja deletérea. Amlodipino/felodipino son aceptados</div></div>
+    <div class="contra-item"><div class="ci-title">Antiarrítmicos clase I (flecainida, propafenona)</div><div class="ci-body">Proarrítmicos y inotrópicos negativos en IC estructural</div></div>
+    <div class="contra-item"><div class="ci-title">Tiazolidinedionas (pioglitazona)</div><div class="ci-body">Retención hídrica, ↑ hospitalización por IC</div></div>
+    <div class="contra-item"><div class="ci-title">IECA + ARA-II combinados</div><div class="ci-body">Doble bloqueo SRAA no recomendado: ↑ hiperpotasemia, IR</div></div>
+    <div class="contra-item"><div class="ci-title">IECA + ARNI simultáneos</div><div class="ci-body">↑ riesgo de angioedema. Washout 36h obligatorio</div></div>
+    <div class="contra-item"><div class="ci-title">Corticoides sistémicos</div><div class="ci-body">Retención hidrosalina, pueden descompensar IC</div></div>
+  </div>
+
+  <!-- MANEJO FA + IC -->
+  <div class="alert alert-purple" style="margin-top:14px;">
+    <b>IC + Fibrilación Auricular:</b> Control de frecuencia (meta FC &lt;110 lpm en reposo) con betabloqueadores o digoxina. Anticoagulación: ACO oral si CHA₂DS₂-VASc ≥2 (♂) o ≥3 (♀) → preferir DOAC sobre warfarina. Cardioversión eléctrica si FA de menos de 48h o anticoagulada ≥3 semanas.
+  </div>
+</section>
+
+<!-- 11. COMPLICACIONES -->
+<section id="compl">
+  <h2><span class="num">11</span> Complicaciones</h2>
+  <div class="two-col">
+    <div>
+      <h3>Complicaciones agudas graves</h3>
+      <ul class="clin">
+        <li><b>Shock cardiogénico:</b> IC terminal con hipoperfusión multiórgano. Mortalidad 40–60%</li>
+        <li><b>Paro cardiorrespiratorio:</b> TV sin pulso, FV, AESP en el contexto de IC descompensada</li>
+        <li><b>Edema agudo de pulmón refractario:</b> con falla respiratoria hipoxémica que requiere IOT</li>
+        <li><b>Arritmias malignas:</b> TV sostenida, FV (especialmente en isquemia aguda + IC)</li>
+        <li><b>Tromboembolia pulmonar:</b> por estasis + estado proinflamatorio</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Complicaciones frecuentes durante hospitalización</h3>
+      <ul class="clin">
+        <li><b>Síndrome cardiorrenal tipo 1:</b> empeoramiento agudo de función renal en ICAD. Monitorizar creatinina y electrolitos diariamente</li>
+        <li><b>Hipopotasemia:</b> por uso de diuréticos de asa → suplementar K⁺ para mantener K⁺ &gt;4.0 mEq/L</li>
+        <li><b>Hiponatremia dilucional:</b> por activación de ADH. Restricción hídrica. Pronóstico adverso si Na⁺ &lt;130</li>
+        <li><b>Hipotensión por tratamiento:</b> exceso de diuréticos o vasodilatadores</li>
+        <li><b>Fibrilación auricular de novo:</b> precipitada por distensión auricular, hipoxia, alteraciones electrolíticas</li>
+        <li><b>Infección nosocomial:</b> NAC, ITU, infección de catéter</li>
+      </ul>
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>Hepatopatía congestiva</h3>
+      <p style="font-size:13px;">Por ↑ PVC → congestión hepática. Hallazgos: hepatomegalia dolorosa, ↑ AST/ALT/bilirrubinas, TP prolongado. En IC crónica puede evolucionar a cirrosis cardíaca.</p>
+    </div>
+    <div class="card">
+      <h3>Caquexia cardíaca</h3>
+      <p style="font-size:13px;">Pérdida involuntaria de peso &gt;6% en 12 meses (incluye masa muscular). Asociada a IC avanzada, mal pronóstico independiente. Manejo nutricional especializado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 12. CRITERIOS DE HOSPITALIZACIÓN Y EGRESO -->
+<section id="hosp">
+  <h2><span class="num">12</span> Criterios de Hospitalización y Egreso</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Criterios de hospitalización (urgentes)</h3>
+      <ul class="clin">
+        <li>Disnea en reposo o mínimos esfuerzos</li>
+        <li>SpO₂ &lt;90% a pesar de O₂ suplementario</li>
+        <li>PAS &lt;90 mmHg o PAM &lt;65 mmHg</li>
+        <li>FC &gt;120 lpm o &lt;50 lpm</li>
+        <li>Arritmia sintomática nueva (FA, TV)</li>
+        <li>SCA como precipitante (manejo intervencionista)</li>
+        <li>IC de novo con deterioro hemodinámico</li>
+        <li>Hiponatremia &lt;130 mEq/L o hiperpotasemia &gt;5.5</li>
+        <li>Deterioro agudo de función renal (↑ creatinina &gt;0.5 mg/dL)</li>
+        <li>Falla a tratamiento diurético ambulatorio en 24–48h</li>
+        <li>Signos de hipoperfusión (extremidades frías, confusión)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Criterios de egreso hospitalario</h3>
+      <ul class="clin">
+        <li>Estabilidad hemodinámica ≥24h (PAS ≥90 mmHg, FC 60–100)</li>
+        <li>SpO₂ ≥92% en reposo sin O₂ suplementario</li>
+        <li>Sin diuréticos IV por al menos 24–48h</li>
+        <li>Diuresis establecida y controlada con medicación oral</li>
+        <li>Euvolemia o mejoría significativa de congestión</li>
+        <li>BNP/NT-proBNP en descenso (no necesariamente normal)</li>
+        <li>Medicamentos crónicos iniciados/optimizados</li>
+        <li>Electrolitos y función renal estables</li>
+        <li>Educación al paciente y cuidadores: pesos diarios, restricción de Na⁺, adherencia, señales de alarma</li>
+        <li>Seguimiento ambulatorio asegurado a los <b>7–14 días post-egreso</b> (ventana de alta vulnerabilidad)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="alert alert-danger">
+    <b>Período de alta vulnerabilidad:</b> Los primeros 30–90 días post-egreso concentran el mayor riesgo de reingreso y muerte. La tasa de reingreso a 30 días en Colombia es ~25%. Garantizar seguimiento precoz, telemonitoreo si disponible, y educación intensiva al egreso.
+  </div>
+</section>
+
+<!-- 13. PRONÓSTICO -->
+<section id="pronostico">
+  <h2><span class="num">13</span> Pronóstico y Scores</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Factores de mal pronóstico</h3>
+      <ul class="clin">
+        <li>FEVI muy reducida (&lt;20–25%)</li>
+        <li>Hiponatremia persistente (&lt;130 mEq/L)</li>
+        <li>BNP/NT-proBNP muy elevados o sin descenso con tratamiento</li>
+        <li>Hipotensión (PAS &lt;100 mmHg al alta)</li>
+        <li>Disfunción renal crónica (TFG &lt;45)</li>
+        <li>Clase NYHA IV</li>
+        <li>Caquexia cardíaca</li>
+        <li>Múltiples hospitalizaciones previas</li>
+        <li>Etiología isquémica + diabetes</li>
+        <li>Troponina persistentemente elevada</li>
+        <li>Disfunción del ventrículo derecho</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Scores pronósticos</h3>
+      <ul class="clin">
+        <li><b>MAGGIC Score:</b> mortalidad a 1 y 3 años en IC crónica (12 variables)</li>
+        <li><b>GWTG-HF Risk Score:</b> mortalidad intrahospitalaria en ICAD (6 variables: PAS, BUN, Na⁺, FC, edad, ¿EPOC?)</li>
+        <li><b>Seattle Heart Failure Model:</b> supervivencia estimada a 1, 2 y 5 años</li>
+        <li><b>CHARM Score:</b> mortalidad CV en IC con FEVI reducida o conservada</li>
+        <li><b>Índice de Charlson:</b> carga de comorbilidades (diabetes, IRC, EPOC, neoplasias)</li>
+      </ul>
+      <hr class="divider">
+      <h3>IC avanzada – Criterios I-NEED-HELP</h3>
+      <div class="pill-row">
+        <span class="badge b-danger">Inotrópicos dependencia</span>
+        <span class="badge b-danger">NYHA III-IV persistente</span>
+        <span class="badge b-danger">Edema refractario</span>
+        <span class="badge b-danger">EF ≤35%</span>
+        <span class="badge b-danger">Disfunción renal/hepática</span>
+        <span class="badge b-danger">Hospitalizaciones ≥1/año</span>
+      </div>
+      <p style="font-size:12px; color:var(--text2); margin-top:6px;">En IC avanzada: valorar trasplante cardíaco, DAI, TRC, dispositivo de asistencia ventricular (DAV) o cuidados paliativos.</p>
+    </div>
+  </div>
+  <div class="alert alert-info">
+    <b>Dispositivos en Colombia:</b> El DAI (desfibrilador automático implantable) está indicado en ICFEr con FEVI ≤35% en NYHA II-III con TMO óptima ≥3 meses y expectativa de vida &gt;1 año. La TRC (terapia de resincronización) está indicada si FEVI ≤35% + BRIHHz + QRS ≥150 ms. La disponibilidad y acceso a estos dispositivos está garantizada a través del POS/PBS en Colombia, aunque los tiempos de acceso pueden ser variables según aseguradora.
+  </div>
+
+  <div style="margin-top:2rem; padding:12px 16px; background:var(--gray-bg); border-radius:var(--radius); border:1px solid var(--gray-border);">
+    <p style="font-size:11px; color:var(--text2);"><b>Referencias:</b> McDonagh TA et al. ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure 2021. Eur Heart J. 2021;42(36):3599–3726. · Heidenreich PA et al. AHA/ACC/HFSA Guideline for the Management of Heart Failure 2022. JACC. 2022. · Ministerio de Salud y Protección Social, República de Colombia. Guía de Práctica Clínica para la Prevención, Diagnóstico, Tratamiento y Rehabilitación de la Falla Cardíaca en Población Mayor de 18 años. GPC-2016-40. · Sociedad Colombiana de Cardiología y Cirugía Cardiovascular – RECALCAR. · Ponikowski P et al. ESC Guidelines HF 2016. Eur Heart J. 2016;37(27):2129-2200.</p>
+  </div>
+</section>
+
+</div><!-- /page -->
+</body>
+</html>
